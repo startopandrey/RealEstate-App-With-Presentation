@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "RealEstate",
-    "slug": "RealEstate",
+    "slug": "realestate",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/foys_logo.png",
@@ -28,11 +28,12 @@
     },
     "extra": {
       "eas": {
-        "projectId": "f580f798-6348-488d-a858-6c8a37348032"
+        "projectId": "bf6e3679-2940-4a09-b91c-202eb6fdecb7"
       }
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
-    }
+    },
+    "owner": "andrey_llyukhin"
   }
 }
