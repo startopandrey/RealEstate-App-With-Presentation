@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "RealEstate",
+    "slug": "RealEstate",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/foys_logo.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/f580f798-6348-488d-a858-6c8a37348032"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/foys_logo.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f580f798-6348-488d-a858-6c8a37348032"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
+  }
+}
