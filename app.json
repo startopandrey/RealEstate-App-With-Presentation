@@ -6,13 +6,13 @@
     "orientation": "portrait",
     "icon": "./assets/foys_logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/foys_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/f580f798-6348-488d-a858-6c8a37348032"
+      "url": "https://u.expo.dev/bf6e3679-2940-4a09-b91c-202eb6fdecb7"
     },
     "assetBundlePatterns": [
       "**/*"

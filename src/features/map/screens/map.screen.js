@@ -14,14 +14,12 @@ const Map = styled(MapView)`
   width: 100%;
 `;
 import { MapCallout } from "../components/map-callout.component";
-export const MapScreen = ({ navigation }) => {
-  const { location = {} } = useContext(LocationContext);
+const RestaurantsMap = ({ navigation }) => {
   const { restaurants } = useContext(RestaurantsContext);
-
+  const { location = {} } = useContext(LocationContext);
   const [latDelta, setLatDelta] = useState(0);
   const { lat, lng, viewport } = location;
 
-  console.log(lat, lng, viewport, "view");
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
     const southwestLat = viewport.southwest.lat;
@@ -65,4 +63,18 @@ export const MapScreen = ({ navigation }) => {
       </Map>
     </>
   );
+};
+export const MapScreen = ({ navigation }) => {
+  const { location = {} } = useContext(LocationContext);
+  if (!location) {
+    return (
+      <Map
+        region={{
+          latitude: 0,
+          longitude: 0,
+        }}
+      ></Map>
+    );
+  }
+  return <RestaurantsMap navigation={navigation}></RestaurantsMap>;
 };

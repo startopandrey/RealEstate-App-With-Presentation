@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
-import { Card } from "react-native-paper";
+import { ActivityIndicator, Button, Card, Colors } from "react-native-paper";
+import { colors } from "../../../infrastructure/theme/colors";
 
 export const Icon = styled.Image`
   width: 15px;
@@ -39,4 +40,21 @@ export const SectionEnd = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: flex-end;
+`;
+export const OrderButton = styled(Button).attrs({
+  color: colors.brand.primary,
+})`
+  padding: ${(props) => props.theme.space[2]};
+  width: 80%;
+  align-self: center;
+`;
+export const PaymentProcessing = styled(ActivityIndicator).attrs({
+  size: 128,
+  animating: true,
+  color: Colors.blue300,
+})`
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  z-index: 999;
 `;
