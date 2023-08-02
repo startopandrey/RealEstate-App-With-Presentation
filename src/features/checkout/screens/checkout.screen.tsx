@@ -22,14 +22,19 @@ import { Divider, List } from "react-native-paper";
 import { payRequest } from "../../../services/checkout/checkout.service";
 import { NavigationProp } from "@react-navigation/native";
 
-import { Card } from "../../../types/checkout/index";
-// import { CreditCardInput } from "@big-toni/react-native-credit-card-input";
+import {
+  Card,
+  CheckoutStackNavigatorParamList,
+} from "../../../types/checkout/index";
 
-export const CheckoutScreen = ({
-  navigation,
-}: {
-  navigation: NavigationProp<any, any>;
-}) => {
+// import { CreditCardInput } from "@big-toni/react-native-credit-card-input";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type Props = NativeStackScreenProps<
+  CheckoutStackNavigatorParamList,
+  "Checkout"
+>;
+export const CheckoutScreen = ({ navigation }: Props) => {
   const { cart, restaurant, clearCart, sum } = useContext(CartContext);
 
   const [name, setName] = useState<string>();
@@ -74,7 +79,7 @@ export const CheckoutScreen = ({
   }
   return (
     <SafeArea>
-      <RestaurantInfoCard restaurant={restaurant}></RestaurantInfoCard>
+      <RestaurantInfoCard restaurant={restaurant!}></RestaurantInfoCard>
       {isLoading && <PaymentProcessing></PaymentProcessing>}
       <ScrollView>
         <Spacer position={"left"} size="medium">
@@ -82,11 +87,11 @@ export const CheckoutScreen = ({
             <Text>Your order</Text>
           </Spacer>
           <List.Section>
-            {cart.map(({ name }, i) => {
+            {cart.map((_, i) => {
               return (
                 <List.Item
                   key={`item-${i}`}
-                  title={`${name} - ${i / 100}`}
+                  title={`Special - ${i / 100}`}
                 ></List.Item>
               );
             })}

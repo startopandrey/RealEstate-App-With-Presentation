@@ -20,10 +20,10 @@ type Props = NativeStackScreenProps<
   "RestaurantDetail"
 >;
 export const RestaurantDetailScreen = ({ navigation, route }: Props) => {
-  const [breakfastExpanded, setBreakfastExpanded] = useState(false);
-  const [lunchExpanded, setLunchExpanded] = useState(false);
-  const [dinnerExpanded, setDinnerExpanded] = useState(false);
-  const [drinksExpanded, setDrinksExpanded] = useState(false);
+  const [breakfastExpanded, setBreakfastExpanded] = useState<boolean>(false);
+  const [lunchExpanded, setLunchExpanded] = useState<boolean>(false);
+  const [dinnerExpanded, setDinnerExpanded] = useState<boolean>(false);
+  const [drinksExpanded, setDrinksExpanded] = useState<boolean>(false);
 
   const { restaurant }: { restaurant: Restaurant } = route?.params;
   const { addToCart } = useContext(CartContext);
