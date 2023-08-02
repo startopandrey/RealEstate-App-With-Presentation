@@ -23,9 +23,14 @@ import {
   NavigationProp,
   NavigationState,
 } from "@react-navigation/native";
-import { RestaurantStackNavigatorParamList } from "../../../types/restaurants/restaurant";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+
+import { RestaurantStackNavigatorParamList } from "src/types/restaurants";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+type Props = NativeStackScreenProps<
+  RestaurantStackNavigatorParamList,
+  "Restaurants"
+>;
 const Loading = styled(ActivityIndicator)`
   margin-left: -25px;
 `;
@@ -35,10 +40,7 @@ const LoadingContainer = styled.View`
   left: 50%;
 `;
 
-type Props = NativeStackScreenProps<
-  RestaurantStackNavigatorParamList,
-  "Restaurants"
->;
+
 export const RestaurantsScreen = ({ navigation }: Props) => {
   const { error: locationError } = useContext(LocationContext);
   const { isLoading, restaurants, error } = useContext(RestaurantsContext);

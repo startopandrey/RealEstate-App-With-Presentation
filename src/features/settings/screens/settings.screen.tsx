@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import styled from "styled-components/native";
 
 import { List, Avatar } from "react-native-paper";
-
+import { ViewProps } from 'react-native';
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { colors } from "../../../infrastructure/theme/colors";
+import ListItemProps from "react-native-paper/lib/typescript/components/List/ListItem";
 
 const SettingsItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
@@ -26,7 +27,14 @@ const SettingsBackground = styled.ImageBackground.attrs({
 const TransperantSafeArea = styled(SafeArea)`
   background-color: transparent;
 `;
-export const SettingsScreen = ({ navigation }) => {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { SettingsStackNavigatorParamList } from "src/types/settings";
+import { nativeViewProps } from "react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler";
+type Props = NativeStackScreenProps<
+  SettingsStackNavigatorParamList,
+  "Settings"
+>;
+export const SettingsScreen = ({ navigation }: Props) => {
   const { onLogout, user } = useContext(AuthenticationContext);
   return (
     <SettingsBackground>
@@ -35,10 +43,11 @@ export const SettingsScreen = ({ navigation }) => {
           <Avatar.Icon
             size={180}
             icon="human"
-            backgroundColor={colors.brand.primary}
+            style={{backgroundColor: colors.brand.primary}}
+         
           />
           <Spacer position="top" size="large">
-            <Text variant="label">{user.email}</Text>
+            <Text variant="label">{user?.email}</Text>
           </Spacer>
         </AvatarContainer>
 

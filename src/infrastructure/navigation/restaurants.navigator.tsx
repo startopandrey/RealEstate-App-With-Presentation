@@ -7,7 +7,8 @@ import {
 
 import { RestaurantsScreen } from "../../features/restaurants/screens/restaurants.screen";
 import { RestaurantDetailScreen } from "../../features/restaurants/screens/restaurant-detail.screen";
-import { Restaurant, RestaurantStackNavigatorParamList } from "src/types/restaurants/restaurant";
+import { Restaurant } from "src/types/restaurants/restaurant";
+import { RestaurantStackNavigatorParamList } from "src/types/restaurants";
 
 
 const RestaurantStack = createStackNavigator<RestaurantStackNavigatorParamList>();

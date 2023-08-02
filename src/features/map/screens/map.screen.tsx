@@ -4,7 +4,7 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import styled from "styled-components/native";
 import { LocationContext } from "../../../services/location/location.context";
 import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
-
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Search } from "../components/search.component";
 // import { LocationContext } from "../../../services/location/location.context";
 // import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
@@ -67,8 +67,14 @@ const RestaurantsMap = ({ navigation }: {
     </>
   );
 };
-export const MapScreen = ({ navigation }) => {
-  const { location = {} } = useContext(LocationContext);
+
+import { AppStackNavigatorParamList } from "src/types/app";
+type Props = NativeStackNavigationProp<
+  AppStackNavigatorParamList,
+  "Map"
+>;
+export const MapScreen = ({ navigation }: Props) => {
+  const { location  } = useContext(LocationContext);
   if (!location) {
     return (
       <Map

@@ -7,8 +7,14 @@ import { LocationContext } from "../../../services/location/location.context";
 const SearchContainer = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
-
-export const Search = ({ isFavouritesToggled, onFavouritesToggle }) => {
+interface SearchProps {
+  isFavouritesToggled: boolean;
+  onFavouritesToggle: () => void;
+}
+export const Search = ({
+  isFavouritesToggled,
+  onFavouritesToggle,
+}: SearchProps) => {
   const { keyword, search } = useContext(LocationContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
   useEffect(() => {

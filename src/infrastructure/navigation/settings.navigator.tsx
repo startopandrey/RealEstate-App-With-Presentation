@@ -6,10 +6,11 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
+import { SettingsStackNavigatorParamList } from "src/types/settings";
 
-const SettingsStack = createStackNavigator();
+const SettingsStack = createStackNavigator<SettingsStackNavigatorParamList>();
 
-export const SettingsNavigator = ({ route, navigation }) => {
+export const SettingsNavigator = () => {
   return (
     <SettingsStack.Navigator
       headerMode="screen"

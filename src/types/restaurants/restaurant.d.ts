@@ -66,9 +66,3 @@ export interface Restaurant {
   isClosedTemporarily?: boolean;
   price?: 12.99
 }
-export type RestaurantStackNavigatorParamList = {
-  Restaurants: undefined;
-  RestaurantDetail: {
-    restaurant: Restaurant
-  };
-};

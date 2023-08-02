@@ -3,29 +3,15 @@ import firebase from "firebase";
 import { loginRequest } from "./authentication.service";
 
 interface AuthenticationContextType {
-  isAuthenticated: boolean;
-  user: firebase.UserInfo | undefined | null;
+  isAuthenticated?: boolean;
+  user?: firebase.UserInfo | undefined | null;
   isLoading: boolean;
   error: string | null;
   onLogin: (email: string, password: string) => void;
   onRegister: (email: string, password: string, repeatedPassword: string) => void;
   onLogout: () => void;
 }
-export const AuthenticationContext = createContext<AuthenticationContextType>({
-  isAuthenticated: false,
-  user: undefined,
-  isLoading: false,
-  error: null,
-  onLogin: function (email: string, password: string): void {
-    throw new Error("Function not implemented.");
-  },
-  onRegister: function (email: string, password: string, repeatedPassword: string): void {
-    throw new Error("Function not implemented.");
-  },
-  onLogout: function (): void {
-    throw new Error("Function not implemented.");
-  }
-});
+export const AuthenticationContext = createContext<AuthenticationContextType>({});
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);

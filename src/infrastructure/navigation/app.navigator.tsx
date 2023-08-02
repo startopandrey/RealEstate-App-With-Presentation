@@ -16,8 +16,8 @@ import { CheckoutScreen } from "../../features/checkout/screens/checkout.screen"
 import { CartContextProvider } from "../../services/cart/cart.context";
 import { CheckoutNavigator } from "./checkout.navigator";
 import { colors } from "../theme/colors";
-import { TabIcon } from "src/types/app";
-const Tab = createBottomTabNavigator();
+import { AppStackNavigatorParamList, TabIcon } from "src/types/app";
+const Tab = createBottomTabNavigator<AppStackNavigatorParamList>();
 
 const TAB_ICON: TabIcon = {
   Restaurants: "md-restaurant",
@@ -26,9 +26,7 @@ const TAB_ICON: TabIcon = {
   Settings: "md-settings",
 };
 
-const createScreenOptions = ({
-  route,
-}): BottomTabNavigationOptions => {
+const createScreenOptions = ({ route }): BottomTabNavigationOptions => {
   const iconName = TAB_ICON[route.name];
   return {
     tabBarIcon: ({ size, color }) => (

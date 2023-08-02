@@ -43,7 +43,7 @@ export const CheckoutScreen = ({ navigation }: Props) => {
 
   const onPay = () => {
     setIsLoading(true);
-    if (!card || !card.id) {
+    if (!card || !card.id || !name) {
       setIsLoading(false);
       navigation.navigate("CheckoutError", {
         error: "Please fill in valid credit card",

@@ -15,14 +15,21 @@ const NoFavouritesArea = styled(SafeArea)`
   align-items: center;
   justify-content: center;
 `;
-export const FavouritesScreen = ({ navigation }) => {
+import { SettingsStackNavigatorParamList } from "src/types/settings";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Restaurant } from "src/types/restaurants/restaurant";
+type Props = NativeStackScreenProps<
+  SettingsStackNavigatorParamList,
+  "Favourites"
+>;
+export const FavouritesScreen = ({ navigation }: Props) => {
   const { favourites } = useContext(FavouritesContext);
 
-  return favourites.length ? (
+  return favourites?.length ? (
     <SafeArea>
       <RestaurantList
         data={favourites}
-        renderItem={({ item }) => {
+        renderItem={({ item }: {item: Restaurant}) => {
           return (
             <TouchableOpacity
               onPress={() =>
@@ -37,7 +44,7 @@ export const FavouritesScreen = ({ navigation }) => {
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item: Restaurant) => item.name}
       />
     </SafeArea>
   ) : (

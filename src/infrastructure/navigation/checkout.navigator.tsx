@@ -3,8 +3,9 @@ import { CheckoutScreen } from "../../features/checkout/screens/checkout.screen"
 import { CheckoutSuccessScreen } from "../../features/checkout/screens/checkout-success.screen";
 
 import { CheckoutErrorScreen } from "../../features/checkout/screens/checkout-error.screen";
+import { CheckoutStackNavigatorParamList } from "src/types/checkout";
 
-const CheckoutStack = createStackNavigator();
+const CheckoutStack = createStackNavigator<CheckoutStackNavigatorParamList>();
 export const CheckoutNavigator = () => {
   return (
     <CheckoutStack.Navigator headerMode="none">
