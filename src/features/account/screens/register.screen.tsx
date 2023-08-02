@@ -14,8 +14,13 @@ import {
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { NavigationProp } from "@react-navigation/native";
 
-export const RegisterScreen = ({ navigation }) => {
+export const RegisterScreen = ({
+  navigation,
+}: {
+  navigation: NavigationProp<any, any>;
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
@@ -40,7 +45,7 @@ export const RegisterScreen = ({ navigation }) => {
             textContentType="password"
             secureTextEntry
             autoCapitalize="none"
-            onChangeText={(p) => setPassword(p)}
+            onChangeText={(p: string) => setPassword(p)}
           />
         </Spacer>
         <Spacer size="large">
@@ -50,7 +55,7 @@ export const RegisterScreen = ({ navigation }) => {
             textContentType="password"
             secureTextEntry
             autoCapitalize="none"
-            onChangeText={(p) => setRepeatedPassword(p)}
+            onChangeText={(p: string) => setRepeatedPassword(p)}
           />
         </Spacer>
         {error && (
@@ -63,7 +68,11 @@ export const RegisterScreen = ({ navigation }) => {
             <AuthButton
               icon="email"
               mode="contained"
-              onPress={() => onRegister(email, password, repeatedPassword)}
+              onPress={() => {
+                if (email && password && repeatedPassword) {
+                  onRegister(email, password, repeatedPassword);
+                }
+              }}
             >
               Register
             </AuthButton>

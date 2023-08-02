@@ -10,8 +10,13 @@ import {
   Title,
   AnimationWrapper,
 } from "../components/account.styles";
+import { NavigationProp } from "@react-navigation/native";
 
-export const AccountScreen = ({ navigation }) => {
+export const AccountScreen = ({
+  navigation,
+}: {
+  navigation: NavigationProp<any, any>;
+}) => {
   return (
     <AccountBackground>
       <AccountCover />

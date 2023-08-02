@@ -1,0 +1,22 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "es2016",
+    "pretty": true,
+    "module": "commonjs",
+    "sourceMap": true,
+    "jsx": "preserve",
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node"],
+    "paths": {
+      "*": ["node_modules/@types/*", "*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

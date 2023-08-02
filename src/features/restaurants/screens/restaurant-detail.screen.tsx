@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ScrollView } from "react-native";
-import { List } from "react-native-paper";
+import { Divider, List } from "react-native-paper";
 
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
 
@@ -8,14 +8,24 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { OrderButton } from "../components/restaurant-info-card.styles";
 import { CartContext } from "../../../services/cart/cart.context";
+import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
+import {
+  Restaurant,
+  RestaurantStackNavigatorParamList,
+} from "src/types/restaurants/restaurant";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-export const RestaurantDetailScreen = ({ route, navigation }) => {
+type Props = NativeStackScreenProps<
+  RestaurantStackNavigatorParamList,
+  "RestaurantDetail"
+>;
+export const RestaurantDetailScreen = ({ navigation, route }: Props) => {
   const [breakfastExpanded, setBreakfastExpanded] = useState(false);
   const [lunchExpanded, setLunchExpanded] = useState(false);
   const [dinnerExpanded, setDinnerExpanded] = useState(false);
   const [drinksExpanded, setDrinksExpanded] = useState(false);
 
-  const { restaurant } = route.params;
+  const { restaurant }: { restaurant: Restaurant } = route?.params;
   const { addToCart } = useContext(CartContext);
   return (
     <SafeArea>
@@ -28,9 +38,10 @@ export const RestaurantDetailScreen = ({ route, navigation }) => {
           onPress={() => setBreakfastExpanded(!breakfastExpanded)}
         >
           <List.Item title="Eggs Benedict" />
+          <Divider></Divider>
           <List.Item title="Classic Breakfast" />
         </List.Accordion>
-
+        <Divider></Divider>
         <List.Accordion
           title="Lunch"
           left={(props) => <List.Icon {...props} icon="hamburger" />}
@@ -38,10 +49,12 @@ export const RestaurantDetailScreen = ({ route, navigation }) => {
           onPress={() => setLunchExpanded(!lunchExpanded)}
         >
           <List.Item title="Burger w/ Fries" />
+          <Divider></Divider>
           <List.Item title="Steak Sandwich" />
+          <Divider></Divider>
           <List.Item title="Mushroom Soup" />
         </List.Accordion>
-
+        <Divider></Divider>
         <List.Accordion
           title="Dinner"
           left={(props) => <List.Icon {...props} icon="food-variant" />}
@@ -49,10 +62,12 @@ export const RestaurantDetailScreen = ({ route, navigation }) => {
           onPress={() => setDinnerExpanded(!dinnerExpanded)}
         >
           <List.Item title="Spaghetti Bolognese" />
+          <Divider></Divider>
           <List.Item title="Veal Cutlet with Chicken Mushroom Rotini" />
+          <Divider></Divider>
           <List.Item title="Steak Frites" />
         </List.Accordion>
-
+        <Divider></Divider>
         <List.Accordion
           title="Drinks"
           left={(props) => <List.Icon {...props} icon="cup" />}
@@ -71,7 +86,7 @@ export const RestaurantDetailScreen = ({ route, navigation }) => {
           icon="cash"
           mode="contained"
           onPress={() => {
-            addToCart({ item: "special", price: 1299 }, restaurant);
+            addToCart("dfdf", restaurant);
             navigation.navigate("Checkout");
           }}
         >

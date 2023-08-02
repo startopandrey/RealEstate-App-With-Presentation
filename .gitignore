@@ -17,3 +17,5 @@ firebase-debug.log
 ui-debug.log
 .runtimeconfig.json
 dist
+
+src/utils/env.js

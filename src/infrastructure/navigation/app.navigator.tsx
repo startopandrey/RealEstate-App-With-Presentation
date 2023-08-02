@@ -1,5 +1,8 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import { RestaurantsNavigator } from "./restaurants.navigator";
@@ -12,16 +15,20 @@ import { MapScreen } from "../../features/map/screens/map.screen";
 import { CheckoutScreen } from "../../features/checkout/screens/checkout.screen";
 import { CartContextProvider } from "../../services/cart/cart.context";
 import { CheckoutNavigator } from "./checkout.navigator";
+import { colors } from "../theme/colors";
+import { TabIcon } from "src/types/app";
 const Tab = createBottomTabNavigator();
 
-const TAB_ICON = {
+const TAB_ICON: TabIcon = {
   Restaurants: "md-restaurant",
   Checkout: "md-cart",
   Map: "md-map",
   Settings: "md-settings",
 };
 
-const createScreenOptions = ({ route }) => {
+const createScreenOptions = ({
+  route,
+}): BottomTabNavigationOptions => {
   const iconName = TAB_ICON[route.name];
   return {
     tabBarIcon: ({ size, color }) => (
@@ -38,8 +45,8 @@ export const AppNavigator = () => (
           <Tab.Navigator
             screenOptions={createScreenOptions}
             tabBarOptions={{
-              activeTintColor: "tomato",
-              inactiveTintColor: "gray",
+              activeTintColor: colors.brand.primary,
+              inactiveTintColor: colors.brand.muted,
             }}
           >
             <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />

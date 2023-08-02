@@ -7,7 +7,7 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import star from "../../../../assets/star";
 import open from "../../../../assets/open";
-
+import {Restaurant as RestaurantType} from "../../../types/restaurants/restaurant"
 import {
   RestaurantCard,
   RestaurantCardCover,
@@ -19,7 +19,7 @@ import {
   Address,
 } from "./restaurant-info-card.styles";
 
-export const RestaurantInfoCard = ({ restaurant = {} }) => {
+export const RestaurantInfoCard = ({ restaurant }: {restaurant: RestaurantType}) => {
   const {
     name = "Some Restaurant",
     icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
@@ -36,7 +36,7 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
   const ratingArray = Array.from(new Array(Math.floor(rating)));
 
   return (
-    <RestaurantCard elevation={5}>
+    <RestaurantCard elevation={2}>
       <View>
         <Favourite restaurant={restaurant} />
         <RestaurantCardCover key={name} source={{ uri: photos[0] }} />

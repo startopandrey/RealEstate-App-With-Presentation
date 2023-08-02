@@ -6,27 +6,33 @@ import {
 } from "./restaurants.service";
 
 import { LocationContext } from "../location/location.context";
+import { Restaurant } from "src/types/restaurants/restaurant";
+interface RestaurantsContextType {
+  restaurants?: Restaurant[];
+  isLoading?: boolean;
+  error?: string;
+}
 
-export const RestaurantsContext = createContext();
+export const RestaurantsContext = createContext<RestaurantsContextType>({});
 
 export const RestaurantsContextProvider = ({ children }) => {
-  const [restaurants, setRestaurants] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
   const { location } = useContext(LocationContext);
 
-  const retrieveRestaurants = (loc) => {
+  const retrieveRestaurants = (loc: string) => {
     setIsLoading(true);
     setRestaurants([]);
 
     restaurantsRequest(loc)
       .then(restaurantsTransform)
-      .then((results) => {
-        setError(null);
+      .then((results: Restaurant[]) => {
+        setError("");
         setIsLoading(false);
         setRestaurants(results);
       })
-      .catch((err) => {
+      .catch((err: string) => {
         setIsLoading(false);
         setError(err);
       });

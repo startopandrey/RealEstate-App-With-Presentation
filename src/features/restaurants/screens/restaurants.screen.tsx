@@ -17,6 +17,14 @@ import { RestaurantInfoCard } from "../components/restaurant-info-card.component
 import { RestaurantList } from "../components/restaurant-list.styles";
 import { LocationContext } from "../../../services/location/location.context";
 import { Text } from "../../../components/typography/text.component";
+import { Restaurant, Restaurant as RestaurantType } from "src/types/restaurants/restaurant";
+import {
+  NavigationAction,
+  NavigationProp,
+  NavigationState,
+} from "@react-navigation/native";
+import { RestaurantStackNavigatorParamList } from "../../../types/restaurants/restaurant";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 const Loading = styled(ActivityIndicator)`
   margin-left: -25px;
@@ -27,11 +35,15 @@ const LoadingContainer = styled.View`
   left: 50%;
 `;
 
-export const RestaurantsScreen = ({ navigation }) => {
+type Props = NativeStackScreenProps<
+  RestaurantStackNavigatorParamList,
+  "Restaurants"
+>;
+export const RestaurantsScreen = ({ navigation }: Props) => {
   const { error: locationError } = useContext(LocationContext);
   const { isLoading, restaurants, error } = useContext(RestaurantsContext);
   const { favourites } = useContext(FavouritesContext);
-  const [isToggled, setIsToggled] = useState(false);
+  const [isToggled, setIsToggled] = useState<boolean>(false);
 
   const hasError = !!error || !!locationError;
   return (
@@ -58,7 +70,7 @@ export const RestaurantsScreen = ({ navigation }) => {
       ) : (
         <RestaurantList
           data={restaurants}
-          renderItem={({ item }) => {
+          renderItem={({ item }: {item: Restaurant}) => {
             return (
               <TouchableOpacity
                 onPress={() =>
@@ -75,7 +87,7 @@ export const RestaurantsScreen = ({ navigation }) => {
               </TouchableOpacity>
             );
           }}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item: RestaurantType) => item.name}
         />
       )}
     </SafeArea>

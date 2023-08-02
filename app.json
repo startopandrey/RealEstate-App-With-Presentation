@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/foys_logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.andrey_llyukhin.realestate"
     },
     "extra": {
       "eas": {
@@ -34,6 +35,7 @@
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
-    "owner": "andrey_llyukhin"
+    "owner": "andrey_llyukhin",
+
   }
 }

@@ -13,8 +13,13 @@ import {
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { NavigationProp } from "@react-navigation/native";
 
-export const LoginScreen = ({ navigation }) => {
+export const LoginScreen = ({
+  navigation,
+}: {
+  navigation: NavigationProp<any, any>;
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { onLogin, error, isLoading } = useContext(AuthenticationContext);
@@ -51,7 +56,7 @@ export const LoginScreen = ({ navigation }) => {
             <AuthButton
               icon="lock-open-outline"
               mode="contained"
-              onPress={() => onLogin(email, password)}
+              onPress={() => email  && password  ? onLogin(email, password) : null}
             >
               Login
             </AuthButton>

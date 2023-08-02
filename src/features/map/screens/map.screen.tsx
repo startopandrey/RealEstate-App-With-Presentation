@@ -14,11 +14,14 @@ const Map = styled(MapView)`
   width: 100%;
 `;
 import { MapCallout } from "../components/map-callout.component";
-const RestaurantsMap = ({ navigation }) => {
+import { NavigationProp } from "@react-navigation/native";
+const RestaurantsMap = ({ navigation }: {
+  navigation: NavigationProp<any, any>;
+}) => {
   const { restaurants } = useContext(RestaurantsContext);
-  const { location = {} } = useContext(LocationContext);
+  const { location  } = useContext(LocationContext);
   const [latDelta, setLatDelta] = useState(0);
-  const { lat, lng, viewport } = location;
+  const { lat, lng, viewport } = location!;
 
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
@@ -33,12 +36,12 @@ const RestaurantsMap = ({ navigation }) => {
       <Map
         region={{
           latitude: lat,
-          longitudeDelta: 0.02,
+          longitudeDelta: 0.01,
           latitudeDelta: latDelta,
           longitude: lng,
         }}
       >
-        {restaurants.map((restaurant) => {
+        {restaurants!.map((restaurant) => {
           return (
             <Marker
               key={restaurant.name}

@@ -15,16 +15,9 @@ import firebase from "firebase";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 import { AppRegistry, Platform, View } from "react-native";
 import { registerRootComponent } from "expo";
+import { firebaseConfig } from "./src/utils/env";
 
-const app = firebase.initializeApp({
-  apiKey: "AIzaSyDCTLI8IHwqyjs5Pz1bZXdS9O0Hwqo-OF0",
-  authDomain: "realestate-961c3.firebaseapp.com",
-  projectId: "realestate-961c3",
-  storageBucket: "realestate-961c3.appspot.com",
-  messagingSenderId: "783850409818",
-  appId: "1:783850409818:web:33157ced3065016360ad63",
-  measurementId: "G-7GQMY91GJ2",
-});
+const app = firebase.initializeApp(firebaseConfig);
 // export const auth = getAuth(app);
 export default function App() {
   const [oswaldLoaded] = useOswald({

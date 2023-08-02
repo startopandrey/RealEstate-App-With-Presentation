@@ -18,15 +18,24 @@ import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info
 import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
 import { ScrollView } from "react-native";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { List } from "react-native-paper";
+import { Divider, List } from "react-native-paper";
 import { payRequest } from "../../../services/checkout/checkout.service";
+import { NavigationProp } from "@react-navigation/native";
+
+import { Card } from "../../../types/checkout/index";
 // import { CreditCardInput } from "@big-toni/react-native-credit-card-input";
 
-export const CheckoutScreen = ({ navigation }) => {
+export const CheckoutScreen = ({
+  navigation,
+}: {
+  navigation: NavigationProp<any, any>;
+}) => {
   const { cart, restaurant, clearCart, sum } = useContext(CartContext);
-  const [name, setName] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [card, setCard] = useState(null);
+
+  const [name, setName] = useState<string>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [card, setCard] = useState<Card>();
+
   const onPay = () => {
     setIsLoading(true);
     if (!card || !card.id) {
@@ -73,21 +82,28 @@ export const CheckoutScreen = ({ navigation }) => {
             <Text>Your order</Text>
           </Spacer>
           <List.Section>
-            {cart.map(({ item, price }) => {
-              return <List.Item title={`${item} - ${price / 100}`}></List.Item>;
+            {cart.map(({ name }, i) => {
+              return (
+                <List.Item
+                  key={`item-${i}`}
+                  title={`${name} - ${i / 100}`}
+                ></List.Item>
+              );
             })}
           </List.Section>
           <Text>Total: ${sum / 100}</Text>
         </Spacer>
+        <Spacer size={"large"}></Spacer>
+        <Divider></Divider>
         <NameInput
           label="Name"
           value={name}
-          onChangeText={(t) => (t.length ? setName(t) : setName(null))}
+          onChangeText={(t: string) => (t.length ? setName(t) : setName(""))}
         ></NameInput>
         <Spacer position={"top"} size={"large"}>
           {name && (
             <CreditCardInput
-              onSuccess={(card) => setCard(card)}
+              onSuccess={(card: Card) => setCard(card)}
               onError={() => {
                 setIsLoading(false);
                 navigation.navigate("CheckoutError", {
