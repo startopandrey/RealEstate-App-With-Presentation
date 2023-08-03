@@ -15,12 +15,10 @@ import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { NavigationProp } from "@react-navigation/native";
-
-export const RegisterScreen = ({
-  navigation,
-}: {
-  navigation: NavigationProp<any, any>;
-}) => {
+import { AccountStackNavigatorParamList } from "src/types/accout";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Register">;
+export const RegisterScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
@@ -28,7 +26,7 @@ export const RegisterScreen = ({
   return (
     <AccountBackground>
       <AccountCover />
-      <Title>Meals To Go</Title>
+      <Title variant="body">Meals To Go</Title>
       <AccountContainer>
         <AuthInput
           label="E-mail"
@@ -59,7 +57,7 @@ export const RegisterScreen = ({
           />
         </Spacer>
         {error && (
-          <ErrorContainer size="large">
+          <ErrorContainer>
             <Text variant="error">{error}</Text>
           </ErrorContainer>
         )}

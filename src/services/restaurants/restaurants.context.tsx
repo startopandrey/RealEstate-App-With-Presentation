@@ -8,12 +8,12 @@ import {
 import { LocationContext } from "../location/location.context";
 import { Restaurant } from "src/types/restaurants/restaurant";
 interface RestaurantsContextType {
-  restaurants?: Restaurant[];
-  isLoading?: boolean;
+  restaurants: Restaurant[];
+  isLoading: boolean;
   error?: string;
 }
 
-export const RestaurantsContext = createContext<RestaurantsContextType>({});
+export const RestaurantsContext = createContext<RestaurantsContextType>({} as RestaurantsContextType);
 
 export const RestaurantsContextProvider = ({ children }) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -21,7 +21,7 @@ export const RestaurantsContextProvider = ({ children }) => {
   const [error, setError] = useState<string>();
   const { location } = useContext(LocationContext);
 
-  const retrieveRestaurants = (loc: string) => {
+  const retrieveRestaurants = (loc: string): void => {
     setIsLoading(true);
     setRestaurants([]);
 
@@ -39,7 +39,7 @@ export const RestaurantsContextProvider = ({ children }) => {
   };
   useEffect(() => {
     if (location) {
-      const locationString = `${location.lat},${location.lng}`;
+      const locationString: string = `${location.lat},${location.lng}`;
       retrieveRestaurants(locationString);
     }
   }, [location]);

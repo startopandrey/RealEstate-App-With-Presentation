@@ -7,7 +7,7 @@ import { FavouritesContext } from "../../../services/favourites/favourites.conte
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
-
+import { v4 as uuidv4 } from "uuid";
 import { RestaurantList } from "../../restaurants/components/restaurant-list.styles";
 import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info-card.component";
 
@@ -29,27 +29,25 @@ export const FavouritesScreen = ({ navigation }: Props) => {
     <SafeArea>
       <RestaurantList
         data={favourites}
-        renderItem={({ item }: {item: Restaurant}) => {
-          return (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("RestaurantDetail", {
-                  restaurant: item,
-                })
-              }
-            >
-              <Spacer position="bottom" size="large">
-                <RestaurantInfoCard restaurant={item} />
-              </Spacer>
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={(item: Restaurant) => item.name}
+        renderItem={({ item }: { item: any }) => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("RestaurantDetail", {
+                restaurant: item,
+              })
+            }
+          >
+            <Spacer position="bottom" size="large">
+              <RestaurantInfoCard restaurant={item} />
+            </Spacer>
+          </TouchableOpacity>
+        )}
+        keyExtractor={() => `${uuidv4()}`}
       />
     </SafeArea>
   ) : (
     <NoFavouritesArea>
-      <Text center>No favourites yet</Text>
+      <Text variant="body">No favourites yet</Text>
     </NoFavouritesArea>
   );
 };

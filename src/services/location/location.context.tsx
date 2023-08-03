@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 
 import { locationRequest, locationTransform } from "./location.service";
-interface Location {
+export interface Location {
   lat: number;
   lng: number;
   viewport: {
@@ -18,20 +18,12 @@ interface Location {
 interface LocationContextType {
   isLoading: boolean;
   error: string | null;
-  location?: Location;
+  location: Location | undefined;
   search: (searchKeyword: string) => void;
   keyword: string;
 }
 
-export const LocationContext = createContext<LocationContextType>({
-  isLoading: false,
-  error: null,
-  // location: null,
-  search: function (searchKeyword: string): void {
-    throw new Error("Function not implemented.");
-  },
-  keyword: ""
-});
+export const LocationContext = createContext<LocationContextType>({} as LocationContextType);
 export const LocationContextProvider = ({ children }) => {
   const [location, setLocation] = useState<Location>();
   const [isLoading, setIsLoading] = useState<boolean>(false);

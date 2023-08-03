@@ -4,7 +4,7 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import styled from "styled-components/native";
 import { LocationContext } from "../../../services/location/location.context";
 import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Search } from "../components/search.component";
 // import { LocationContext } from "../../../services/location/location.context";
 // import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
@@ -15,11 +15,13 @@ const Map = styled(MapView)`
 `;
 import { MapCallout } from "../components/map-callout.component";
 import { NavigationProp } from "@react-navigation/native";
-const RestaurantsMap = ({ navigation }: {
+const RestaurantsMap = ({
+  navigation,
+}: {
   navigation: NavigationProp<any, any>;
 }) => {
   const { restaurants } = useContext(RestaurantsContext);
-  const { location  } = useContext(LocationContext);
+  const { location } = useContext(LocationContext);
   const [latDelta, setLatDelta] = useState(0);
   const { lat, lng, viewport } = location!;
 
@@ -69,20 +71,19 @@ const RestaurantsMap = ({ navigation }: {
 };
 
 import { AppStackNavigatorParamList } from "src/types/app";
-type Props = NativeStackNavigationProp<
-  AppStackNavigatorParamList,
-  "Map"
->;
+type Props = NativeStackNavigationProp<AppStackNavigatorParamList, "Map">;
 export const MapScreen = ({ navigation }: Props) => {
-  const { location  } = useContext(LocationContext);
+  const { location } = useContext(LocationContext);
   if (!location) {
     return (
-      <Map
+      <MapView
         region={{
           latitude: 0,
           longitude: 0,
+          latitudeDelta: 0,
+          longitudeDelta: 0,
         }}
-      ></Map>
+      ></MapView>
     );
   }
   return <RestaurantsMap navigation={navigation}></RestaurantsMap>;

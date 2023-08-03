@@ -1,6 +1,7 @@
-import styled from "styled-components/native";
+import React from "react";
+import styled, { DefaultTheme } from "styled-components/native";
 
-const defaultTextStyles = (theme) => `
+const defaultTextStyles = (theme: DefaultTheme) => `
   font-family: ${theme.fonts.body};
   font-weight: ${theme.fontWeights.regular};
   color: ${theme.colors.text.primary};
@@ -9,29 +10,29 @@ const defaultTextStyles = (theme) => `
   margin-bottom: 0px;
 `;
 
-const body = (theme) => `
+const body = (theme: DefaultTheme) => `
     font-size: ${theme.fontSizes.body};
 `;
 
-const hint = (theme) => `
+const hint = (theme: DefaultTheme) => `
     font-size: ${theme.fontSizes.body};
 `;
 
-const error = (theme) => `
+const error = (theme: DefaultTheme) => `
     color: ${theme.colors.text.error};
 `;
 
-const caption = (theme) => `
+const caption = (theme: DefaultTheme) => `
     font-size: ${theme.fontSizes.caption};
     font-weight: ${theme.fontWeights.bold};
 `;
 
-const label = (theme) => `
+const label = (theme: DefaultTheme) => `
     font-family: ${theme.fonts.heading};
     font-size: ${theme.fontSizes.body};
     font-weight: ${theme.fontWeights.medium};
 `;
-
+type VariantsType  = "body" |  "label" | "caption" | "error" | "hint" 
 const variants = {
   body,
   label,
@@ -39,10 +40,10 @@ const variants = {
   error,
   hint,
 };
-
+interface TextProps { variant: VariantsType, theme : DefaultTheme, children: React.ReactNode}
 export const Text = styled.Text`
   ${({ theme }) => defaultTextStyles(theme)}
-  ${({ variant, theme }) => variants[variant](theme)}
+  ${({ variant, theme }: TextProps) => variants[variant](theme)}
 `;
 
 Text.defaultProps = {

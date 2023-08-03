@@ -12,11 +12,11 @@
     "preserveConstEnums": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node"],
+    "types": ["node", "@types/styled-components-react-native" , "react-native"],
     "paths": {
       "*": ["node_modules/@types/*", "*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "styled.d.ts"],
   "exclude": ["node_modules"]
 }

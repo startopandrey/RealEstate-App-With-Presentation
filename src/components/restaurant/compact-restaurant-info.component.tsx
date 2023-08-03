@@ -4,6 +4,7 @@ import WebView from "react-native-webview";
 import { Platform } from "react-native";
 
 import { Text } from "../typography/text.component";
+import { Restaurant } from "src/types/restaurants/restaurant";
 
 const CompactImage = styled.Image`
   border-radius: 10px;
@@ -23,9 +24,15 @@ const Item = styled.View`
   align-items: center;
 `;
 
-const isAndroid = Platform.OS === "android";
+const isAndroid: boolean = Platform.OS === "android";
 
-export const CompactRestaurantInfo = ({ restaurant, isMap }) => {
+export const CompactRestaurantInfo = ({
+  restaurant,
+  isMap = false,
+}: {
+  restaurant: Restaurant;
+  isMap?: boolean;
+}) => {
   const Image = isAndroid && isMap ? CompactWebview : CompactImage;
 
   return (

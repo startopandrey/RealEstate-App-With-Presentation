@@ -1,6 +1,7 @@
 import { colors, ColorTypes } from "./colors";
 import { space, lineHeights, LineHeightsType, SpaceType } from "./spacing";
 import { sizes, SizesType } from "./sizes";
+import { DefaultTheme } from "styled-components/native";
 import {
   fonts,
   fontWeights,
@@ -10,7 +11,7 @@ import {
   FontWeightsType,
 } from "./fonts";
 
-export const theme: {
+export interface ThemeType {
   colors: ColorTypes;
   space: SpaceType;
   lineHeights: LineHeightsType;
@@ -18,7 +19,8 @@ export const theme: {
   fonts: FontsType;
   fontSizes: FontSizesType;
   fontWeights: FontWeightsType;
-} = {
+}
+export const theme: DefaultTheme = {
   colors,
   space,
   lineHeights,

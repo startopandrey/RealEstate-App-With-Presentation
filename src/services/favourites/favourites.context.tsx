@@ -4,11 +4,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { Restaurant } from "src/types/restaurants/restaurant";
 interface FavouritesContextType {
-  favourites?: Restaurant[];
-  addToFavourites?: (restaurant: Restaurant) => void;
-  removeFromFavourites?: (restaurant: Restaurant) => void;
+  favourites: Restaurant[];
+  addToFavourites: (restaurant: Restaurant) => void;
+  removeFromFavourites: (restaurant: Restaurant) => void;
 }
-export const FavouritesContext = createContext<FavouritesContextType>({});
+export const FavouritesContext = createContext<FavouritesContextType>({} as FavouritesContextType);
 
 export const FavouritesContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);

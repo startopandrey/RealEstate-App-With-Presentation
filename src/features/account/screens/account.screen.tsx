@@ -11,12 +11,10 @@ import {
   AnimationWrapper,
 } from "../components/account.styles";
 import { NavigationProp } from "@react-navigation/native";
-
-export const AccountScreen = ({
-  navigation,
-}: {
-  navigation: NavigationProp<any, any>;
-}) => {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AccountStackNavigatorParamList } from "src/types/accout";
+type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Main">;
+export const AccountScreen = ({ navigation }: Props) => {
   return (
     <AccountBackground>
       <AccountCover />
@@ -29,7 +27,7 @@ export const AccountScreen = ({
           source={require("../../../../assets/watermelon.json")}
         />
       </AnimationWrapper>
-      <Title>Meals To Go</Title>
+      <Title variant="body">Meals To Go</Title>
       <AccountContainer>
         <AuthButton
           icon="lock-open-outline"

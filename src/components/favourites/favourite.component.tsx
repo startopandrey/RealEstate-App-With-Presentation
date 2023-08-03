@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
 import { FavouritesContext } from "../../services/favourites/favourites.context";
-
+import { Restaurant } from "src/types/restaurants/restaurant";
 const FavouriteButton = styled(TouchableOpacity)`
   position: absolute;
   top: 25px;
@@ -12,12 +12,14 @@ const FavouriteButton = styled(TouchableOpacity)`
   z-index: 9;
 `;
 
-export const Favourite = ({ restaurant }) => {
-  const { favourites, addToFavourites, removeFromFavourites } = useContext(
-    FavouritesContext
-  );
+export const Favourite = ({ restaurant  }: { restaurant: Restaurant }) => {
+  const { favourites, addToFavourites, removeFromFavourites } =
+    useContext(FavouritesContext);
 
-  const isFavourite = favourites.find((r) => r.placeId === restaurant.placeId);
+
+  const isFavourite: boolean = !!favourites?.find(
+    (r) => r.placeId === restaurant.placeId
+  );
 
   return (
     <FavouriteButton

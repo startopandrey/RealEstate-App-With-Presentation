@@ -1,6 +1,12 @@
 import React from "react";
-import styled, { useTheme } from "styled-components/native";
+import styled, { useTheme, DefaultTheme } from "styled-components/native";
 
+type SpacerProps = {
+  position?: "top" | "bottom" | "left" | "right";
+  size?: "small" | "medium" | "large" | "xl" | "xxl";
+  // theme?: 
+  children?:string | JSX.Element | JSX.Element[];
+}
 const sizeVariant = {
   small: 1,
   medium: 2,
@@ -15,8 +21,10 @@ const positionVariant = {
   right: "marginRight",
   bottom: "marginBottom",
 };
-
-const getVariant = (position, size, theme) => {
+interface GetVariantProps extends SpacerProps {
+  theme: DefaultTheme
+}
+const getVariant = ({position, size, theme}: GetVariantProps): string => {
   const sizeIndex = sizeVariant[size];
   const property = positionVariant[position];
   const value = theme.space[sizeIndex];
@@ -25,16 +33,12 @@ const getVariant = (position, size, theme) => {
 };
 
 const SpacerView = styled.View`
-  ${({ variant }) => variant};
+  ${({ variant }: {variant: string}): string => variant};
 `;
-interface SpacerProps {
-  position?: "top" | "bottom" | "left" | "right";
-  size?: "small" | "medium" | "large" | "xl" | "xxl";
-  children?: React.ReactNode;
-}
+
 export const Spacer = ({ position, size, children }: SpacerProps) => {
   const theme = useTheme();
-  const variant = getVariant(position, size, theme);
+  const variant = getVariant({position, size, theme});
   return <SpacerView variant={variant}>{children}</SpacerView>;
 };
 
