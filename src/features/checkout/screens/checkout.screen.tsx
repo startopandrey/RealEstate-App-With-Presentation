@@ -12,10 +12,10 @@ import {
 } from "../components/checkout.styles";
 import {
   PaymentProcessing,
-  RestaurantCard,
-} from "../../restaurants/components/restaurant-info-card.styles";
-import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info-card.component";
-import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+  ApartmentCard,
+} from "../../apartments/components/apartment-info-card.styles";
+import { ApartmentInfoCard } from "../../apartments/components/apartment-info-card.component";
+import { ApartmentsContext } from "../../../services/apartments/apartments.context";
 import { ScrollView } from "react-native";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Divider, List } from "react-native-paper";
@@ -35,7 +35,7 @@ type Props = NativeStackScreenProps<
   "Checkout"
 >;
 export const CheckoutScreen = ({ navigation }: Props) => {
-  const { cart, restaurant, clearCart, sum } = useContext(CartContext);
+  const { cart, apartment, clearCart, sum } = useContext(CartContext);
 
   const [name, setName] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -79,7 +79,7 @@ export const CheckoutScreen = ({ navigation }: Props) => {
   }
   return (
     <SafeArea>
-      <RestaurantInfoCard restaurant={restaurant!}></RestaurantInfoCard>
+      <ApartmentInfoCard apartment={apartment!}></ApartmentInfoCard>
       {isLoading && <PaymentProcessing></PaymentProcessing>}
       <ScrollView>
         <Spacer position={"left"} size="medium">

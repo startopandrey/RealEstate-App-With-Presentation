@@ -61,8 +61,8 @@ export interface Restaurant {
   scope?: string;
   types?: string[];
   priceLevel?: number;
-  address?: number;
+
   isOpenNow?: boolean;
-  isClosedTemporarily?: boolean;
+  isClosedTemporarily?: boolean;  address?: number;
   price?: 12.99
 }

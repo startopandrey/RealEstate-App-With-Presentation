@@ -2,16 +2,20 @@ export interface Apartment {
     geometry: Geometry
     type: ApartmentType
     category: Category
-    apartment_price: number
-    rent_price: number
-    icon: string
+    apartmentPrice: number
+    rentPrice: number
+    icon: string,
+    isOpenNow?: boolean,
+    isClosedTemporarily?: boolean;  address?: number;
+    rating?: number;
+    name?: string,
     title: string
     description: string
     square_meter: number
     bedRooms: number
     bathrooms: number
     photos: Photo[]
-    place_id: string
+    placeId: string
     views: number
     reference: string
     vicinity: string
@@ -55,15 +59,15 @@ export interface Apartment {
   
   export interface Photo {
     height: number
-    html_attributions: any[]
+    htmlAttributions: any[]
     photo_url: string
     width: number
   }
   
   export interface Author {
     id: string
-    avatar_image: string
-    full_name: string
+    avatarImage: string
+    fullName: string
     type: Type2
     phone: number
     description: string
@@ -73,4 +77,9 @@ export interface Apartment {
     id: number
     name: string
   }
-  
+  export type ApartmentStackNavigatorParamList = {
+    Apartments: undefined;
+    ApartmentDetail: {
+      apartment: Apartment
+    };
+  };

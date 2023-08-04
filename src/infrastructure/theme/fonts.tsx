@@ -1,7 +1,7 @@
 export interface FontsType {
-  body: "Oswald_400Regular";
+  body: "Raleway_400Regular";
   heading: "Lato_400Regular";
-  monospace: "Oswald_400Regular";
+  monospace: "Raleway_400Regular";
 }
 export interface FontWeightsType {
   regular: 400;
@@ -20,9 +20,9 @@ export interface FontSizesType {
   h1: "112px";
 }
 export const fonts: FontsType = {
-  body: "Oswald_400Regular",
+  body: "Raleway_400Regular",
   heading: "Lato_400Regular",
-  monospace: "Oswald_400Regular",
+  monospace: "Raleway_400Regular",
 };
 
 export const fontWeights: FontWeightsType = {

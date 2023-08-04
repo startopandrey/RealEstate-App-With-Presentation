@@ -8,31 +8,31 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { FavouritesBar } from "../../../components/favourites/favourites-bar.component";
 
-import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+import { ApartmentsContext } from "../../../services/apartments/apartments.context";
 import { FavouritesContext } from "../../../services/favourites/favourites.context";
 import axios from "axios";
 import { Search } from "../components/search.component";
-import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
+import { ApartmentInfoCard } from "../components/apartment-info-card.component";
 
-import { RestaurantList } from "../components/restaurant-list.styles";
+import { ApartmentList } from "../components/apartment-list.styles";
 import { LocationContext } from "../../../services/location/location.context";
 import { Text } from "../../../components/typography/text.component";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import {
-  Restaurant,
-  Restaurant as RestaurantType,
-} from "src/types/restaurants/restaurant";
+  Apartment,
+  Apartment as ApartmentType,
+} from "src/types/apartments/Apartment";
 import {
   NavigationAction,
   NavigationProp,
   NavigationState,
 } from "@react-navigation/native";
 
-import { RestaurantStackNavigatorParamList } from "src/types/restaurants";
+import { ApartmentStackNavigatorParamList } from "src/types/apartments";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 type Props = NativeStackScreenProps<
-  RestaurantStackNavigatorParamList,
-  "Restaurants"
+  ApartmentStackNavigatorParamList,
+  "Apartments"
 >;
 const Loading = styled(ActivityIndicator)`
   margin-left: -25px;
@@ -43,9 +43,10 @@ const LoadingContainer = styled.View`
   left: 50%;
 `;
 
-export const RestaurantsScreen = ({ navigation }: Props) => {
+export const ApartmentsScreen = ({ navigation }: Props) => {
   const { error: locationError } = useContext(LocationContext);
-  const { isLoading, restaurants, error } = useContext(RestaurantsContext);
+  const { isLoading, apartments, error } = useContext(ApartmentsContext);
+  console.log(apartments )
   const { favourites } = useContext(FavouritesContext);
   const [isToggled, setIsToggled] = useState<boolean>(false);
 
@@ -69,25 +70,24 @@ export const RestaurantsScreen = ({ navigation }: Props) => {
           <Text variant="error">Something went wrong retrieving the data</Text>
         </Spacer>
       ) : (
-
-        <RestaurantList
-          data={restaurants}
+        <ApartmentList
+          data={apartments}
           renderItem={({ item }: { item: any }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("RestaurantDetail", {
-                  restaurant: item,
+                navigation.navigate("ApartmentDetail", {
+                  Apartment: item,
                 })
               }
             >
               <Spacer position="bottom" size="large">
                 <FadeInView>
-                  <RestaurantInfoCard restaurant={item} />
+                  <ApartmentInfoCard apartment={item} />
                 </FadeInView>
               </Spacer>
             </TouchableOpacity>
           )}
-          keyExtractor={(_, i) => `restaurant-${i}`}
+          keyExtractor={(_, i) => `Apartment-${i}`}
         />
       )}
     </SafeArea>

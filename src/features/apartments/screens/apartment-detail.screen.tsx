@@ -2,34 +2,34 @@ import React, { useContext, useState } from "react";
 import { ScrollView } from "react-native";
 import { Divider, List } from "react-native-paper";
 
-import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
+import { ApartmentInfoCard } from "../components/apartment-info-card.component";
 
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { OrderButton } from "../components/restaurant-info-card.styles";
+import { OrderButton } from "../components/apartment-info-card.styles";
 import { CartContext } from "../../../services/cart/cart.context";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import {
-  Restaurant,
-  RestaurantStackNavigatorParamList,
-} from "src/types/restaurants/restaurant";
+  Apartment,
+  ApartmentStackNavigatorParamList,
+} from "src/types/apartments/apartment";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type Props = NativeStackScreenProps<
-  RestaurantStackNavigatorParamList,
-  "RestaurantDetail"
+ApartmentStackNavigatorParamList,
+  "ApartmentDetail"
 >;
-export const RestaurantDetailScreen = ({ navigation, route }: Props) => {
+export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
   const [breakfastExpanded, setBreakfastExpanded] = useState<boolean>(false);
   const [lunchExpanded, setLunchExpanded] = useState<boolean>(false);
   const [dinnerExpanded, setDinnerExpanded] = useState<boolean>(false);
   const [drinksExpanded, setDrinksExpanded] = useState<boolean>(false);
 
-  const { restaurant }: { restaurant: Restaurant } = route?.params;
+  const { apartment }: { apartment: Apartment } = route?.params;
   const { addToCart } = useContext(CartContext);
   return (
     <SafeArea>
-      <RestaurantInfoCard restaurant={restaurant} />
+      <ApartmentInfoCard restaurant={apartment} />
       <ScrollView>
         <List.Accordion
           title="Breakfast"
@@ -86,7 +86,7 @@ export const RestaurantDetailScreen = ({ navigation, route }: Props) => {
           icon="cash"
           mode="contained"
           onPress={() => {
-            addToCart("dfdf", restaurant);
+            addToCart("dfdf", apartment);
             navigation.navigate("Checkout");
           }}
         >

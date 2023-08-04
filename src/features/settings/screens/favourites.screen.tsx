@@ -8,8 +8,8 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { v4 as uuidv4 } from "uuid";
-import { RestaurantList } from "../../restaurants/components/restaurant-list.styles";
-import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info-card.component";
+import { ApartmentList } from "../../apartments/components/apartment-list.styles";
+import { ApartmentInfoCard } from "../../apartments/components/apartment-info-card.component";
 
 const NoFavouritesArea = styled(SafeArea)`
   align-items: center;
@@ -17,7 +17,7 @@ const NoFavouritesArea = styled(SafeArea)`
 `;
 import { SettingsStackNavigatorParamList } from "src/types/settings";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Restaurant } from "src/types/restaurants/restaurant";
+import { Apartment } from "src/types/apartments/apartment";
 type Props = NativeStackScreenProps<
   SettingsStackNavigatorParamList,
   "Favourites"
@@ -27,18 +27,18 @@ export const FavouritesScreen = ({ navigation }: Props) => {
 
   return favourites?.length ? (
     <SafeArea>
-      <RestaurantList
+      <ApartmentList
         data={favourites}
         renderItem={({ item }: { item: any }) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("RestaurantDetail", {
-                restaurant: item,
+              navigation.navigate("ApartmentDetail", {
+                apartment: item,
               })
             }
           >
             <Spacer position="bottom" size="large">
-              <RestaurantInfoCard restaurant={item} />
+              <ApartmentInfoCard apartment={item} />
             </Spacer>
           </TouchableOpacity>
         )}

@@ -2,12 +2,13 @@
 
 export interface ColorTypes {
   brand: {
-    primary: "#696AC3",
+    primary: "#8BC83F",
     secondary: "#5D6CC6",
-    muted: "#C6DAF7",
+    muted: "#daffad",
   },
   ui: {
-    primary: "#262626",
+    primary: "#234F68",
+    muted: "#234f6898",
     secondary: "#757575",
     tertiary: "#F1F1F1",
     quaternary: "#FFFFFF",
@@ -30,12 +31,13 @@ export interface ColorTypes {
 }
 export const colors: ColorTypes = {
   brand: {
-    primary: "#696AC3",
+    primary: "#8BC83F",
     secondary: "#5D6CC6",
-    muted: "#C6DAF7",
+    muted: "#daffad",
   },
   ui: {
-    primary: "#262626",
+    primary: "#234F68",
+    muted: "#234f6898",
     secondary: "#757575",
     tertiary: "#F1F1F1",
     quaternary: "#FFFFFF",

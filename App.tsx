@@ -3,9 +3,9 @@ import React from "react";
 import { ThemeProvider } from "styled-components/native";
 
 import {
-  useFonts as useOswald,
-  Oswald_400Regular,
-} from "@expo-google-fonts/oswald";
+  useFonts as useRaleway,
+  Raleway_400Regular,
+} from "@expo-google-fonts/raleway";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
 import { theme } from "./src/infrastructure/theme";
@@ -20,15 +20,15 @@ import { firebaseConfig } from "./src/utils/env";
 const app = firebase.initializeApp(firebaseConfig);
 // export const auth = getAuth(app);
 export default function App() {
-  const [oswaldLoaded] = useOswald({
-    Oswald_400Regular,
+  const [ralewayLoaded] = useRaleway({
+    Raleway_400Regular,
   });
 
   const [latoLoaded] = useLato({
     Lato_400Regular,
   });
 
-  if (!oswaldLoaded || !latoLoaded) {
+  if (!ralewayLoaded || !latoLoaded) {
     return null;
   }
 

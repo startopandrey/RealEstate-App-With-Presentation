@@ -3,11 +3,11 @@ import { Text } from "react-native";
 import MapView, { Callout, Marker } from "react-native-maps";
 import styled from "styled-components/native";
 import { LocationContext } from "../../../services/location/location.context";
-import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+import { ApartmentsContext } from "../../../services/apartments/apartments.context";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Search } from "../components/search.component";
 // import { LocationContext } from "../../../services/location/location.context";
-// import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+// import { ApartmentsContext } from "../../../services/apartments/apartments.context";
 
 const Map = styled(MapView)`
   height: 100%;
@@ -15,12 +15,12 @@ const Map = styled(MapView)`
 `;
 import { MapCallout } from "../components/map-callout.component";
 import { NavigationProp } from "@react-navigation/native";
-const RestaurantsMap = ({
+const ApartmentsMap = ({
   navigation,
 }: {
   navigation: NavigationProp<any, any>;
 }) => {
-  const { restaurants } = useContext(RestaurantsContext);
+  const { apartments } = useContext(ApartmentsContext);
   const { location } = useContext(LocationContext);
   const [latDelta, setLatDelta] = useState(0);
   const { lat, lng, viewport } = location!;
@@ -43,24 +43,24 @@ const RestaurantsMap = ({
           longitude: lng,
         }}
       >
-        {restaurants!.map((restaurant) => {
+        {apartments!.map((apartment) => {
           return (
             <Marker
-              key={restaurant.name}
-              title={restaurant.name}
+              key={apartment.name}
+              title={apartment.name}
               coordinate={{
-                latitude: restaurant.geometry.location.lat,
-                longitude: restaurant.geometry.location.lng,
+                latitude: apartment.geometry.location.lat,
+                longitude: apartment.geometry.location.lng,
               }}
             >
               <Callout
                 onPress={() => {
-                  navigation.navigate("RestaurantDetail", {
-                    restaurant,
+                  navigation.navigate("ApartmentDetail", {
+                    apartment,
                   });
                 }}
               >
-                <MapCallout restaurant={restaurant}></MapCallout>
+                <MapCallout apartment={apartment}></MapCallout>
               </Callout>
             </Marker>
           );
@@ -86,5 +86,5 @@ export const MapScreen = ({ navigation }: Props) => {
       ></MapView>
     );
   }
-  return <RestaurantsMap navigation={navigation}></RestaurantsMap>;
+  return <ApartmentsMap navigation={navigation}></ApartmentsMap>;
 };

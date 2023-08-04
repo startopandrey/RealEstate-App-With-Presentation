@@ -5,10 +5,10 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import { RestaurantsNavigator } from "./restaurants.navigator";
+import { ApartmentsNavigator } from "./apartments.navigator";
 import { SettingsNavigator } from "./settings.navigator";
 
-import { RestaurantsContextProvider } from "../../services/restaurants/restaurants.context";
+import { ApartmentsContextProvider } from "../../services/apartments/apartments.context";
 import { LocationContextProvider } from "../../services/location/location.context";
 import { FavouritesContextProvider } from "../../services/favourites/favourites.context";
 import { MapScreen } from "../../features/map/screens/map.screen";
@@ -20,7 +20,7 @@ import { AppStackNavigatorParamList, TabIcon } from "src/types/app";
 const Tab = createBottomTabNavigator<AppStackNavigatorParamList>();
 
 const TAB_ICON: TabIcon = {
-  Restaurants: "md-restaurant",
+  Apartments: "md-home",
   Checkout: "md-cart",
   Map: "md-map",
   Settings: "md-settings",
@@ -38,22 +38,22 @@ const createScreenOptions = ({ route }): BottomTabNavigationOptions => {
 export const AppNavigator = () => (
   <FavouritesContextProvider>
     <LocationContextProvider>
-      <RestaurantsContextProvider>
+      <ApartmentsContextProvider>
         <CartContextProvider>
           <Tab.Navigator
             screenOptions={createScreenOptions}
             tabBarOptions={{
-              activeTintColor: colors.brand.primary,
-              inactiveTintColor: colors.brand.muted,
+              activeTintColor: colors.ui.primary,
+              inactiveTintColor: colors.ui.muted,
             }}
           >
-            <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
+            <Tab.Screen name="Apartments" component={ApartmentsNavigator} />
             <Tab.Screen name="Checkout" component={CheckoutNavigator} />
             <Tab.Screen name="Map" component={MapScreen} />
             <Tab.Screen name="Settings" component={SettingsNavigator} />
           </Tab.Navigator>
         </CartContextProvider>
-      </RestaurantsContextProvider>
+      </ApartmentsContextProvider>
     </LocationContextProvider>
   </FavouritesContextProvider>
 );

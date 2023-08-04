@@ -2,17 +2,17 @@ import React from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { Spacer } from "../spacer/spacer.component";
-import { CompactRestaurantInfo } from "../restaurant/compact-restaurant-info.component";
+import { CompactApartmentInfo } from "../apartment/compact-apartment-info.component";
 import { Text } from "../typography/text.component";
 import { Card } from "react-native-paper";
-import { Restaurant } from "src/types/restaurants/restaurant";
+import { Apartment } from "src/types/apartments/apartment";
 
 const FavouritesWrapper = styled(Card)`
   padding: 10px;
   z-index: 999;
   border-radius: ${(props) => props.theme.space[3]};
 `;
-export const FavouritesBar = ({ favourites, navigation }: { favourites: Restaurant[], navigation: any}) => {
+export const FavouritesBar = ({ favourites, navigation }: { favourites: Apartment[], navigation: any}) => {
   if (!favourites.length) {
     return null;
   }
@@ -23,18 +23,18 @@ export const FavouritesBar = ({ favourites, navigation }: { favourites: Restaura
       </Spacer>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {favourites.map((restaurant: Restaurant) => {
-          const key = restaurant.name;
+        {favourites.map((apartment: Apartment) => {
+          const key = apartment.name;
           return (
             <Spacer key={key} position="left" size="medium">
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("RestaurantDetail", {
-                    restaurant,
+                  navigation.navigate("ApartmentDetail", {
+                    apartment,
                   })
                 }
               >
-                <CompactRestaurantInfo restaurant={restaurant} />
+                <CompactApartmentInfo apartment={apartment} />
               </TouchableOpacity>
             </Spacer>
           );

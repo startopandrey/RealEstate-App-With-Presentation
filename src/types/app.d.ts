@@ -1,11 +1,11 @@
 export interface TabIcon {
-  Restaurants: string;
+  Apartments: string;
   Checkout: string;
   Map: string;
   Settings: string;
 }
 export type AppStackNavigatorParamList = {
-  Restaurants: undefined;
+  Apartments: undefined;
   Checkout: undefined;
   Map: undefined;
   Settings: undefined;

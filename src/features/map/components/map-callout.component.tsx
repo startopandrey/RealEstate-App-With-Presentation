@@ -1,7 +1,7 @@
 import React from "react";
 
-import { CompactRestaurantInfo } from "../../../components/restaurant/compact-restaurant-info.component";
+import { CompactApartmentInfo } from "../../../components/apartment/compact-apartment-info.component";
 
-export const MapCallout = ({ restaurant }) => (
-  <CompactRestaurantInfo isMap restaurant={restaurant} />
+export const MapCallout = ({ apartment }) => (
+  <CompactApartmentInfo isMap apartment={apartment} />
 );

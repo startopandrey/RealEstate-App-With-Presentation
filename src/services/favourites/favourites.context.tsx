@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthenticationContext } from "../authentication/authentication.context";
-import { Restaurant } from "src/types/restaurants/restaurant";
+import { Restaurant } from "src/types/apartments/restaurant";
 interface FavouritesContextType {
   favourites: Restaurant[];
   addToFavourites: (restaurant: Restaurant) => void;
