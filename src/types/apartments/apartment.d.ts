@@ -14,7 +14,7 @@ export interface Apartment {
     square_meter: number
     bedRooms: number
     bathrooms: number
-    photos: Photo[]
+    photos: Photo[] | string[]
     placeId: string
     views: number
     reference: string

@@ -5,11 +5,14 @@ import { TouchableOpacity } from "react-native";
 
 import { FavouritesContext } from "../../services/favourites/favourites.context";
 import { Apartment } from "src/types/apartments/apartment";
-const FavouriteButton = styled(TouchableOpacity)`
+const FavouriteButton = styled.TouchableOpacity<{ isFavourite?: boolean; }>`
   position: absolute;
-  top: 25px;
-  right: 25px;
+  background: ${(props)=> props.isFavourite ? props.theme.colors.bg.secondary: props.theme.colors.brand.primary };
+  top: 15px;
+  right: 15px;
   z-index: 9;
+  padding: ${(props)=>props.theme.space[2]};
+  border-radius: 50%;
 `;
 
 export const Favourite = ({ apartment  }: { apartment: Apartment }) => {
@@ -23,6 +26,7 @@ export const Favourite = ({ apartment  }: { apartment: Apartment }) => {
 
   return (
     <FavouriteButton
+    isFavourite={isFavourite}
       onPress={() =>
         !isFavourite
           ? addToFavourites(apartment)
@@ -30,8 +34,8 @@ export const Favourite = ({ apartment  }: { apartment: Apartment }) => {
       }
     >
       <AntDesign
-        name={isFavourite ? "heart" : "hearto"}
-        size={24}
+        name={isFavourite ? "hearto" : "heart"}
+        size={14}
         color={isFavourite ? "red" : "white"}
       />
     </FavouriteButton>

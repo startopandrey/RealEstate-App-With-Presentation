@@ -2,20 +2,20 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthenticationContext } from "../authentication/authentication.context";
-import { Restaurant } from "src/types/apartments/restaurant";
+import { Apartment } from "src/types/apartments/apartment";
 interface FavouritesContextType {
-  favourites: Restaurant[];
-  addToFavourites: (restaurant: Restaurant) => void;
-  removeFromFavourites: (restaurant: Restaurant) => void;
+  favourites: Apartment[];
+  addToFavourites: (apartment: Apartment) => void;
+  removeFromFavourites: (apartment: Apartment) => void;
 }
 export const FavouritesContext = createContext<FavouritesContextType>({} as FavouritesContextType);
 
 export const FavouritesContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
 
-  const [favourites, setFavourites] = useState<Restaurant[]>([]);
+  const [favourites, setFavourites] = useState<Apartment[]>([]);
 
-  const saveFavourites = async (value: Restaurant[], uid: string) => {
+  const saveFavourites = async (value: Apartment[], uid: string) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(`@favourites-${uid}`, jsonValue);
@@ -35,13 +35,13 @@ export const FavouritesContextProvider = ({ children }) => {
     }
   };
 
-  const add = (restaurant: Restaurant) => {
-    setFavourites([...favourites, restaurant]);
+  const add = (apartment: Apartment) => {
+    setFavourites([...favourites, apartment]);
   };
 
-  const remove = (restaurant: Restaurant) => {
+  const remove = (apartment: Apartment) => {
     const newFavourites = favourites.filter(
-      (x) => x.placeId !== restaurant.placeId
+      (x) => x.placeId !== apartment.placeId
     );
 
     setFavourites(newFavourites);

@@ -1,8 +1,11 @@
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native";
 
-export const ApartmentList = styled(FlatList).attrs({
+export const ApartmentHorizontalList = styled(FlatList).attrs({
   contentContainerStyle: {
     padding: 16,
   },
 })``;
+export const ApartmentHorizontalItem = styled(TouchableOpacity)`
+  width: 320px;
+`

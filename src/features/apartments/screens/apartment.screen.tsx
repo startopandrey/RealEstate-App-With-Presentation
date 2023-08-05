@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import { ActivityIndicator, Colors } from "react-native-paper";
 
@@ -14,7 +14,10 @@ import axios from "axios";
 import { Search } from "../components/search.component";
 import { ApartmentInfoCard } from "../components/apartment-info-card.component";
 
-import { ApartmentList } from "../components/apartment-list.styles";
+import {
+  ApartmentHorizontalList,
+  ApartmentHorizontalItem,
+} from "../components/apartment-list.styles";
 import { LocationContext } from "../../../services/location/location.context";
 import { Text } from "../../../components/typography/text.component";
 import { v4 as uuidv4 } from "uuid";
@@ -30,6 +33,7 @@ import {
 
 import { ApartmentStackNavigatorParamList } from "src/types/apartments";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { theme } from "../../../infrastructure/theme";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"
@@ -42,11 +46,18 @@ const LoadingContainer = styled.View`
   top: 50%;
   left: 50%;
 `;
+const ListHeader = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: ${(props) => props.theme.space[3]};
+  padding-right: ${(props) => props.theme.space[3]};
+`;
 
 export const ApartmentsScreen = ({ navigation }: Props) => {
   const { error: locationError } = useContext(LocationContext);
   const { isLoading, apartments, error } = useContext(ApartmentsContext);
-  console.log(apartments )
+
   const { favourites } = useContext(FavouritesContext);
   const [isToggled, setIsToggled] = useState<boolean>(false);
 
@@ -62,6 +73,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
         isFavouritesToggled={isToggled}
         onFavouritesToggle={() => setIsToggled(!isToggled)}
       />
+ <Spacer><CategoriesList></CategoriesList></Spacer>
       {isToggled && (
         <FavouritesBar favourites={favourites} navigation={navigation} />
       )}
@@ -70,25 +82,32 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
           <Text variant="error">Something went wrong retrieving the data</Text>
         </Spacer>
       ) : (
-        <ApartmentList
-          data={apartments}
-          renderItem={({ item }: { item: any }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("ApartmentDetail", {
-                  Apartment: item,
-                })
-              }
-            >
-              <Spacer position="bottom" size="large">
-                <FadeInView>
-                  <ApartmentInfoCard apartment={item} />
-                </FadeInView>
-              </Spacer>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(_, i) => `Apartment-${i}`}
-        />
+        <Spacer>
+          <ListHeader>
+            <Text variant="title">Featured Estates</Text>
+            <Text color={theme.colors.text.muted} variant="caption">view all</Text>
+          </ListHeader>
+          <ApartmentHorizontalList
+            data={apartments}
+            horizontal={true}
+            renderItem={({ item }: { item: any }) => (
+              <ApartmentHorizontalItem
+                onPress={() =>
+                  navigation.navigate("ApartmentDetail", {
+                    Apartment: item,
+                  })
+                }
+              >
+                <Spacer position="right" size="large">
+                  <FadeInView>
+                    <ApartmentInfoCard apartment={item} />
+                  </FadeInView>
+                </Spacer>
+              </ApartmentHorizontalItem>
+            )}
+            keyExtractor={(_, i) => `Apartment-${i}`}
+          />
+        </Spacer>
       )}
     </SafeArea>
   );

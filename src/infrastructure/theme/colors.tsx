@@ -9,6 +9,7 @@ export interface ColorTypes {
   ui: {
     primary: "#234F68",
     muted: "#234f6898",
+    yellow: "#FFC42D",
     secondary: "#757575",
     tertiary: "#F1F1F1",
     quaternary: "#FFFFFF",
@@ -18,10 +19,11 @@ export interface ColorTypes {
   },
   bg: {
     primary: "#FFFFFF",
-    secondary: "#F1F1F1",
+    secondary: "#F5F4F8",
   },
   text: {
-    primary: "#262626",
+    primary: "#252B5C",
+    muted: "#53587A",
     secondary: "#757575",
     disabled: "#9C9C9C",
     inverse: "#FFFFFF",
@@ -38,6 +40,7 @@ export const colors: ColorTypes = {
   ui: {
     primary: "#234F68",
     muted: "#234f6898",
+    yellow: "#FFC42D",
     secondary: "#757575",
     tertiary: "#F1F1F1",
     quaternary: "#FFFFFF",
@@ -47,10 +50,11 @@ export const colors: ColorTypes = {
   },
   bg: {
     primary: "#FFFFFF",
-    secondary: "#F1F1F1",
+    secondary: "#F5F4F8",
   },
   text: {
-    primary: "#262626",
+    primary: "#252B5C",
+    muted: "#53587A",
     secondary: "#757575",
     disabled: "#9C9C9C",
     inverse: "#FFFFFF",

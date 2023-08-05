@@ -5,8 +5,15 @@ import { ThemeProvider } from "styled-components/native";
 import {
   useFonts as useRaleway,
   Raleway_400Regular,
+  Raleway_500Medium,
+  Raleway_700Bold
 } from "@expo-google-fonts/raleway";
-import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
+import {
+  useFonts as useMontserrat,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold
+} from "@expo-google-fonts/montserrat";
+import { useFonts as useLato, Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
 
 import { theme } from "./src/infrastructure/theme";
 import { Navigation } from "./src/infrastructure/navigation";
@@ -22,13 +29,19 @@ const app = firebase.initializeApp(firebaseConfig);
 export default function App() {
   const [ralewayLoaded] = useRaleway({
     Raleway_400Regular,
+    Raleway_500Medium,
+    Raleway_700Bold
   });
 
   const [latoLoaded] = useLato({
     Lato_400Regular,
+    Lato_700Bold
   });
-
-  if (!ralewayLoaded || !latoLoaded) {
+  const [montserratLoaded] = useLato({
+    Montserrat_500Medium,
+    Montserrat_600SemiBold
+  });
+  if (!ralewayLoaded || !latoLoaded || !montserratLoaded) {
     return null;
   }
 

@@ -7,17 +7,26 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import star from "../../../../assets/star";
 import open from "../../../../assets/open";
+import { AntDesign } from "@expo/vector-icons";
 import { Apartment as ApartmentType } from "../../../types/apartments/apartment";
 import {
   ApartmentCard,
   ApartmentCardCover,
   Info,
   Section,
-  SectionEnd,
   Rating,
   Icon,
   Address,
+  ApartmentPhoto,
+  Location,
+  RatingNumber,
+  PriceContainer,
+  Price,
+  Month,
+  ChipWrapper,
 } from "./apartment-info-card.styles";
+import { theme } from "../../../infrastructure/theme/index";
+import { Chip } from "../../../components/chip/chip.component";
 
 export const ApartmentInfoCard = ({
   apartment,
@@ -25,55 +34,64 @@ export const ApartmentInfoCard = ({
   apartment: ApartmentType;
 }) => {
   const {
-    name = "Some Apartment",
+    title = "Sky Dandelions Apartment",
     icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
     photos = [
-      {
-        photo_url:
-          "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-      },
+      "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
     ],
     address = "100 some random street",
     isOpenNow = true,
     rating = 4,
     isClosedTemporarily = true,
     placeId,
+    apartmentPrice,
+    vicinity,
   } = apartment;
 
   const ratingArray = Array.from(new Array(Math.floor(rating)));
 
   return (
-    <ApartmentCard elevation={2}>
-      <View>
+    <ApartmentCard>
+      <ApartmentPhoto>
         <Favourite apartment={apartment} />
-        <ApartmentCardCover key={name} source={{ uri: photos[0].photo_url }} />
-      </View>
+        <ChipWrapper>
+          <Chip
+            title="Home"
+            size="medium"
+            isButton={false}
+            onPress={() => {}}
+          ></Chip>
+        </ChipWrapper>
+        <ApartmentCardCover key={title} source={{ uri: photos[0] }} />
+      </ApartmentPhoto>
       <Info>
-        <Text variant="label">{name}</Text>
+        <Text variant="subtitle">{title}</Text>
         <Section>
           <Rating>
-            {ratingArray.map((_, i) => (
-              <SvgXml
-                key={`star-${placeId}-${i}`}
-                xml={star}
-                width={20}
-                height={20}
-              />
-            ))}
+            <Spacer position="right" size="small">
+              <AntDesign
+                color={theme.colors.ui.yellow}
+                size={16}
+                name="star"
+              ></AntDesign>
+            </Spacer>
+            <RatingNumber variant="caption">{rating}</RatingNumber>
           </Rating>
-          <SectionEnd>
-            {isClosedTemporarily && (
-              <Text variant="error">CLOSED TEMPORARILY</Text>
-            )}
-            <Spacer position="left" size="large">
-              {/* {isOpenNow && <SvgXml xml={open} width={20} height={20} />} */}
+          <Location>
+            <Spacer position="right" size="small">
+              <AntDesign
+                color={theme.colors.ui.primary}
+                size={16}
+                name="enviroment"
+              ></AntDesign>
             </Spacer>
-            <Spacer position="left" size="large">
-              <Icon source={{ uri: icon }} />
-            </Spacer>
-          </SectionEnd>
+            <Address variant="body">{address}</Address>
+          </Location>
         </Section>
-        <Address>{address}</Address>
+        <PriceContainer>
+          <Price>€ {apartmentPrice}</Price>
+          <Month>/month</Month>
+        </PriceContainer>
       </Info>
     </ApartmentCard>
   );
