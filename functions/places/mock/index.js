@@ -12,11 +12,11 @@ module.exports.mocks = {
 
 const mockImages = [
   "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+  "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg"
 ];
 
 module.exports.addMockImage = (restaurant) => {
-  const randomImage =
-    mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
-  restaurant.photos = [randomImage];
+
+  restaurant.photos = mockImages;
   return restaurant;
 };

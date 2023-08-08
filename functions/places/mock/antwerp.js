@@ -37,6 +37,20 @@ module.exports = {
             "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
           width: 0,
         },
+        {
+          height: 0,
+          html_attributions: [],
+          photo_url:
+            "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+          width: 0,
+        },
+        {
+          height: 0,
+          html_attributions: [],
+          photo_url:
+            "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+          width: 0,
+        },
       ],
       place_id: "some place id 1",
       views: 4,

@@ -38,6 +38,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.8",
+    "react-native-awesome-gallery": "^0.3.5",
     "react-native-credit-card-input": "^0.4.1",
     "react-native-credit-card-input-fixed": "^1.0.0",
     "react-native-credit-card-input-plus": "^0.4.7",

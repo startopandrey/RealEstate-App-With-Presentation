@@ -1,12 +1,17 @@
 import styled from "styled-components/native";
 import { Text } from "../typography/text.component";
 import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { Spacer } from "../spacer/spacer.component";
+
 const ChipView = styled.TouchableOpacity<{
   size: "medium" | "large";
   isSelected: boolean;
   disabled: boolean;
   title: string;
 }>`
+  flex-direction: row;
+  align-items: center;
   border-radius: ${(props) =>
     props.size == "large"
       ? props.theme.borderRadius.large
@@ -50,10 +55,16 @@ export const Chip = ({
   size = "large",
   isSelected = false,
   isButton = false,
+  iconName,
+  iconColor,
+  iconSize = 14,
   title,
   onPress,
 }: {
   size: "medium" | "large";
+  iconName?: keyof typeof Ionicons.glyphMap;
+  iconColor?: string;
+  iconSize?: number;
   isSelected?: boolean;
   isButton?: boolean;
   title: string;
@@ -67,7 +78,12 @@ export const Chip = ({
       size={size}
       title={title}
     >
-      <ChipText size={size} isSelected={!isSelected} variant="body">
+      {iconName && (
+        <Spacer position="right" size="medium">
+          <Ionicons size={iconSize} color={iconColor} name={iconName} />
+        </Spacer>
+      )}
+      <ChipText size={size} isSelected={!isSelected}>
         {title}
       </ChipText>
     </ChipView>

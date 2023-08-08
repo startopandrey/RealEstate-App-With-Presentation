@@ -122,6 +122,7 @@ export const ApartmentOverview = ({
   apartment: Apartment;
 }) => {
   const { photos, apartmentPrice, rating = 4.1 } = apartment;
+  console.log(photos)
   return (
     <ApartmentOverviewCard>
       <Header>
@@ -156,7 +157,11 @@ export const ApartmentOverview = ({
             </Text>
           </ApartmentTypeWrapper>
         </FooterLeft>
-        <GalleryButton>
+        <GalleryButton
+          onPress={() =>
+            navigation.navigate("ApartmentGallery", { photos: photos })
+          }
+        >
           <GalleryPhotoWrapper>
             <GalleryPhoto blurRadius={2} source={{ uri: photos[0] }} />
             <GalleryPhotoOverlay></GalleryPhotoOverlay>

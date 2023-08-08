@@ -80,5 +80,6 @@ export interface Type2 {
 }
 export type ApartmentStackNavigatorParamList = {
   Apartments: undefined;
-  ApartmentDetail: undefined
+  ApartmentDetail: undefined;
+  ApartmentGallery: undefined;
 };
