@@ -6,6 +6,9 @@ import { FlatList, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 // import Gallery from "react-native-awesome-gallery";
 import { ListRenderItem } from "react-native";
+import { theme } from "../../../infrastructure/theme";
+import { IconButton } from "../../../components/icon-button/icon-button.component";
+import { Spacer } from "../../../components/spacer/spacer.component";
 // import Gallery from 'react-native-gallery';
 const { width, height } = Dimensions.get("screen");
 type Props = NativeStackScreenProps<
@@ -15,15 +18,11 @@ type Props = NativeStackScreenProps<
 const GalleryList = styled.FlatList`
   flex: 1;
   width: 100%;
-
+  position: absolute;
   height: 100%;
+  z-index: -1;
 `;
-const GalleryItem = styled.View`
-  flex: 1;
-
-  width: 100%;
-  height: 100%;
-`;
+const GalleryItem = styled.View``;
 const Photo = styled.Image`
   height: 100%;
 
@@ -35,12 +34,15 @@ const ApartmentGallery = styled.View`
 
   height: 100%;
 `;
+const BackButton = styled(IconButton)`
+
+`;
 export const ApartmentGalleryScreen = ({ navigation, route }: Props) => {
   const { photos } = route.params;
   const renderItem: ListRenderItem<string> = ({ item }: { item: string }) => (
     <GalleryItem style={{ width: width, height: height }}>
       <Photo
-        style={{ resizeMode:'contain'}}
+        style={{ resizeMode: "contain" }}
         source={{
           uri: item,
         }}
@@ -50,10 +52,22 @@ export const ApartmentGalleryScreen = ({ navigation, route }: Props) => {
 
   return (
     <ApartmentGallery>
+      <Spacer position="left" size="medium">
+        <BackButton
+          onPress={() => navigation.navigate("Apartments")}
+          iconColor={theme.colors.ui.primary}
+          backgroundColor={theme.colors.bg.primary}
+          iconName={"chevron-back-outline"}
+        ></BackButton>
+      </Spacer>
       <GalleryList
         data={photos}
+        pagingEnabled={true}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={() => {}}
         renderItem={renderItem}
-        keyExtractor={(item) => item}
+        keyExtractor={(item, i) => `item-${i}`}
       />
       {/* <Gallery
         style={{ flex: 1, backgroundColor: "black" }}

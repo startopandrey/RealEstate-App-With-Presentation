@@ -69,6 +69,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
   const [isToggled, setIsToggled] = useState<boolean>(false);
 
   const hasError = !!error || !!locationError;
+  console.log(error)
   return (
     <SafeArea>
       <ScrollView>
