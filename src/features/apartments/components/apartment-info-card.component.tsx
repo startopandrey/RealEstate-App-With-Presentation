@@ -49,7 +49,6 @@ export const ApartmentInfoCard = ({
     vicinity,
   } = apartment;
 
-
   return (
     <ApartmentCard>
       <ApartmentPhoto>
@@ -58,6 +57,7 @@ export const ApartmentInfoCard = ({
           <Chip
             title="Home"
             size="medium"
+            isSelected={true}
             isButton={false}
             onPress={() => {}}
           ></Chip>

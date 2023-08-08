@@ -13,8 +13,8 @@ const ApartmentOverviewCard = styled.View`
   height: 450px;
   border-radius: ${(props) => props.theme.borderRadius.xl};
   background: ${(props) => props.theme.colors.bg.primary};
-  margin-left: ${(props) => props.theme.space[2]};
-  margin-right: ${(props) => props.theme.space[2]};
+  margin-left: ${(props) => props.theme.space[1]};
+  margin-right: ${(props) => props.theme.space[1]};
   /* flex: 1; */
 `;
 const ApartmentOverviewGallery = styled.View``;
@@ -81,7 +81,7 @@ const FooterLeft = styled.View`
 `;
 const GalleryButton = styled.TouchableOpacity`
   width: 60px;
-  border-radius: ${(props) => props.theme.borderRadius.small};
+  border-radius: ${(props) => props.theme.borderRadius.medium};
   background: ${(props) => props.theme.colors.bg.primary};
   border: 3px ${(props) => props.theme.colors.text.inverse} solid;
   height: 60px;
@@ -95,7 +95,7 @@ const GalleryPhotoWrapper = styled.View`
   flex: 1;
 `;
 const GalleryPhoto = styled.Image`
-  border-radius: ${(props) => props.theme.borderRadius.small};
+  border-radius: ${(props) => props.theme.borderRadius.medium};
   flex: 1;
   width: 100%;
 
@@ -104,7 +104,7 @@ const GalleryPhoto = styled.Image`
 `;
 const GalleryPhotoOverlay = styled.View`
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: ${(props) => props.theme.borderRadius.small};
+  border-radius: ${(props) => props.theme.borderRadius.medium};
   position: absolute;
   top: 0;
   left: 0;

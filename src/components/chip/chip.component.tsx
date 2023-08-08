@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { Text } from "../typography/text.component";
-
+import React from "react";
 const ChipView = styled.TouchableOpacity<{
   size: "medium" | "large";
   isSelected: boolean;
@@ -36,10 +36,10 @@ const ChipText = styled.Text<{
     props.size == "large"
       ? props.theme.fonts.ralewayBold
       : props.theme.fonts.ralewayMedium};
-      font-size: ${(props) =>
+  font-size: ${(props) =>
     props.size == "large"
       ? props.theme.fontSizes.body
-      : props.theme.fontSizes.caption};;
+      : props.theme.fontSizes.caption};
   font-weight: ${(props) =>
     props.size == "large"
       ? props.theme.fontWeights.bold
@@ -48,27 +48,26 @@ const ChipText = styled.Text<{
 
 export const Chip = ({
   size = "large",
-
-  isButton,
+  isSelected = false,
+  isButton = false,
   title,
   onPress,
 }: {
   size: "medium" | "large";
-
-  isButton: boolean;
+  isSelected?: boolean;
+  isButton?: boolean;
   title: string;
   onPress?: () => void;
 }) => {
-  const isSelected = title !== "All" && title !== "Home";
   return (
     <ChipView
       onPress={onPress}
-      isSelected={isSelected}
+      isSelected={!isSelected}
       disabled={!isButton}
       size={size}
       title={title}
     >
-      <ChipText size={size} isSelected={isSelected} variant="body">
+      <ChipText size={size} isSelected={!isSelected} variant="body">
         {title}
       </ChipText>
     </ChipView>
