@@ -14,6 +14,7 @@ export interface FontWeightsType {
   bold: 700;
 }
 export interface FontSizesType {
+  small: "8px",
   caption: "12px";
   button: "14px";
   body: "12px";
@@ -43,6 +44,7 @@ export const fontWeights: FontWeightsType = {
 };
 
 export const fontSizes: FontSizesType = {
+  small: "8px",
   caption: "12px",
   button: "14px",
   body: "12px",

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { CompactApartmentInfo } from "../../../components/apartment/compact-apartment-info.component";
+import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
 
 export const MapCallout = ({ apartment }) => (
-  <CompactApartmentInfo isMap apartment={apartment} />
+  <CompactApartmentCard isMap={true} apartment={apartment} />
 );

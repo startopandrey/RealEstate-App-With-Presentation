@@ -5,8 +5,8 @@ import { View } from "react-native";
 import { Text } from "../../../components/typography/text.component";
 export const ChipWrapper = styled.View`
   position: absolute;
-  bottom: 15px;
-  left: 15px;
+  bottom: 10px;
+  left: 10px;
   z-index: 999;
 `;
 

@@ -7,23 +7,47 @@ const ChipView = styled.TouchableOpacity<{
   disabled: boolean;
   title: string;
 }>`
-  border-radius: ${(props) => props.theme.borderRadius.small};
+  border-radius: ${(props) =>
+    props.size == "large"
+      ? props.theme.borderRadius.large
+      : props.theme.borderRadius.small};
   background: ${(props) =>
     !props.isSelected
       ? props.theme.colors.ui.primary
       : props.theme.colors.bg.secondary};
   align-self: center;
 
-  padding: ${(props) => props.theme.space[2]};
+  padding: ${(props) =>
+    props.size == "large" ? props.theme.space[3] : props.theme.space[2]};
+  padding-left: ${(props) =>
+    props.size == "large" ? props.theme.space[4] : props.theme.space[2]};
+  padding-right: ${(props) =>
+    props.size == "large" ? props.theme.space[4] : props.theme.space[2]};
 `;
-const ChipText = styled(Text)<{ isSelected: boolean }>`
+const ChipText = styled.Text<{
+  isSelected: boolean;
+  size: "medium" | "large";
+}>`
   color: ${(props) =>
     !props.isSelected
       ? props.theme.colors.text.inverse
       : props.theme.colors.text.primary};
+  font-family: ${(props) =>
+    props.size == "large"
+      ? props.theme.fonts.ralewayBold
+      : props.theme.fonts.ralewayMedium};
+      font-size: ${(props) =>
+    props.size == "large"
+      ? props.theme.fontSizes.body
+      : props.theme.fontSizes.caption};;
+  font-weight: ${(props) =>
+    props.size == "large"
+      ? props.theme.fontWeights.bold
+      : props.theme.fontWeights.regular};
 `;
+
 export const Chip = ({
-  size,
+  size = "large",
 
   isButton,
   title,
@@ -35,7 +59,7 @@ export const Chip = ({
   title: string;
   onPress?: () => void;
 }) => {
-  const isSelected = false;
+  const isSelected = title !== "All" && title !== "Home";
   return (
     <ChipView
       onPress={onPress}
@@ -44,7 +68,7 @@ export const Chip = ({
       size={size}
       title={title}
     >
-      <ChipText isSelected={isSelected} variant="body">
+      <ChipText size={size} isSelected={isSelected} variant="body">
         {title}
       </ChipText>
     </ChipView>

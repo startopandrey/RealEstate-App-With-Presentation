@@ -8,8 +8,8 @@ import { Apartment } from "src/types/apartments/apartment";
 const FavouriteButton = styled.TouchableOpacity<{ isFavourite?: boolean; }>`
   position: absolute;
   background: ${(props)=> props.isFavourite ? props.theme.colors.bg.secondary: props.theme.colors.brand.primary };
-  top: 15px;
-  right: 15px;
+  top: 10px;
+  right: 10px;
   z-index: 9;
   padding: ${(props)=>props.theme.space[2]};
   border-radius: 50%;

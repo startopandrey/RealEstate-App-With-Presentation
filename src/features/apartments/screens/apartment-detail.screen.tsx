@@ -16,7 +16,7 @@ import {
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type Props = NativeStackScreenProps<
-ApartmentStackNavigatorParamList,
+  ApartmentStackNavigatorParamList,
   "ApartmentDetail"
 >;
 export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
@@ -25,11 +25,12 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
   const [dinnerExpanded, setDinnerExpanded] = useState<boolean>(false);
   const [drinksExpanded, setDrinksExpanded] = useState<boolean>(false);
 
-  const { apartment }: { apartment: Apartment } = route?.params;
+  const { apartment }: { apartment: Apartment } = route.params!;
+  console.log(apartment, "ji");
   const { addToCart } = useContext(CartContext);
   return (
     <SafeArea>
-      <ApartmentInfoCard restaurant={apartment} />
+      <ApartmentInfoCard apartment={apartment} />
       <ScrollView>
         <List.Accordion
           title="Breakfast"

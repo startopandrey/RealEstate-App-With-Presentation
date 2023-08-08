@@ -33,6 +33,7 @@ export const ApartmentInfoCard = ({
 }: {
   apartment: ApartmentType;
 }) => {
+  console.log(apartment);
   const {
     title = "Sky Dandelions Apartment",
     icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
@@ -48,7 +49,6 @@ export const ApartmentInfoCard = ({
     vicinity,
   } = apartment;
 
-  const ratingArray = Array.from(new Array(Math.floor(rating)));
 
   return (
     <ApartmentCard>

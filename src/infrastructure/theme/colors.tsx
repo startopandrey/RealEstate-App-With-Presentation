@@ -38,6 +38,7 @@ export const colors: ColorTypes = {
     muted: "#daffad",
   },
   ui: {
+
     primary: "#234F68",
     muted: "#234f6898",
     yellow: "#FFC42D",

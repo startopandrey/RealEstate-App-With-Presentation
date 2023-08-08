@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text } from "react-native";
-import MapView, { Callout, Marker } from "react-native-maps";
+import { Text, View } from "react-native";
+import MapView, { Callout, CalloutSubview, Marker } from "react-native-maps";
 import styled from "styled-components/native";
 import { LocationContext } from "../../../services/location/location.context";
 import { ApartmentsContext } from "../../../services/apartments/apartments.context";
@@ -44,24 +44,36 @@ const ApartmentsMap = ({
         }}
       >
         {apartments!.map((apartment) => {
+          console.log(apartment)
           return (
             <Marker
               key={apartment.name}
+              
               title={apartment.name}
               coordinate={{
                 latitude: apartment.geometry.location.lat,
                 longitude: apartment.geometry.location.lng,
               }}
             >
+              
+              <CustomMarker image={apartment.photos[0]}></CustomMarker>
               <Callout
+              tooltip
+                style={{
+           
+                  width: 280,
+                  height: 280,
+                flex: 1,
+                  padding: 0,
+                  margin: 0,
+                }}
                 onPress={() => {
                   navigation.navigate("ApartmentDetail", {
                     apartment,
                   });
                 }}
-              >
-                <MapCallout apartment={apartment}></MapCallout>
-              </Callout>
+                children={<MapCallout apartment={apartment}></MapCallout>}
+              ></Callout>
             </Marker>
           );
         })}
@@ -71,6 +83,7 @@ const ApartmentsMap = ({
 };
 
 import { AppStackNavigatorParamList } from "src/types/app";
+import { CustomMarker } from "../components/custom-marker.component";
 type Props = NativeStackNavigationProp<AppStackNavigatorParamList, "Map">;
 export const MapScreen = ({ navigation }: Props) => {
   const { location } = useContext(LocationContext);

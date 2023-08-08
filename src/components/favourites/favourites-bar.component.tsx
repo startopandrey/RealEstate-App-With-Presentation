@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { Spacer } from "../spacer/spacer.component";
-import { CompactApartmentInfo } from "../apartment/compact-apartment-info.component";
+import { CompactApartmentCard } from "../apartment/compact-apartment-card.component";
 import { Text } from "../typography/text.component";
 import { Card } from "react-native-paper";
 import { Apartment } from "src/types/apartments/apartment";
@@ -34,7 +34,7 @@ export const FavouritesBar = ({ favourites, navigation }: { favourites: Apartmen
                   })
                 }
               >
-                <CompactApartmentInfo apartment={apartment} />
+                <CompactApartmentCard apartment={apartment} />
               </TouchableOpacity>
             </Spacer>
           );
