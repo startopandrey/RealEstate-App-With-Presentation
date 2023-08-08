@@ -45,7 +45,6 @@ export const Month = styled(Text).attrs({ variant: "caption" })`
   margin-bottom: 3px;
 `;
 export const ApartmentCardCover = styled(Card.Cover)`
-
   border-radius: ${(props) => props.theme.borderRadius.large};
   background-color: ${(props) => props.theme.colors.bg.secondary};
 `;
@@ -59,7 +58,7 @@ export const Info = styled.View`
   width: 50%;
   text-align: left;
   padding: ${(props) => props.theme.space[3]};
-  padding-left:  ${(props) => props.theme.space[2]};
+  padding-left: ${(props) => props.theme.space[2]};
 `;
 
 export const Rating = styled.View`

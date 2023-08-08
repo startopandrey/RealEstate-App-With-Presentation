@@ -6,21 +6,26 @@ import {
   useFonts as useRaleway,
   Raleway_400Regular,
   Raleway_500Medium,
-  Raleway_700Bold
+  Raleway_700Bold,
 } from "@expo-google-fonts/raleway";
 import {
   useFonts as useMontserrat,
   Montserrat_500Medium,
-  Montserrat_600SemiBold
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
-import { useFonts as useLato, Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
+import {
+  useFonts as useLato,
+  Lato_400Regular,
+  Lato_700Bold,
+} from "@expo-google-fonts/lato";
 
 import { theme } from "./src/infrastructure/theme";
 import { Navigation } from "./src/infrastructure/navigation";
 import firebase from "firebase";
 
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
-import { AppRegistry, Platform, View } from "react-native";
+import { AppRegistry, Platform} from "react-native";
 import { registerRootComponent } from "expo";
 import { firebaseConfig } from "./src/utils/env";
 
@@ -30,16 +35,17 @@ export default function App() {
   const [ralewayLoaded] = useRaleway({
     Raleway_400Regular,
     Raleway_500Medium,
-    Raleway_700Bold
+    Raleway_700Bold,
   });
 
   const [latoLoaded] = useLato({
     Lato_400Regular,
-    Lato_700Bold
+    Lato_700Bold,
   });
   const [montserratLoaded] = useLato({
     Montserrat_500Medium,
-    Montserrat_600SemiBold
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
   });
   if (!ralewayLoaded || !latoLoaded || !montserratLoaded) {
     return null;

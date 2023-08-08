@@ -14,75 +14,22 @@ import {
   ApartmentStackNavigatorParamList,
 } from "src/types/apartments/apartment";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ApartmentOverview } from "../components/apartment-overview.component";
 
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "ApartmentDetail"
 >;
 export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
-  const [breakfastExpanded, setBreakfastExpanded] = useState<boolean>(false);
-  const [lunchExpanded, setLunchExpanded] = useState<boolean>(false);
-  const [dinnerExpanded, setDinnerExpanded] = useState<boolean>(false);
-  const [drinksExpanded, setDrinksExpanded] = useState<boolean>(false);
-
   const { apartment }: { apartment: Apartment } = route.params!;
-  console.log(apartment, "ji");
+
   const { addToCart } = useContext(CartContext);
+
   return (
     <SafeArea>
-      <ApartmentInfoCard apartment={apartment} />
-      <ScrollView>
-        <List.Accordion
-          title="Breakfast"
-          left={(props) => <List.Icon {...props} icon="bread-slice" />}
-          expanded={breakfastExpanded}
-          onPress={() => setBreakfastExpanded(!breakfastExpanded)}
-        >
-          <List.Item title="Eggs Benedict" />
-          <Divider></Divider>
-          <List.Item title="Classic Breakfast" />
-        </List.Accordion>
-        <Divider></Divider>
-        <List.Accordion
-          title="Lunch"
-          left={(props) => <List.Icon {...props} icon="hamburger" />}
-          expanded={lunchExpanded}
-          onPress={() => setLunchExpanded(!lunchExpanded)}
-        >
-          <List.Item title="Burger w/ Fries" />
-          <Divider></Divider>
-          <List.Item title="Steak Sandwich" />
-          <Divider></Divider>
-          <List.Item title="Mushroom Soup" />
-        </List.Accordion>
-        <Divider></Divider>
-        <List.Accordion
-          title="Dinner"
-          left={(props) => <List.Icon {...props} icon="food-variant" />}
-          expanded={dinnerExpanded}
-          onPress={() => setDinnerExpanded(!dinnerExpanded)}
-        >
-          <List.Item title="Spaghetti Bolognese" />
-          <Divider></Divider>
-          <List.Item title="Veal Cutlet with Chicken Mushroom Rotini" />
-          <Divider></Divider>
-          <List.Item title="Steak Frites" />
-        </List.Accordion>
-        <Divider></Divider>
-        <List.Accordion
-          title="Drinks"
-          left={(props) => <List.Icon {...props} icon="cup" />}
-          expanded={drinksExpanded}
-          onPress={() => setDrinksExpanded(!drinksExpanded)}
-        >
-          <List.Item title="Coffee" />
-          <List.Item title="Tea" />
-          <List.Item title="Modelo" />
-          <List.Item title="Coke" />
-          <List.Item title="Fanta" />
-        </List.Accordion>
-      </ScrollView>
-      <Spacer position={"bottom"} size="large">
+      <ApartmentOverview navigation={navigation} apartment={apartment} />
+
+      {/* <Spacer position={"bottom"} size="large">
         <OrderButton
           icon="cash"
           mode="contained"
@@ -93,7 +40,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
         >
           Order Special Only 12.99!
         </OrderButton>
-      </Spacer>
+      </Spacer> */}
     </SafeArea>
   );
 };

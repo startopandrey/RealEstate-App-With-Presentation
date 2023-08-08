@@ -18,7 +18,7 @@ export interface ThemeType {
   lineHeights: LineHeightsType;
   sizes: SizesType;
   fonts: FontsType;
-  borderRadius: BorderRadiusType
+  borderRadius: BorderRadiusType;
   fontSizes: FontSizesType;
   fontWeights: FontWeightsType;
 }

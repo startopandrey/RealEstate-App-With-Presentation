@@ -138,7 +138,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                 ></Chip>
               </Spacer>
             )}
-            keyExtractor={(item)=> item.key}
+            keyExtractor={(item) => item.key}
           ></CategoriesList>
         </Spacer>
         {isToggled && (
@@ -245,16 +245,15 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
         <Spacer position="top" size="large">
           <ListHeader>
             <Text variant="title">Explore Nearby Estates</Text>
-           
           </ListHeader>
           <ApartmentHorizontalList
             data={apartments}
             numColumns={2}
-
             renderItem={({ item }: { item: any }) => (
-              
-                <CompactApartmentCard onPress={()=> null} apartment={item}></CompactApartmentCard>
-          
+              <CompactApartmentCard
+                onPress={() => null}
+                apartment={item}
+              ></CompactApartmentCard>
             )}
             keyExtractor={(_, i) => `Apartment-${i}`}
           />

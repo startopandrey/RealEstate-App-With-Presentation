@@ -4,8 +4,9 @@ export interface FontsType {
   ralewayBold: "Raleway_700Bold";
   montserratMedium: "Montserrat_500Medium";
   montserratSemiBold: "Montserrat_600SemiBold";
-  latoRegular: "Lato_400Regular"
-  latoBold: "Lato_700Bold"
+  montserratBold: "Montserrat_700Bold";
+  latoRegular: "Lato_400Regular";
+  latoBold: "Lato_700Bold";
 }
 export interface FontWeightsType {
   regular: 400;
@@ -14,12 +15,12 @@ export interface FontWeightsType {
   bold: 700;
 }
 export interface FontSizesType {
-  small: "8px",
+  small: "8px";
   caption: "12px";
   button: "14px";
   body: "12px";
   title: "18px";
-  subtitle: "14px",
+  subtitle: "14px";
   h5: "24px";
   h4: "34px";
   h3: "45px";
@@ -32,8 +33,9 @@ export const fonts: FontsType = {
   ralewayBold: "Raleway_700Bold",
   montserratMedium: "Montserrat_500Medium",
   montserratSemiBold: "Montserrat_600SemiBold",
+  montserratBold: "Montserrat_700Bold",
   latoRegular: "Lato_400Regular",
-  latoBold: "Lato_700Bold"
+  latoBold: "Lato_700Bold",
 };
 
 export const fontWeights: FontWeightsType = {

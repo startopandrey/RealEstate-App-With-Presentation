@@ -9,6 +9,7 @@ const defaultTextStyles = (theme: DefaultTheme) => `
   flex-wrap: wrap;
   margin-top: 0px;
   margin-bottom: 0px;
+  text-transform: capitalize;
 `;
 
 const body = (theme: DefaultTheme, color: string) => `
