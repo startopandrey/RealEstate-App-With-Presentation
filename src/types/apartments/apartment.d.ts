@@ -1,4 +1,5 @@
 export interface Apartment {
+  id: string;
   geometry: Geometry;
   type: ApartmentType;
   category: Category;

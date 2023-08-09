@@ -51,7 +51,7 @@ export const CheckoutScreen = ({ navigation }: Props) => {
       return;
     }
     payRequest(card.id, sum, name)
-      .then((res) => {
+      .then(() => {
         setIsLoading(false);
         clearCart();
         navigation.navigate("CheckoutSuccess");

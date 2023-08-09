@@ -12,11 +12,10 @@ module.exports.mocks = {
 
 const mockImages = [
   "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
-  "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg"
+  "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
 ];
 
 module.exports.addMockImage = (restaurant) => {
-
-  restaurant.photos = mockImages;
+  restaurant.photos = restaurant.photos.map((re) => re.photo_url);
   return restaurant;
 };

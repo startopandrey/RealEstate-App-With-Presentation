@@ -3,6 +3,7 @@ module.exports = {
   next_page_token: "some token",
   results: [
     {
+      id: "ereret34",
       geometry: {
         location: {
           lat: 51.2132707,
@@ -34,14 +35,14 @@ module.exports = {
           height: 0,
           html_attributions: [],
           photo_url:
-            "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+            "https://www.travelandleisure.com/thmb/tG5QToZyvbWMYNNo4Jzow9v6mbA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/TAL-presidential-overwater-villa-conrad-bora-bora-nui-RENTLUXVILLA0123-6710f56f7e7d492bb8c7a7ea7feed186.jpg",
           width: 0,
         },
         {
           height: 0,
           html_attributions: [],
           photo_url:
-            "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+            "https://www.travelandleisure.com/thmb/tG5QToZyvbWMYNNo4Jzow9v6mbA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/TAL-presidential-overwater-villa-conrad-bora-bora-nui-RENTLUXVILLA0123-6710f56f7e7d492bb8c7a7ea7feed186.jpg",
           width: 0,
         },
         {
@@ -68,6 +69,7 @@ module.exports = {
       },
     },
     {
+      id: "sdafh32",
       geometry: {
         location: {
           lat: 51.21366200000001,
@@ -85,7 +87,7 @@ module.exports = {
         },
       },
       type: { id: "1", name: "For Sale" },
-      category: { id: "232343f", name: "HOUSE" },
+      category: { id: "762323343f", name: "HOUSE" },
       apartment_price: 4000,
       rent_price: 4000,
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
@@ -100,6 +102,65 @@ module.exports = {
           html_attributions: [],
           photo_url:
             "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
+          width: 0,
+        },
+      ],
+      place_id: "some place id 1",
+      views: 4,
+      reference: "",
+      vicinity: "Quinten Matsijslei 25, Antwerpen",
+      author: {
+        id: "dfdfdsfa343",
+
+        avatar_image:
+          "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_100_100/0/1691073703367?e=1691758800&v=beta&t=SYD9HosDJCxliVZMM7UTDYCnBCu-RgnBpdPh4-fvwkI",
+        full_name: "Andrew Ilyukhin",
+        type: { id: 1, name: "OWNER" },
+        phone: 34345435,
+        description: "sdfsdf",
+      },
+    },
+    {
+      id: "dgsagdre2",
+      geometry: {
+        location: {
+          lat: 51.2093238,
+          lng: 4.39107,
+        },
+        viewport: {
+          northeast: {
+            lat: 51.2107127302915,
+            lng: 4.392468230291503,
+          },
+          southwest: {
+            lat: 51.2080147697085,
+            lng: 4.389770269708499,
+          },
+        },
+      },
+      type: { id: "1", name: "For Sale" },
+      category: { id: "762323343f", name: "HOUSE" },
+      apartment_price: 4000,
+      rent_price: 4000,
+      icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
+      title: "Mercure Antwerp City Centre",
+      description: "sdfsdf",
+      square_meter: 344,
+      bedRooms: 3,
+      bathrooms: 3,
+      photos: [
+        {
+          height: 0,
+          html_attributions: [],
+          photo_url:
+            "https://www.abta.com/sites/default/files/media/uploads/villa-safety-tile.jpg",
+          width: 0,
+        },
+        {
+          height: 0,
+          html_attributions: [],
+          photo_url:
+            "https://www.abta.com/sites/default/files/media/uploads/villa-safety-tile.jpg",
           width: 0,
         },
       ],

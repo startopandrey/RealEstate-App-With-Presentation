@@ -27,6 +27,7 @@ export const ApartmentCard = styled(View)`
   background-color: ${(props) => props.theme.colors.bg.secondary};
   border-radius: ${(props) => props.theme.borderRadius.large};
   width: 100%;
+
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -44,7 +45,8 @@ export const Month = styled(Text).attrs({ variant: "caption" })`
   font-family: ${(props) => props.theme.fonts.montserratMedium};
   margin-bottom: 3px;
 `;
-export const ApartmentCardCover = styled(Card.Cover)`
+export const ApartmentCardCover = styled.Image<{ isMap: boolean }>`
+  height: ${(props) => (props.isMap ? 140 : 190)}px;
   border-radius: ${(props) => props.theme.borderRadius.large};
   background-color: ${(props) => props.theme.colors.bg.secondary};
 `;
@@ -56,6 +58,7 @@ export const Address = styled(Text).attrs({ variant: "body" })`
 export const Info = styled.View`
   flex: 1;
   width: 50%;
+
   text-align: left;
   padding: ${(props) => props.theme.space[3]};
   padding-left: ${(props) => props.theme.space[2]};

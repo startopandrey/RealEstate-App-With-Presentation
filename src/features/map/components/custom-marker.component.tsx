@@ -13,7 +13,7 @@ const MarkerPhoto = styled(Avatar.Image)`
   top: 10px;
 `;
 export const CustomMarker = ({ image }) => {
-  console.log(image);
+
   return (
     <Marker>
       <MarkerPhoto

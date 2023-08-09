@@ -8,7 +8,9 @@ interface FavouritesContextType {
   addToFavourites: (apartment: Apartment) => void;
   removeFromFavourites: (apartment: Apartment) => void;
 }
-export const FavouritesContext = createContext<FavouritesContextType>({} as FavouritesContextType);
+export const FavouritesContext = createContext<FavouritesContextType>(
+  {} as FavouritesContextType
+);
 
 export const FavouritesContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
@@ -40,9 +42,7 @@ export const FavouritesContextProvider = ({ children }) => {
   };
 
   const remove = (apartment: Apartment) => {
-    const newFavourites = favourites.filter(
-      (x) => x.placeId !== apartment.placeId
-    );
+    const newFavourites = favourites.filter((x) => x.id !== apartment.id);
 
     setFavourites(newFavourites);
   };

@@ -47,7 +47,7 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const add = (item: string, rst: Apartment) => {
-    if (!apartment || apartment.placeId !== rst.placeId) {
+    if (!apartment || apartment.id !== rst.id) {
       setApartment(rst);
       setCart([item]);
     } else {

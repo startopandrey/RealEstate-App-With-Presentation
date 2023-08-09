@@ -1,12 +1,6 @@
 import React, { useContext, useState } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text as NativeText,
-  ScrollView,
-} from "react-native";
-import styled from "styled-components/native";
-import { ActivityIndicator, Avatar, Colors } from "react-native-paper";
+import { Text as NativeText, ScrollView } from "react-native";
+import { Avatar, Colors } from "react-native-paper";
 
 import { FadeInView } from "../../../components/animations/fade.animation";
 import { SafeArea } from "../../../components/utility/safe-area.component";
@@ -15,26 +9,15 @@ import { FavouritesBar } from "../../../components/favourites/favourites-bar.com
 
 import { ApartmentsContext } from "../../../services/apartments/apartments.context";
 import { FavouritesContext } from "../../../services/favourites/favourites.context";
-import axios from "axios";
 import { Search } from "../components/search.component";
 import { ApartmentInfoCard } from "../components/apartment-info-card.component";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import {
   ApartmentHorizontalList,
   ApartmentHorizontalItem,
 } from "../components/apartment-list.styles";
 import { LocationContext } from "../../../services/location/location.context";
 import { Text } from "../../../components/typography/text.component";
-import { v4 as uuidv4 } from "uuid";
-import {
-  Apartment,
-  Apartment as ApartmentType,
-} from "src/types/apartments/Apartment";
-import {
-  NavigationAction,
-  NavigationProp,
-  NavigationState,
-} from "@react-navigation/native";
 
 import { ApartmentStackNavigatorParamList } from "src/types/apartments";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -69,7 +52,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
   const [isToggled, setIsToggled] = useState<boolean>(false);
 
   const hasError = !!error || !!locationError;
-  console.log(error)
+
   return (
     <SafeArea>
       <ScrollView>
@@ -84,15 +67,15 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               color={theme.colors.ui.primary}
               size={16}
               name="location-sharp"
-            ></Ionicons>
-            <Spacer position="left" size={"large"}></Spacer>
+            />
+            <Spacer position="left" size={"large"} />
             <Text variant="body">Jakarta, Indonesia</Text>
-            <Spacer position="right" size={"large"}></Spacer>
+            <Spacer position="right" size={"large"} />
             <Ionicons
               color={theme.colors.ui.primary}
               size={16}
               name="chevron-down-outline"
-            ></Ionicons>
+            />
           </LocationDropdown>
           <HeaderEnd>
             <NotificationsButton>
@@ -100,9 +83,9 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                 color={theme.colors.ui.primary}
                 size={16}
                 name="notifications-outline"
-              ></Ionicons>
+              />
             </NotificationsButton>
-            <Spacer position="right" size={"medium"}></Spacer>
+            <Spacer position="right" size={"medium"} />
             <Avatar.Image
               size={50}
               source={require("../../../../assets/avatar.jpg")}
@@ -136,11 +119,11 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                   title={item.category.name}
                   isButton={true}
                   size={"large"}
-                ></Chip>
+                />
               </Spacer>
             )}
-            keyExtractor={(item) => item.key}
-          ></CategoriesList>
+            keyExtractor={(item) => item?.key}
+          />
         </Spacer>
         {isToggled && (
           <FavouritesBar favourites={favourites} navigation={navigation} />
@@ -204,7 +187,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     size={50}
                     source={require("../../../../assets/avatar.jpg")}
                   />
-                  <Spacer position="right" size="medium"></Spacer>
+                  <Spacer position="right" size="medium" />
                   <Text variant="body">Bali</Text>
                 </LocationChipItem>
               </Spacer>
@@ -235,7 +218,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     size={70}
                     source={require("../../../../assets/avatar.jpg")}
                   />
-                  <Spacer position="top" size="medium"></Spacer>
+                  <Spacer position="top" size="medium" />
                   <Text variant="body">Amanda</Text>
                 </AgentChipItem>
               </Spacer>
@@ -252,9 +235,11 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
             numColumns={2}
             renderItem={({ item }: { item: any }) => (
               <CompactApartmentCard
-                onPress={() => null}
+                onPress={() =>
+                  navigation.navigate("ApartmentDetail", { apartment: item })
+                }
                 apartment={item}
-              ></CompactApartmentCard>
+              />
             )}
             keyExtractor={(_, i) => `Apartment-${i}`}
           />

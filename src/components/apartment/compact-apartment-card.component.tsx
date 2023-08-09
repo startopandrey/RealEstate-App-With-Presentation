@@ -36,7 +36,7 @@ const CompactApartmentPhoto = styled.View`
 const ApartmentInfo = styled.View`
   padding: ${(props) => props.theme.space[2]};
 `;
-const ApartmentCard = styled.View`
+const ApartmentCard = styled.TouchableOpacity`
   margin: ${(props) => props.theme.space[1]};
   padding: ${(props) => props.theme.space[2]};
   border-radius: ${(props) => props.theme.borderRadius.large};
@@ -98,8 +98,9 @@ const isAndroid: boolean = Platform.OS === "android";
 export const CompactApartmentCard = ({
   apartment,
   isMap = false,
-  children,
+  onPress,
 }: {
+  onPress: () => void;
   apartment: Apartment;
   isMap?: boolean;
   children?: React.ReactNode;
@@ -107,7 +108,7 @@ export const CompactApartmentCard = ({
   const Image = isAndroid && isMap ? CompactWebview : CompactImage;
   const { rating = 4.5, address, apartmentPrice, title = "sdf" } = apartment;
   return (
-    <ApartmentCard>
+    <ApartmentCard onPress={onPress}>
       <CompactApartmentPhoto>
         <Favourite apartment={apartment} />
         <ChipWrapper>

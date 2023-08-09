@@ -39,7 +39,7 @@ import {
   ApartmentAddressWrapper,
   MapApartmentWrapper,
   Map,
-  MapRedirectButton
+  MapRedirectButton,
 } from "../components/apartment-detail.styles";
 
 type Props = NativeStackScreenProps<
@@ -96,7 +96,6 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
   }: {
     item: FacilityListProps;
   }) => {
-    console.log(item);
     return (
       <Spacer position={"right"} size={"medium"}>
         <Chip

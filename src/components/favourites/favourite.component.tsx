@@ -31,7 +31,7 @@ export const Favourite = ({
     useContext(FavouritesContext);
 
   const isFavourite: boolean = !!favourites?.find(
-    (r) => r.placeId === apartment.placeId
+    (r) => r.id === apartment.id
   );
 
   return (
