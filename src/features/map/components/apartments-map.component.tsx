@@ -8,7 +8,7 @@ import { Search } from "../components/search.component";
 import { CustomMarker } from "../components/custom-marker.component";
 import { ApartmentInfoCard } from "../../../features/apartments/components/apartment-info-card.component";
 import { INNER_CARD_WIDTH, OUTER_CARD_WIDTH } from "../../../utils/constants";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { theme } from "../../../infrastructure/theme";
 import { Spacer } from "../../../components/spacer/spacer.component";
@@ -49,14 +49,33 @@ const Header = styled.View`
   top: 40px;
   width: 100%;
 `;
-
+interface InitialRegionType {
+  latitude: number;
+  longitudeDelta: 0.01;
+  latitudeDelta: number;
+  longitude: number;
+}
 export const ApartmentsMap = ({
   navigation,
+  route,
 }: {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }) => {
   // states
+  const selectedApartment: Apartment = route.params?.selectedApartment;
+
+  console.log(selectedApartment);
   const [latDelta, setLatDelta] = useState(0);
+  const [initialRegion, setInitialRegion] = useState<InitialRegionType>({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: latDelta,
+    longitudeDelta: 0.01,
+  });
+  const [apartmentsDisplayed, setApartmentsDisplayed] = useState<Apartment[]>(
+    []
+  );
   // contexts
   const { apartments } = useContext(ApartmentsContext);
   const { location } = useContext(LocationContext);
@@ -77,7 +96,8 @@ export const ApartmentsMap = ({
       }
       console.log("scroll end reached");
       mapIndex.current = index;
-      const coordinate = apartments[index] && apartments[index].geometry;
+      const coordinate =
+        apartmentsDisplayed[index] && apartmentsDisplayed[index].geometry;
 
       setTimeout(
         () =>
@@ -94,6 +114,30 @@ export const ApartmentsMap = ({
       );
     }
   };
+  useEffect(() => {
+    if (!selectedApartment) {
+      setApartmentsDisplayed([...apartments]);
+      return;
+    }
+    setApartmentsDisplayed([selectedApartment, ...apartments]);
+  }, [apartments, selectedApartment]);
+  useEffect(() => {
+    if (!selectedApartment) {
+      setInitialRegion({
+        latitude: lat,
+        longitudeDelta: 0.01,
+        latitudeDelta: latDelta,
+        longitude: lng,
+      });
+      return;
+    }
+    setInitialRegion({
+      latitude: selectedApartment.geometry.location.lat,
+      longitudeDelta: 0.01,
+      latitudeDelta: latDelta,
+      longitude: selectedApartment.geometry.location.lng,
+    });
+  }, [lat, lng, viewport, latDelta, selectedApartment]);
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
     const southwestLat = viewport.southwest.lat;
@@ -122,6 +166,7 @@ export const ApartmentsMap = ({
         }}
         onPress={() =>
           navigation.navigate("ApartmentDetail", {
+            go_back_key: `${apartment.id}-map`,
             apartment: apartment,
           })
         }
@@ -132,6 +177,7 @@ export const ApartmentsMap = ({
       </MapApartmentItem>
     );
   };
+  console.log(apartmentsDisplayed);
   return (
     <>
       <Header>
@@ -144,59 +190,54 @@ export const ApartmentsMap = ({
         <Spacer position="top" size={"medium"}></Spacer>
         <Search />
       </Header>
-      <Map
-        ref={_map}
-        region={{
-          latitude: lat,
-          longitudeDelta: 0.01,
-          latitudeDelta: latDelta,
-          longitude: lng,
-        }}
-      >
-        {apartments!.map((apartment) => {
-          return (
-            <Marker
-              key={apartment.name}
-              title={apartment.name}
-              onPress={() => onMarkerPress(apartment.id)}
-              coordinate={{
-                latitude: apartment.geometry.location.lat,
-                longitude: apartment.geometry.location.lng,
-              }}
-            >
-              <CustomMarker image={apartment.photos[0]} />
-            </Marker>
-          );
-        })}
+      <Map ref={_map} region={initialRegion}>
+        {apartmentsDisplayed &&
+          apartments.map((apartment) => {
+            return (
+              <Marker
+                key={apartment.name}
+                title={apartment.name}
+                onPress={() => onMarkerPress(apartment.id)}
+                coordinate={{
+                  latitude: apartment.geometry.location.lat,
+                  longitude: apartment.geometry.location.lng,
+                }}
+              >
+                <CustomMarker image={apartment.photos[0]} />
+              </Marker>
+            );
+          })}
       </Map>
-      <MapApartmentCardsWrapper>
-        <MapApartmentCards
-          ref={flatlistRef}
-          initialNumToRender={apartments.length}
-          data={apartments}
-          pagingEnabled
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-          snapToInterval={OUTER_CARD_WIDTH}
-          decelerationRate="normal"
-          snapToAlignment="center"
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    x: scrollAnimation,
+      {apartmentsDisplayed && (
+        <MapApartmentCardsWrapper>
+          <MapApartmentCards
+            ref={flatlistRef}
+            initialNumToRender={apartmentsDisplayed.length}
+            data={apartmentsDisplayed}
+            pagingEnabled
+            scrollEventThrottle={16}
+            showsHorizontalScrollIndicator={false}
+            snapToInterval={OUTER_CARD_WIDTH}
+            decelerationRate="normal"
+            snapToAlignment="center"
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      x: scrollAnimation,
+                    },
                   },
                 },
-              },
-            ],
-            { useNativeDriver: true, listener: onScroll }
-          )}
-          horizontal={true}
-          renderItem={renderApartmentItem}
-          keyExtractor={(_, i) => `Apartment-${i}`}
-        />
-      </MapApartmentCardsWrapper>
+              ],
+              { useNativeDriver: true, listener: onScroll }
+            )}
+            horizontal={true}
+            renderItem={renderApartmentItem}
+            keyExtractor={(_, i) => `Apartment-${i}`}
+          />
+        </MapApartmentCardsWrapper>
+      )}
     </>
   );
 };

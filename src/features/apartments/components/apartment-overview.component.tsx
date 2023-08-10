@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import styled from "styled-components/native";
 import { Apartment } from "../../../types/apartments/apartment";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { View } from "react-native";
 import { Favourite } from "../../../components/favourites/favourite.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
@@ -32,9 +30,10 @@ export const ApartmentOverview = ({
   apartment,
 }: {
   navigation: any;
+
   apartment: Apartment;
 }) => {
-  const { photos, apartmentPrice, rating = 4.1 } = apartment;
+  const { photos, apartmentPrice, id, rating = 4.1 } = apartment;
 
   return (
     <ApartmentOverviewCard>
@@ -72,7 +71,10 @@ export const ApartmentOverview = ({
         </FooterLeft>
         <GalleryButton
           onPress={() =>
-            navigation.navigate("ApartmentGallery", { photos: photos })
+            navigation.navigate("ApartmentGallery", {
+              go_back_key: id,
+              photos: photos,
+            })
           }
         >
           <GalleryPhotoWrapper>

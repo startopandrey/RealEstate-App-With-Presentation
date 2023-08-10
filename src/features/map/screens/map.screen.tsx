@@ -12,7 +12,7 @@ import { AppStackNavigatorParamList } from "src/types/app";
 import { ApartmentsMap } from "../components/apartments-map.component";
 
 type Props = NativeStackNavigationProp<AppStackNavigatorParamList, "Map">;
-export const MapScreen = ({ navigation }: Props) => {
+export const MapScreen = ({ navigation, route }: Props) => {
   const { location } = useContext(LocationContext);
   if (!location) {
     return (
@@ -26,5 +26,5 @@ export const MapScreen = ({ navigation }: Props) => {
       />
     );
   }
-  return <ApartmentsMap navigation={navigation} />;
+  return <ApartmentsMap route={route} navigation={navigation} />;
 };

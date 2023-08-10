@@ -116,6 +116,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
             renderItem={({ item }: { item: any }) => (
               <Spacer position="right" size={"medium"}>
                 <Chip
+                  isSelected={item.category.name === "All"}
                   title={item.category.name}
                   isButton={true}
                   size={"large"}

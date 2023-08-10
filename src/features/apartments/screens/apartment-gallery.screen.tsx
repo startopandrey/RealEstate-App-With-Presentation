@@ -34,11 +34,9 @@ const ApartmentGallery = styled.View`
 
   height: 100%;
 `;
-const BackButton = styled(IconButton)`
-
-`;
+const BackButton = styled(IconButton)``;
 export const ApartmentGalleryScreen = ({ navigation, route }: Props) => {
-  const { photos } = route.params;
+  const { photos, go_back_key } = route.params;
   const renderItem: ListRenderItem<string> = ({ item }: { item: string }) => (
     <GalleryItem style={{ width: width, height: height }}>
       <Photo
@@ -54,7 +52,7 @@ export const ApartmentGalleryScreen = ({ navigation, route }: Props) => {
     <ApartmentGallery>
       <Spacer position="left" size="medium">
         <BackButton
-          onPress={() => navigation.navigate("Apartments")}
+          onPress={() => navigation.goBack(go_back_key)}
           iconColor={theme.colors.ui.primary}
           backgroundColor={theme.colors.bg.primary}
           iconName={"chevron-back-outline"}

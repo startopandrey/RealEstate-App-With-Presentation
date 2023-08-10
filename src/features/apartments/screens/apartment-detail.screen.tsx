@@ -20,7 +20,7 @@ import { Divider } from "react-native-paper";
 import { FlatList, ScrollView } from "react-native";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { LocationContext } from "../../../services/location/location.context";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import {
   Header,
   Title,
@@ -41,6 +41,7 @@ import {
   Map,
   MapRedirectButton,
 } from "../components/apartment-detail.styles";
+import { CustomMarker } from "../../../features/map/components/custom-marker.component";
 
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
@@ -188,15 +189,31 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
             </Spacer>
           </ApartmentAddressWrapper>
           <Spacer position="top" size="large"></Spacer>
-          <MapApartmentWrapper>
+          <MapApartmentWrapper
+            onPress={() =>
+              navigation.navigate("Map", { selectedApartment: apartment })
+            }
+          >
             <Map
               region={{
-                latitude: lat,
+                latitude: apartment.geometry.location.lat,
                 longitudeDelta: 0.01,
                 latitudeDelta: latDelta,
-                longitude: lng,
+                longitude: apartment.geometry.location.lng,
               }}
-            ></Map>
+            >
+              <Marker
+                key={apartment.name}
+                title={apartment.name}
+                onPress={() => null}
+                coordinate={{
+                  latitude: apartment.geometry.location.lat,
+                  longitude: apartment.geometry.location.lng,
+                }}
+              >
+                <CustomMarker image={apartment.photos[0]} />
+              </Marker>
+            </Map>
             <MapRedirectButton>
               <Text variant="body">View on map</Text>
             </MapRedirectButton>

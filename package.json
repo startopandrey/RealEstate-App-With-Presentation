@@ -51,6 +51,7 @@
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.7",
     "react-native-webview": "11.23.1",
+    "react-navigation": "^4.4.4",
     "stripe-client": "^1.1.5",
     "styled-components": "^5.2.1",
     "uuid": "^9.0.0"
