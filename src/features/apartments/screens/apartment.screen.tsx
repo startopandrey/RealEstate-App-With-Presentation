@@ -173,7 +173,23 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
             </Text>
           </ListHeader>
           <ApartmentHorizontalList
-            data={apartments}
+            data={[
+              {
+                locationName: "Bali",
+                photo:
+                  "https://balidave.com/wp-content/uploads/2022/11/best-hotel-bali.jpeg",
+              },
+              {
+                locationName: "Vinnitysa",
+                photo:
+                  "https://toget.education/wp-content/uploads/2016/02/vinnitsa4-300x210.png",
+              },
+              {
+                locationName: "Florence",
+                photo:
+                  "https://media.timeout.com/images/105879414/750/422/image.jpg",
+              },
+            ]}
             horizontal={true}
             renderItem={({ item }: { item: any }) => (
               <Spacer position="right" size="large">
@@ -184,12 +200,9 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     })
                   }
                 >
-                  <Avatar.Image
-                    size={50}
-                    source={require("../../../../assets/avatar.jpg")}
-                  />
+                  <Avatar.Image size={50} source={{ uri: item.photo }} />
                   <Spacer position="right" size="medium" />
-                  <Text variant="body">Bali</Text>
+                  <Text variant="body">{item.locationName}</Text>
                 </LocationChipItem>
               </Spacer>
             )}
@@ -204,7 +217,28 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
             </Text>
           </ListHeader>
           <ApartmentHorizontalList
-            data={apartments}
+            data={[
+              {
+                agentName: "Anderea",
+                photo:
+                  "https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1152002039RealEstateBroker.jpg",
+              },
+              {
+                agentName: "Aaron",
+                photo:
+                  "https://www.themanual.com/wp-content/uploads/sites/9/2017/07/aaron-kirman.jpg?fit=800%2C800&p=1",
+              },
+              {
+                agentName: "Michael",
+                photo:
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU",
+              },
+              {
+                agentName: "Hairry",
+                photo:
+                  "https://getgoodhead.com/wp-content/uploads/2018/04/Jake-Roth-Best-Hair.jpg",
+              },
+            ]}
             horizontal={true}
             renderItem={({ item }: { item: any }) => (
               <Spacer position="right" size="large">
@@ -215,12 +249,9 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     })
                   }
                 >
-                  <Avatar.Image
-                    size={70}
-                    source={require("../../../../assets/avatar.jpg")}
-                  />
+                  <Avatar.Image size={70} source={{ uri: item.photo }} />
                   <Spacer position="top" size="medium" />
-                  <Text variant="body">Amanda</Text>
+                  <Text variant="body">{item.agentName}</Text>
                 </AgentChipItem>
               </Spacer>
             )}

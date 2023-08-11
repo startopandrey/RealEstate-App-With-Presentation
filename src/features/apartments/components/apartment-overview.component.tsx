@@ -48,7 +48,9 @@ export const ApartmentOverview = ({
         </HeaderEnd>
       </Header>
       <ApartmentPhotoWrapper>
-        <ApartmentPhoto source={{ uri: photos[0] }} />
+        <ApartmentPhoto
+          source={{ uri: photos[0], headers: { Accept: "image/*" } }}
+        />
       </ApartmentPhotoWrapper>
       <Footer>
         <FooterLeft>

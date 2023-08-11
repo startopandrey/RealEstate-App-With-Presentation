@@ -105,6 +105,7 @@ export const CompactApartmentCard = ({
   isMap?: boolean;
   children?: React.ReactNode;
 }) => {
+
   const Image = isAndroid && isMap ? CompactWebview : CompactImage;
   const { rating = 4.5, address, apartmentPrice, title = "sdf" } = apartment;
   return (
@@ -117,7 +118,10 @@ export const CompactApartmentCard = ({
             <Month>/month</Month>
           </PriceContainer>
         </ChipWrapper>
-        <ApartmentCardCover key={title} source={{ uri: apartment.photos[0] }} />
+        <ApartmentCardCover
+          key={title}
+          source={{ uri: apartment.photos[0], headers: { Accept: "image/*" } }}
+        />
       </CompactApartmentPhoto>
       <ApartmentInfo>
         <Text variant={"caption"}>{title}</Text>

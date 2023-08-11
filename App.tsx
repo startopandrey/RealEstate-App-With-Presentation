@@ -25,11 +25,15 @@ import { Navigation } from "./src/infrastructure/navigation";
 import firebase from "firebase";
 
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
-import { AppRegistry, Platform} from "react-native";
+import { AppRegistry, Platform } from "react-native";
 import { registerRootComponent } from "expo";
 import { firebaseConfig } from "./src/utils/env";
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
 
-const app = firebase.initializeApp(firebaseConfig);
 // export const auth = getAuth(app);
 export default function App() {
   const [ralewayLoaded] = useRaleway({
@@ -42,7 +46,7 @@ export default function App() {
     Lato_400Regular,
     Lato_700Bold,
   });
-  const [montserratLoaded] = useLato({
+  const [montserratLoaded] = useMontserrat({
     Montserrat_500Medium,
     Montserrat_600SemiBold,
     Montserrat_700Bold,

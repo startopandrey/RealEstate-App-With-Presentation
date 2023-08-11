@@ -1,9 +1,6 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
 
-import {
-  apartmentsRequest,
-  apartmentsTransform,
-} from "./apartments.service";
+import { apartmentsRequest, apartmentsTransform } from "./apartments.service";
 
 import { LocationContext } from "../location/location.context";
 import { Apartment } from "src/types/apartments/apartment";
@@ -13,7 +10,9 @@ interface ApartmentsContextType {
   error?: string;
 }
 
-export const ApartmentsContext = createContext<ApartmentsContextType>({} as ApartmentsContextType);
+export const ApartmentsContext = createContext<ApartmentsContextType>(
+  {} as ApartmentsContextType
+);
 
 export const ApartmentsContextProvider = ({ children }) => {
   const [apartments, setApartments] = useState<Apartment[]>([]);

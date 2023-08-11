@@ -3,7 +3,7 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { Octicons, FontAwesome5 } from "@expo/vector-icons";
 
 import { ApartmentsNavigator } from "./apartments.navigator";
 import { SettingsNavigator } from "./settings.navigator";
@@ -12,26 +12,49 @@ import { ApartmentsContextProvider } from "../../services/apartments/apartments.
 import { LocationContextProvider } from "../../services/location/location.context";
 import { FavouritesContextProvider } from "../../services/favourites/favourites.context";
 import { MapScreen } from "../../features/map/screens/map.screen";
-import { CheckoutScreen } from "../../features/checkout/screens/checkout.screen";
 import { CartContextProvider } from "../../services/cart/cart.context";
 import { CheckoutNavigator } from "./checkout.navigator";
 import { colors } from "../theme/colors";
 import { AppStackNavigatorParamList, TabIcon } from "src/types/app";
+import styled from "styled-components/native";
 const Tab = createBottomTabNavigator<AppStackNavigatorParamList>();
 
 const TAB_ICON: TabIcon = {
-  Apartments: "md-home",
-  Checkout: "md-cart",
-  Map: "md-map",
-  Settings: "md-settings",
+  Apartments: "home",
+  Checkout: "heart",
+  Map: "map",
+  Settings: "user",
 };
+const Dot = styled.View<{ focused: boolean }>`
+  background: ${(props) =>
+    props.focused ? props.theme.colors.ui.primary : "transparent"};
+  position: absolute;
+  top: 40px;
+  width: 8px;
+  border-radius: 50%;
+  height: 8px;
+`;
+const TabIconWrapper = styled.View`
+  padding-top: ${(props) => props.theme.space[2]};
+  justify-content: center;
+  align-items: center;
+`;
 
 const createScreenOptions = ({ route }): BottomTabNavigationOptions => {
-  const iconName = TAB_ICON[route.name];
+  const iconName: keyof typeof Octicons.glyphMap = TAB_ICON[route.name];
   return {
-    tabBarIcon: ({ size, color }) => (
-      <Ionicons name={iconName} size={size} color={color} />
+    tabBarIcon: ({ color, focused }) => (
+      <TabIconWrapper>
+        {route.name === "Map" || route.name === "Settings" ? (
+          <FontAwesome5 name={`${iconName}`} size={24} color={color} />
+        ) : (
+          <Octicons name={`${iconName}`} size={24} color={color} />
+        )}
+
+        <Dot focused={focused} />
+      </TabIconWrapper>
     ),
+    title: "",
   };
 };
 

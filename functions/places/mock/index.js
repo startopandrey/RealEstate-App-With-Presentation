@@ -16,6 +16,9 @@ const mockImages = [
 ];
 
 module.exports.addMockImage = (restaurant) => {
-  restaurant.photos = restaurant.photos.map((re) => re?.photo_url);
+  restaurant.photos = restaurant.photos.map((re) =>
+    typeof re !== "string" ? re?.photo_url : re
+  );
+  console.log(restaurant);
   return restaurant;
 };

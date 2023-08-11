@@ -1,54 +1,28 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { View, Animated } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import styled from "styled-components/native";
+import { Animated } from "react-native";
+
 import { LocationContext } from "../../../services/location/location.context";
 import { ApartmentsContext } from "../../../services/apartments/apartments.context";
 import { Search } from "../components/search.component";
 import { CustomMarker } from "../components/custom-marker.component";
 import { ApartmentInfoCard } from "../../../features/apartments/components/apartment-info-card.component";
-import { INNER_CARD_WIDTH, OUTER_CARD_WIDTH } from "../../../utils/constants";
+import { OUTER_CARD_WIDTH } from "../../../utils/constants";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { theme } from "../../../infrastructure/theme";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Apartment } from "../../../types/apartments/apartment";
-import { ListRenderItem } from "react-native";
+import {
+  MapApartmentItem,
+  ApartmentInfoCardWrapper,
+  Header,
+  MapApartmentCardsWrapper,
+  Map,
+  MapApartmentCards,
+} from "./apartments-map.styles";
+import { Marker } from "react-native-maps";
+import { FlatList } from "react-native";
 
-const Map = styled(MapView)`
-  height: 100%;
-  width: 100%;
-`;
-const MapApartmentCardsWrapper = styled.View`
-  flex: 1;
-  width: ${OUTER_CARD_WIDTH}px;
-  align-items: "center";
-  flex-direction: "row";
-  background-color: "transparent";
-
-  z-index: 999;
-  position: absolute;
-  bottom: 20px;
-`;
-const MapApartmentItem = styled.TouchableOpacity`
-  width: ${OUTER_CARD_WIDTH}px;
-  justify-content: center;
-`;
-const MapApartmentCards = styled(Animated.FlatList)``;
-const ApartmentInfoCardWrapper = styled.View`
-  width: ${INNER_CARD_WIDTH}px;
-  align-self: center;
-`;
-const Header = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-  position: absolute;
-  /* flex-direction: row; */
-  align-items: center;
-  justify-content: flex-end;
-  z-index: 99;
-  top: 40px;
-  width: 100%;
-`;
 interface InitialRegionType {
   latitude: number;
   longitudeDelta: 0.01;
@@ -80,8 +54,8 @@ export const ApartmentsMap = ({
   const { apartments } = useContext(ApartmentsContext);
   const { location } = useContext(LocationContext);
   //refs
-  const _map = useRef(null);
-  const flatlistRef = useRef(null);
+  const _map = useRef<FlatList<InitialRegionType>>(null);
+  const flatlistRef = useRef<FlatList>(null);
   const mapIndex = useRef(0);
   const scrollAnimation = useRef(new Animated.Value(0)).current;
 
@@ -115,19 +89,31 @@ export const ApartmentsMap = ({
     }
   };
   useEffect(() => {
+    if (selectedApartment && apartmentsDisplayed) {
+      flatlistRef.current?.scrollToIndex({
+        index: 0,
+        animated: true,
+      });
+    }
+  }, [selectedApartment, apartmentsDisplayed]);
+
+  useEffect(() => {
     if (!selectedApartment) {
       setApartmentsDisplayed([...apartments]);
       return;
     }
-    setApartmentsDisplayed([selectedApartment, ...apartments]);
-  }, [apartments, selectedApartment]);
+    const filteredApartments = apartments.filter(
+      (el) => el.id !== selectedApartment.id
+    );
+    setApartmentsDisplayed([selectedApartment, ...filteredApartments]);
+  }, [apartments, selectedApartment, selectedApartment?.id]);
   useEffect(() => {
     if (!selectedApartment) {
       setInitialRegion({
-        latitude: lat,
+        latitude: apartments[0].geometry.location.lat,
         longitudeDelta: 0.01,
         latitudeDelta: latDelta,
-        longitude: lng,
+        longitude: apartments[0].geometry.location.lng,
       });
       return;
     }
@@ -137,7 +123,7 @@ export const ApartmentsMap = ({
       latitudeDelta: latDelta,
       longitude: selectedApartment.geometry.location.lng,
     });
-  }, [lat, lng, viewport, latDelta, selectedApartment]);
+  }, [lat, lng, viewport, latDelta, selectedApartment, apartments]);
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
     const southwestLat = viewport.southwest.lat;
@@ -145,13 +131,15 @@ export const ApartmentsMap = ({
   }, [location, viewport]);
 
   const onMarkerPress = (id: string) => {
-    const apartmentIndexById = apartments.findIndex((item) => item.id === id);
+    const apartmentIndexById = apartmentsDisplayed.findIndex(
+      (item) => item.id === id
+    );
 
     // In this case we dont need to animate to region, it happens by default
     mapIndex.current = apartmentIndexById;
     flatlistRef.current?.scrollToIndex({
       index: apartmentIndexById,
-      animate: true,
+      animated: true,
     });
   };
   const renderApartmentItem = ({ item }): React.ReactElement => {
@@ -177,7 +165,7 @@ export const ApartmentsMap = ({
       </MapApartmentItem>
     );
   };
-  console.log(apartmentsDisplayed);
+
   return (
     <>
       <Header>
@@ -187,15 +175,15 @@ export const ApartmentsMap = ({
           iconName="chevron-back-outline"
           iconColor={theme.colors.ui.primary}
         />
-        <Spacer position="top" size={"medium"}></Spacer>
+        <Spacer position="top" size={"medium"} />
         <Search />
       </Header>
-      <Map ref={_map} region={initialRegion}>
+      <Map ref={_map} userInterfaceStyle={"light"} region={initialRegion}>
         {apartmentsDisplayed &&
-          apartments.map((apartment) => {
+          apartments.map((apartment: Apartment) => {
             return (
               <Marker
-                key={apartment.name}
+                key={apartment.id}
                 title={apartment.name}
                 onPress={() => onMarkerPress(apartment.id)}
                 coordinate={{
@@ -214,6 +202,9 @@ export const ApartmentsMap = ({
             ref={flatlistRef}
             initialNumToRender={apartmentsDisplayed.length}
             data={apartmentsDisplayed}
+            extraData={apartmentsDisplayed}
+            // onViewableItemsChanged={onViewCallBack}
+            // viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
             pagingEnabled
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
@@ -234,7 +225,7 @@ export const ApartmentsMap = ({
             )}
             horizontal={true}
             renderItem={renderApartmentItem}
-            keyExtractor={(_, i) => `Apartment-${i}`}
+            keyExtractor={(item: Apartment): string => item.id.toString()}
           />
         </MapApartmentCardsWrapper>
       )}

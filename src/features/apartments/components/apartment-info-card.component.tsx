@@ -54,7 +54,11 @@ export const ApartmentInfoCard = ({
             onPress={() => {}}
           />
         </ChipWrapper>
-        <ApartmentCardCover isMap={isMap} key={title} source={{ uri: photos[0] }} />
+        <ApartmentCardCover
+          isMap={isMap}
+          key={title}
+          source={{ uri: photos[0], headers: { Accept: "image/*" } }}
+        />
       </ApartmentPhoto>
       <Info>
         <Text variant="subtitle">{title}</Text>
