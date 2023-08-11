@@ -1,6 +1,15 @@
 import styled from "styled-components/native";
 import { ActivityIndicator, Avatar, Colors } from "react-native-paper";
-
+export const HeaderOverlay = styled.View`
+  width: 350px;
+  height: 350px;
+  position: absolute;
+  background: ${(props) => props.theme.colors.ui.primary};
+  opacity: 0.25;
+  left: -80px;
+  bottom: -150px;
+  border-radius: 200%;
+`;
 export const CategoriesList = styled.FlatList``;
 export const Loading = styled(ActivityIndicator)`
   margin-left: -25px;
@@ -28,12 +37,14 @@ export const LocationDropdown = styled.TouchableOpacity`
   align-content: center;
   padding: ${(props) => props.theme.space[3]};
   align-self: flex-start;
+  background-color: ${(props) => props.theme.colors.bg.primary};
   border-radius: ${(props) => props.theme.borderRadius.large};
   border: 1px ${(props) => props.theme.colors.bg.secondary} solid;
   justify-content: space-between;
 `;
 export const NotificationsButton = styled.TouchableOpacity`
   padding: ${(props) => props.theme.space[3]};
+  background-color: ${(props) => props.theme.colors.bg.primary};
   align-self: flex-start;
   border-radius: ${(props) => props.theme.borderRadius.large};
   border: 1px ${(props) => props.theme.colors.bg.secondary} solid;

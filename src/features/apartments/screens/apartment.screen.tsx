@@ -42,6 +42,7 @@ import {
   LocationDropdown,
   LocationChipItem,
   AgentChipItem,
+  HeaderOverlay,
 } from "../components/apartment.styles";
 import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
 export const ApartmentsScreen = ({ navigation }: Props) => {
@@ -62,6 +63,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
           </LoadingContainer>
         )}
         <Header>
+          <HeaderOverlay />
           <LocationDropdown>
             <Ionicons
               color={theme.colors.ui.primary}
@@ -123,7 +125,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                 />
               </Spacer>
             )}
-            keyExtractor={(item) => item?.key}
+            keyExtractor={(item: any) => item?.key}
           />
         </Spacer>
         {isToggled && (

@@ -22,6 +22,7 @@ import {
 } from "./apartments-map.styles";
 import { Marker } from "react-native-maps";
 import { FlatList } from "react-native";
+import { onScroll } from "../helpers";
 
 interface InitialRegionType {
   latitude: number;
@@ -60,40 +61,27 @@ export const ApartmentsMap = ({
   const scrollAnimation = useRef(new Animated.Value(0)).current;
 
   const { lat, lng, viewport } = location!;
-  const onScroll = (event) => {
-    const xDistance = event.nativeEvent.contentOffset.x;
-    if (xDistance % OUTER_CARD_WIDTH === 0) {
-      // When scroll ends
-      const index = xDistance / OUTER_CARD_WIDTH;
-      if (mapIndex.current === index) {
-        return;
-      }
-      console.log("scroll end reached");
-      mapIndex.current = index;
-      const coordinate =
-        apartmentsDisplayed[index] && apartmentsDisplayed[index].geometry;
 
-      setTimeout(
-        () =>
-          _map.current?.animateToRegion(
-            {
-              latitude: coordinate.location.lat,
-              longitude: coordinate.location.lng,
-              latitudeDelta: latDelta,
-              longitudeDelta: 0.01,
-            },
-            350
-          ),
-        10
-      );
-    }
+  const mapScrollToIndex = (index: number) => {
+    flatlistRef.current?.scrollToIndex({
+      index: index,
+      animated: true,
+    });
+  };
+  const resetInitialRegion = (apartment: Apartment) => {
+    setInitialRegion({
+      latitude: apartment.geometry.location.lat,
+      longitudeDelta: 0.01,
+      latitudeDelta: latDelta,
+      longitude: apartment.geometry.location.lng,
+    });
+  };
+  const onScrollApartmentList = (e) => {
+    onScroll(e, mapIndex, _map, apartmentsDisplayed, latDelta);
   };
   useEffect(() => {
     if (selectedApartment && apartmentsDisplayed) {
-      flatlistRef.current?.scrollToIndex({
-        index: 0,
-        animated: true,
-      });
+      mapScrollToIndex(0);
     }
   }, [selectedApartment, apartmentsDisplayed]);
 
@@ -109,20 +97,13 @@ export const ApartmentsMap = ({
   }, [apartments, selectedApartment, selectedApartment?.id]);
   useEffect(() => {
     if (!selectedApartment) {
-      setInitialRegion({
-        latitude: apartments[0].geometry.location.lat,
-        longitudeDelta: 0.01,
-        latitudeDelta: latDelta,
-        longitude: apartments[0].geometry.location.lng,
-      });
+      resetInitialRegion(apartments[0]);
+
       return;
     }
-    setInitialRegion({
-      latitude: selectedApartment.geometry.location.lat,
-      longitudeDelta: 0.01,
-      latitudeDelta: latDelta,
-      longitude: selectedApartment.geometry.location.lng,
-    });
+
+    return resetInitialRegion(selectedApartment);
+    
   }, [lat, lng, viewport, latDelta, selectedApartment, apartments]);
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
@@ -134,13 +115,9 @@ export const ApartmentsMap = ({
     const apartmentIndexById = apartmentsDisplayed.findIndex(
       (item) => item.id === id
     );
-
     // In this case we dont need to animate to region, it happens by default
     mapIndex.current = apartmentIndexById;
-    flatlistRef.current?.scrollToIndex({
-      index: apartmentIndexById,
-      animated: true,
-    });
+    mapScrollToIndex(apartmentIndexById);
   };
   const renderApartmentItem = ({ item }): React.ReactElement => {
     const apartment: Apartment = item;
@@ -221,7 +198,7 @@ export const ApartmentsMap = ({
                   },
                 },
               ],
-              { useNativeDriver: true, listener: onScroll }
+              { useNativeDriver: true, listener: onScrollApartmentList }
             )}
             horizontal={true}
             renderItem={renderApartmentItem}
