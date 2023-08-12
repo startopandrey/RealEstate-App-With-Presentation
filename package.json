@@ -1,7 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "npm run ios",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -15,7 +15,9 @@
     "@expo-google-fonts/montserrat": "^0.2.3",
     "@expo-google-fonts/oswald": "^0.1.0",
     "@expo-google-fonts/raleway": "^0.2.3",
+    "@gorhom/bottom-sheet": "^4.4.7",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-native-community/blur": "^4.3.2",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/native": "^5.8.10",
@@ -54,7 +56,8 @@
     "react-navigation": "^4.4.4",
     "stripe-client": "^1.1.5",
     "styled-components": "^5.2.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "expo-blur": "~12.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

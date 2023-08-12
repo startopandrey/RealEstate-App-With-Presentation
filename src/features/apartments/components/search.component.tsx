@@ -13,6 +13,8 @@ const CustomSearchbar = styled(Searchbar)`
   padding: ${(props) => props.theme.space[2]};
   font-family: ${(props) => props.theme.fonts.ralewayMedium};
   font-size: ${(props) => props.theme.fontSizes.body};
+  border-radius: ${(props) => props.theme.borderRadius.medium};
+  elevation: 0;
 `;
 interface SearchProps {
   isFavouritesToggled: boolean;
@@ -30,7 +32,6 @@ export const Search = ({
   return (
     <SearchContainer>
       <CustomSearchbar
-        style={{ elevation: 0,  borderRadius: theme.borderRadius.medium }}
         iconColor={theme.colors.text.primary}
         onIconPress={onFavouritesToggle}
         placeholder="Search for a location"
@@ -38,7 +39,6 @@ export const Search = ({
         inputStyle={{
           color: theme.colors.text.primary,
           fontFamily: theme.fonts.ralewayMedium,
-          
         }}
         onSubmitEditing={() => {
           search(searchKeyword);

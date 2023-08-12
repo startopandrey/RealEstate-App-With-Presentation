@@ -19,10 +19,17 @@ import {
   MapApartmentCardsWrapper,
   Map,
   MapApartmentCards,
+  HeaderButtons,
+  SearchText,
+  SearchTextWrapper,
+  MapFilterWrapper,
+  MapFilterOverlay,
 } from "./apartments-map.styles";
 import { Marker } from "react-native-maps";
 import { FlatList } from "react-native";
 import { onScroll } from "../helpers";
+import { Text } from "../../../components/typography/text.component";
+import { MapFilter } from "./map-filter.component";
 
 interface InitialRegionType {
   latitude: number;
@@ -40,7 +47,7 @@ export const ApartmentsMap = ({
   // states
   const selectedApartment: Apartment = route.params?.selectedApartment;
 
-  console.log(selectedApartment);
+  const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
   const [latDelta, setLatDelta] = useState(0);
   const [initialRegion, setInitialRegion] = useState<InitialRegionType>({
     latitude: 0,
@@ -103,7 +110,6 @@ export const ApartmentsMap = ({
     }
 
     return resetInitialRegion(selectedApartment);
-    
   }, [lat, lng, viewport, latDelta, selectedApartment, apartments]);
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
@@ -146,12 +152,24 @@ export const ApartmentsMap = ({
   return (
     <>
       <Header>
-        <IconButton
-          backgroundColor={theme.colors.bg.secondary}
-          onPress={() => navigation.goBack()}
-          iconName="chevron-back-outline"
-          iconColor={theme.colors.ui.primary}
-        />
+        <HeaderButtons>
+          <IconButton
+            backgroundColor={theme.colors.bg.secondary}
+            onPress={() => navigation.goBack()}
+            iconName="chevron-back-outline"
+            iconColor={theme.colors.ui.primary}
+          />
+          <SearchTextWrapper>
+            <SearchText variant="title">Search results</SearchText>
+          </SearchTextWrapper>
+          <IconButton
+            backgroundColor={theme.colors.bg.secondary}
+            onPress={() => setIsOpenFilter(true)}
+            iconName="options-outline"
+            iconColor={theme.colors.ui.primary}
+          />
+        </HeaderButtons>
+
         <Spacer position="top" size={"medium"} />
         <Search />
       </Header>
@@ -206,6 +224,8 @@ export const ApartmentsMap = ({
           />
         </MapApartmentCardsWrapper>
       )}
+
+      <MapFilter setIsOpen={setIsOpenFilter} isOpen={isOpenFilter}></MapFilter>
     </>
   );
 };

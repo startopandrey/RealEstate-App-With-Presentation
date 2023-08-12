@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 import { Animated } from "react-native";
 
 import { INNER_CARD_WIDTH, OUTER_CARD_WIDTH } from "../../../utils/constants";
+import { Text } from "../../../components/typography/text.component";
 export const Map = styled(MapView)`
   height: 100%;
   width: 100%;
@@ -36,4 +37,41 @@ export const Header = styled.View`
   z-index: 99;
   top: 40px;
   width: 100%;
+`;
+export const HeaderButtons = styled.View`
+  flex: 1;
+  width: 100%;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+export const SearchText = styled(Text)`
+  text-transform: inherit;
+`;
+export const SearchTextWrapper = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+  background: ${(props) => props.theme.colors.bg.secondary};
+  border-radius: ${(props) => props.theme.borderRadius.large};
+`;
+export const MapFilterWrapper = styled.View<{ isOpen?: boolean }>`
+  z-index: ${(props) => (props.isOpen ? 99999 : -1)};
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+
+  bottom: 0;
+`;
+export const MapFilterOverlay = styled.View`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  flex: 1;
+  width: 120%;
+  background: #0000003b;
+  height: 100%;
+  /* z-index: 99999; */
 `;
