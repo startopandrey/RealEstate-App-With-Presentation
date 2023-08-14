@@ -1,19 +1,8 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import BottomSheet, {
-  BottomSheetBackdropProps,
-  BottomSheetBackgroundProps,
-} from "@gorhom/bottom-sheet";
-import { ScrollView, StyleSheet } from "react-native";
+import BottomSheet, { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
+import { ScrollView } from "react-native";
 import { MapFilterWrapper } from "./apartments-map.styles";
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedProps,
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
-import { theme } from "../../../infrastructure/theme";
-import { BlurView } from "expo-blur";
+import { useSharedValue } from "react-native-reanimated";
 import {
   ApartmentTypeWrapper,
   ApplyButtonWrapper,

@@ -22,13 +22,10 @@ import {
   HeaderButtons,
   SearchText,
   SearchTextWrapper,
-  MapFilterWrapper,
-  MapFilterOverlay,
 } from "./apartments-map.styles";
-import { Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { FlatList } from "react-native";
 import { onScroll } from "../helpers";
-import { Text } from "../../../components/typography/text.component";
 import { MapFilter } from "./map-filter.component";
 
 interface InitialRegionType {
@@ -48,7 +45,7 @@ export const ApartmentsMap = ({
   const selectedApartment: Apartment = route.params?.selectedApartment;
 
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
-  const [latDelta, setLatDelta] = useState(0);
+  const [latDelta, setLatDelta] = useState<number>(0);
   const [initialRegion, setInitialRegion] = useState<InitialRegionType>({
     latitude: 0,
     longitude: 0,
@@ -62,7 +59,7 @@ export const ApartmentsMap = ({
   const { apartments } = useContext(ApartmentsContext);
   const { location } = useContext(LocationContext);
   //refs
-  const _map = useRef<FlatList<InitialRegionType>>(null);
+  const _map = useRef<MapView | null>(null);
   const flatlistRef = useRef<FlatList>(null);
   const mapIndex = useRef(0);
   const scrollAnimation = useRef(new Animated.Value(0)).current;
@@ -75,14 +72,7 @@ export const ApartmentsMap = ({
       animated: true,
     });
   };
-  const resetInitialRegion = (apartment: Apartment) => {
-    setInitialRegion({
-      latitude: apartment.geometry.location.lat,
-      longitudeDelta: 0.01,
-      latitudeDelta: latDelta,
-      longitude: apartment.geometry.location.lng,
-    });
-  };
+
   const onScrollApartmentList = (e) => {
     onScroll(e, mapIndex, _map, apartmentsDisplayed, latDelta);
   };
@@ -103,12 +93,18 @@ export const ApartmentsMap = ({
     setApartmentsDisplayed([selectedApartment, ...filteredApartments]);
   }, [apartments, selectedApartment, selectedApartment?.id]);
   useEffect(() => {
+    const resetInitialRegion = (apartment: Apartment) => {
+      setInitialRegion({
+        latitude: apartment.geometry.location.lat,
+        longitudeDelta: 0.01,
+        latitudeDelta: latDelta,
+        longitude: apartment.geometry.location.lng,
+      });
+    };
     if (!selectedApartment) {
       resetInitialRegion(apartments[0]);
-
       return;
     }
-
     return resetInitialRegion(selectedApartment);
   }, [lat, lng, viewport, latDelta, selectedApartment, apartments]);
   useEffect(() => {
@@ -121,7 +117,6 @@ export const ApartmentsMap = ({
     const apartmentIndexById = apartmentsDisplayed.findIndex(
       (item) => item.id === id
     );
-    // In this case we dont need to animate to region, it happens by default
     mapIndex.current = apartmentIndexById;
     mapScrollToIndex(apartmentIndexById);
   };
@@ -198,8 +193,6 @@ export const ApartmentsMap = ({
             initialNumToRender={apartmentsDisplayed.length}
             data={apartmentsDisplayed}
             extraData={apartmentsDisplayed}
-            // onViewableItemsChanged={onViewCallBack}
-            // viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
             pagingEnabled
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
@@ -220,12 +213,12 @@ export const ApartmentsMap = ({
             )}
             horizontal={true}
             renderItem={renderApartmentItem}
-            keyExtractor={(item: Apartment): string => item.id.toString()}
+            keyExtractor={(item: any): string => item.id.toString()}
           />
         </MapApartmentCardsWrapper>
       )}
 
-      <MapFilter setIsOpen={setIsOpenFilter} isOpen={isOpenFilter}></MapFilter>
+      <MapFilter setIsOpen={setIsOpenFilter} isOpen={isOpenFilter} />
     </>
   );
 };
