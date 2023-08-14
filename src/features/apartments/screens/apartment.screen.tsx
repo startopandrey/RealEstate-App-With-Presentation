@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Text as NativeText, ScrollView } from "react-native";
+import { Text as NativeText } from "react-native";
 import { Avatar, Colors } from "react-native-paper";
 
 import { FadeInView } from "../../../components/animations/fade.animation";
@@ -22,7 +22,7 @@ import { Text } from "../../../components/typography/text.component";
 import { ApartmentStackNavigatorParamList } from "src/types/apartments";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../../../infrastructure/theme";
-
+import { ScrollView } from "react-native-virtualized-view";
 import { Chip } from "../../../components/chip/chip.component";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
@@ -145,6 +145,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                 view all
               </Text>
             </ListHeader>
+
             <ApartmentHorizontalList
               data={apartments}
               horizontal={true}
