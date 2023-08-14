@@ -1,6 +1,7 @@
 import { OUTER_CARD_WIDTH } from "../../../utils/constants";
 import { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
+import React from "react";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -25,7 +26,7 @@ export const onScroll = (
     if (mapIndex.current === index) {
       return;
     }
-    console.log("scroll end reached");
+
     mapIndex.current = index;
     const coordinate =
       apartmentsDisplayed[index] && apartmentsDisplayed[index].geometry;

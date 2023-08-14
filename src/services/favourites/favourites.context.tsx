@@ -7,6 +7,7 @@ interface FavouritesContextType {
   favourites: Apartment[];
   addToFavourites: (apartment: Apartment) => void;
   removeFromFavourites: (apartment: Apartment) => void;
+  removeAllFavourites: (uid: string) => void;
 }
 export const FavouritesContext = createContext<FavouritesContextType>(
   {} as FavouritesContextType
@@ -46,7 +47,12 @@ export const FavouritesContextProvider = ({ children }) => {
 
     setFavourites(newFavourites);
   };
+  const removeAll = async (uid) => {
+    const newFavourites = [];
 
+    setFavourites(newFavourites);
+    await AsyncStorage.setItem(`@favourites-${uid}`, "");
+  };
   useEffect(() => {
     if (user && user.uid) {
       loadFavourites(user.uid);
@@ -65,6 +71,7 @@ export const FavouritesContextProvider = ({ children }) => {
         favourites,
         addToFavourites: add,
         removeFromFavourites: remove,
+        removeAllFavourites: removeAll,
       }}
     >
       {children}

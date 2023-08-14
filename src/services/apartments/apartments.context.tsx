@@ -4,6 +4,7 @@ import { apartmentsRequest, apartmentsTransform } from "./apartments.service";
 
 import { LocationContext } from "../location/location.context";
 import { Apartment } from "src/types/apartments/apartment";
+import { FavouritesContext } from "../favourites/favourites.context";
 interface ApartmentsContextType {
   apartments: Apartment[];
   isLoading: boolean;
@@ -19,6 +20,7 @@ export const ApartmentsContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const { location } = useContext(LocationContext);
+  const { favourites } = useContext(FavouritesContext);
 
   const retrieveApartments = (loc: string): void => {
     setIsLoading(true);

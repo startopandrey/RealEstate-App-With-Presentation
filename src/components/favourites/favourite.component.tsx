@@ -30,13 +30,11 @@ export const Favourite = ({
   const { favourites, addToFavourites, removeFromFavourites } =
     useContext(FavouritesContext);
 
-  const isFavourite: boolean = !!favourites?.find(
-    (r) => r.id === apartment.id
-  );
+  const isFavourite: boolean = !!favourites?.find((r) => r.id === apartment.id);
 
   return (
     <FavouriteButton
-      isFavourite={isFavourite}
+      isFavourite={!isFavourite}
       size={size}
       onPress={() =>
         !isFavourite
@@ -45,9 +43,9 @@ export const Favourite = ({
       }
     >
       <AntDesign
-        name={isFavourite ? "hearto" : "heart"}
+        name={!isFavourite ? "hearto" : "heart"}
         size={size === "small" ? 14 : 20}
-        color={isFavourite ? "red" : "white"}
+        color={!isFavourite ? "red" : "white"}
       />
     </FavouriteButton>
   );

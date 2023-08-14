@@ -4,7 +4,6 @@ import { Apartment } from "../../types/apartments/apartment";
 export const apartmentsRequest = (location: string = "51.219448,4.402464") => {
   return fetch(`${host}/placesNearby?location=${location}&mock=${isMock}`).then(
     (res: Response) => {
-      console.log(res, "dfdf");
       return res.json();
     }
   );

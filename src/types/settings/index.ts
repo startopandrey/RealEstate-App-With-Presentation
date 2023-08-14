@@ -1,4 +1,4 @@
 export type SettingsStackNavigatorParamList = {
-    Settings: undefined;
-    Favourites: undefined;
-  };
+  Settings: undefined;
+  Favourites: undefined;
+};

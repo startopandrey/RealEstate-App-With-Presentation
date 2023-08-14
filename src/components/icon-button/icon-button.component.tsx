@@ -8,7 +8,7 @@ const IconWrapper = styled.TouchableOpacity<{ backgroundColor: string }>`
   padding: ${(props) => props.theme.space[3]};
   border-radius: 50%;
   shadow-opacity: 0.25px;
-  shadow-radius: 3.84;
+  shadow-radius: 3.84px;
   shadow-color: #000000;
   shadow-offset: 0px 2px;
 `;

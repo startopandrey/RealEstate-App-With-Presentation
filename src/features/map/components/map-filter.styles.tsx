@@ -23,7 +23,7 @@ export const CustomHandle = styled.View`
   align-self: center;
   position: absolute;
   top: 20px;
-  border-radius: 10;
+  border-radius: 10px;
   background: ${(props) => props.theme.colors.text.muted};
 `;
 export const CustomHandleWrapper = styled.View`

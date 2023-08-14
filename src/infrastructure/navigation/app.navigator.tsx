@@ -17,11 +17,13 @@ import { CheckoutNavigator } from "./checkout.navigator";
 import { colors } from "../theme/colors";
 import { AppStackNavigatorParamList, TabIcon } from "src/types/app";
 import styled from "styled-components/native";
+import { FavouritesScreen } from "../../features/favourites/screens/favourites.screen";
+
 const Tab = createBottomTabNavigator<AppStackNavigatorParamList>();
 
 const TAB_ICON: TabIcon = {
   Apartments: "home",
-  Checkout: "heart",
+  Favourites: "heart",
   Map: "map",
   Settings: "user",
 };
@@ -71,8 +73,10 @@ export const AppNavigator = () => (
             }}
           >
             <Tab.Screen name="Apartments" component={ApartmentsNavigator} />
-            <Tab.Screen name="Checkout" component={CheckoutNavigator} />
+
             <Tab.Screen name="Map" component={MapScreen} />
+            <Tab.Screen name="Favourites" component={FavouritesScreen} />
+            {/* <Tab.Screen name="Checkout" component={CheckoutNavigator} /> */}
             <Tab.Screen name="Settings" component={SettingsNavigator} />
           </Tab.Navigator>
         </CartContextProvider>
