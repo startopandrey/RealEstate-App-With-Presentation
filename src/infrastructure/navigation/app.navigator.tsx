@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  BottomTabBar,
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
@@ -18,6 +19,10 @@ import { colors } from "../theme/colors";
 import { AppStackNavigatorParamList, TabIcon } from "src/types/app";
 import styled from "styled-components/native";
 import { FavouritesScreen } from "../../features/favourites/screens/favourites.screen";
+import { BlurView } from "expo-blur";
+import { View } from "react-native";
+import { transparent } from "react-native-paper/lib/typescript/styles/colors";
+import { ProfileNavigator } from "./profile.navigator";
 
 const Tab = createBottomTabNavigator<AppStackNavigatorParamList>();
 
@@ -25,7 +30,7 @@ const TAB_ICON: TabIcon = {
   Apartments: "home",
   Favourites: "heart",
   Map: "map",
-  Settings: "user",
+  Profile: "user",
 };
 const Dot = styled.View<{ focused: boolean }>`
   background: ${(props) =>
@@ -44,20 +49,37 @@ const TabIconWrapper = styled.View`
 
 const createScreenOptions = ({ route }): BottomTabNavigationOptions => {
   const iconName: keyof typeof Octicons.glyphMap = TAB_ICON[route.name];
+
   return {
     tabBarIcon: ({ color, focused }) => (
       <TabIconWrapper>
-        {route.name === "Map" || route.name === "Settings" ? (
-          <FontAwesome5 name={`${iconName}`} size={24} color={color} />
+        {route.name === "Map" || route.name === "Profile" ? (
+          <FontAwesome5 name={`${iconName}`} size={22} color={color} />
         ) : (
-          <Octicons name={`${iconName}`} size={24} color={color} />
+          <Octicons name={`${iconName}`} size={22} color={color} />
         )}
 
         <Dot focused={focused} />
       </TabIconWrapper>
     ),
+
     title: "",
   };
+};
+const CustomTabBar = (props) => {
+  return (
+    <BlurView
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}
+      intensity={90}
+    >
+      <BottomTabBar style={{ backgroundColor: "transparent" }} {...props} />
+    </BlurView>
+  );
 };
 
 export const AppNavigator = () => (
@@ -71,13 +93,12 @@ export const AppNavigator = () => (
               activeTintColor: colors.ui.primary,
               inactiveTintColor: colors.ui.muted,
             }}
+            tabBar={(props) => <CustomTabBar {...props} />}
           >
             <Tab.Screen name="Apartments" component={ApartmentsNavigator} />
-
             <Tab.Screen name="Map" component={MapScreen} />
             <Tab.Screen name="Favourites" component={FavouritesScreen} />
-            {/* <Tab.Screen name="Checkout" component={CheckoutNavigator} /> */}
-            <Tab.Screen name="Settings" component={SettingsNavigator} />
+            <Tab.Screen name="Profile" component={ProfileNavigator} />
           </Tab.Navigator>
         </CartContextProvider>
       </ApartmentsContextProvider>

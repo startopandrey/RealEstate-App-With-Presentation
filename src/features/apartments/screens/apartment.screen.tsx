@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Text as NativeText } from "react-native";
+import {
+  Text as NativeText,
+  ScrollView as ScrollViewNative,
+} from "react-native";
 import { Avatar, Colors } from "react-native-paper";
 
 import { FadeInView } from "../../../components/animations/fade.animation";
@@ -56,7 +59,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
 
   return (
     <SafeArea>
-      <ScrollView>
+      <ScrollViewNative nestedScrollEnabled={true}>
         {isLoading && (
           <LoadingContainer>
             <Loading size={50} animating={true} color={Colors.blue300} />
@@ -71,7 +74,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               name="location-sharp"
             />
             <Spacer position="left" size={"large"} />
-            <Text variant="body">Jakarta, Indonesia</Text>
+            <Text variant="body">Vinnitysa, Ukraine</Text>
             <Spacer position="right" size={"large"} />
             <Ionicons
               color={theme.colors.ui.primary}
@@ -138,148 +141,147 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
             </Text>
           </Spacer>
         ) : (
+          <ScrollViewNative nestedScrollEnabled={true}>
+            <Spacer position="top" size="large">
+              <ListHeader>
+                <Text variant="title">Featured Estates</Text>
+                <Text color={theme.colors.text.muted} variant="caption">
+                  view all
+                </Text>
+              </ListHeader>
+
+              <ApartmentHorizontalList
+                data={apartments}
+                horizontal={true}
+                renderItem={({ item }: { item: any }) => (
+                  <ApartmentHorizontalItem
+                    onPress={() =>
+                      navigation.navigate("ApartmentDetail", {
+                        apartment: item,
+                      })
+                    }
+                  >
+                    <Spacer position="right" size="large">
+                      <FadeInView>
+                        <ApartmentInfoCard apartment={item} />
+                      </FadeInView>
+                    </Spacer>
+                  </ApartmentHorizontalItem>
+                )}
+                keyExtractor={(item, i) => `Apartment-${item.title}`}
+              />
+            </Spacer>
+          </ScrollViewNative>
+        )}
+        <ScrollView>
           <Spacer position="top" size="large">
             <ListHeader>
-              <Text variant="title">Featured Estates</Text>
+              <Text variant="title">Top Locations</Text>
               <Text color={theme.colors.text.muted} variant="caption">
-                view all
+                explore
               </Text>
             </ListHeader>
-
             <ApartmentHorizontalList
-              data={apartments}
+              data={[
+                {
+                  locationName: "Bali",
+                  photo:
+                    "https://balidave.com/wp-content/uploads/2022/11/best-hotel-bali.jpeg",
+                },
+                {
+                  locationName: "Vinnitysa",
+                  photo:
+                    "https://toget.education/wp-content/uploads/2016/02/vinnitsa4-300x210.png",
+                },
+                {
+                  locationName: "Florence",
+                  photo:
+                    "https://media.timeout.com/images/105879414/750/422/image.jpg",
+                },
+              ]}
               horizontal={true}
               renderItem={({ item }: { item: any }) => (
-                <ApartmentHorizontalItem
-                  onPress={() =>
-                    navigation.navigate("ApartmentDetail", {
-                      apartment: item,
-                    })
-                  }
-                >
-                  <Spacer position="right" size="large">
-                    <FadeInView>
-                      <ApartmentInfoCard apartment={item} />
-                    </FadeInView>
-                  </Spacer>
-                </ApartmentHorizontalItem>
+                <Spacer position="right" size="large">
+                  <LocationChipItem onPress={() => console.log("hhii")}>
+                    <Avatar.Image size={50} source={{ uri: item.photo }} />
+                    <Spacer position="right" size="medium" />
+                    <Text variant="body">{item.locationName}</Text>
+                  </LocationChipItem>
+                </Spacer>
               )}
               keyExtractor={(_, i) => `Apartment-${i}`}
             />
           </Spacer>
-        )}
-        <Spacer position="top" size="large">
-          <ListHeader>
-            <Text variant="title">Top Locations</Text>
-            <Text color={theme.colors.text.muted} variant="caption">
-              explore
-            </Text>
-          </ListHeader>
-          <ApartmentHorizontalList
-            data={[
-              {
-                locationName: "Bali",
-                photo:
-                  "https://balidave.com/wp-content/uploads/2022/11/best-hotel-bali.jpeg",
-              },
-              {
-                locationName: "Vinnitysa",
-                photo:
-                  "https://toget.education/wp-content/uploads/2016/02/vinnitsa4-300x210.png",
-              },
-              {
-                locationName: "Florence",
-                photo:
-                  "https://media.timeout.com/images/105879414/750/422/image.jpg",
-              },
-            ]}
-            horizontal={true}
-            renderItem={({ item }: { item: any }) => (
-              <Spacer position="right" size="large">
-                <LocationChipItem
+          <Spacer position="top" size="large">
+            <ListHeader>
+              <Text variant="title">Top Estate Agent</Text>
+              <Text color={theme.colors.text.muted} variant="caption">
+                explore
+              </Text>
+            </ListHeader>
+            <ApartmentHorizontalList
+              data={[
+                {
+                  agentName: "Anderea",
+                  photo:
+                    "https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1152002039RealEstateBroker.jpg",
+                },
+                {
+                  agentName: "Aaron",
+                  photo:
+                    "https://www.themanual.com/wp-content/uploads/sites/9/2017/07/aaron-kirman.jpg?fit=800%2C800&p=1",
+                },
+                {
+                  agentName: "Michael",
+                  photo:
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU",
+                },
+                {
+                  agentName: "Hairry",
+                  photo:
+                    "https://getgoodhead.com/wp-content/uploads/2018/04/Jake-Roth-Best-Hair.jpg",
+                },
+              ]}
+              horizontal={true}
+              renderItem={({ item }: { item: any }) => (
+                <Spacer position="right" size="large">
+                  <AgentChipItem
+                    onPress={() =>
+                      navigation.navigate("ApartmentDetail", {
+                        Apartment: item,
+                      })
+                    }
+                  >
+                    <Avatar.Image size={70} source={{ uri: item.photo }} />
+                    <Spacer position="top" size="medium" />
+                    <Text variant="body">{item.agentName}</Text>
+                  </AgentChipItem>
+                </Spacer>
+              )}
+              keyExtractor={(_, i) => `Apartment-${i}`}
+            />
+          </Spacer>
+          <Spacer position="top" size="large">
+            <ListHeader>
+              <Text variant="title">Explore Nearby Estates</Text>
+            </ListHeader>
+            <Spacer position="top" size="large" />
+            <ApartmentHorizontalList
+              data={apartments}
+              numColumns={2}
+              renderItem={({ item }: { item: any }) => (
+                <CompactApartmentCard
                   onPress={() =>
-                    navigation.navigate("ApartmentDetail", {
-                      Apartment: item,
-                    })
+                    navigation.navigate("ApartmentDetail", { apartment: item })
                   }
-                >
-                  <Avatar.Image size={50} source={{ uri: item.photo }} />
-                  <Spacer position="right" size="medium" />
-                  <Text variant="body">{item.locationName}</Text>
-                </LocationChipItem>
-              </Spacer>
-            )}
-            keyExtractor={(_, i) => `Apartment-${i}`}
-          />
-        </Spacer>
-        <Spacer position="top" size="large">
-          <ListHeader>
-            <Text variant="title">Top Estate Agent</Text>
-            <Text color={theme.colors.text.muted} variant="caption">
-              explore
-            </Text>
-          </ListHeader>
-          <ApartmentHorizontalList
-            data={[
-              {
-                agentName: "Anderea",
-                photo:
-                  "https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1152002039RealEstateBroker.jpg",
-              },
-              {
-                agentName: "Aaron",
-                photo:
-                  "https://www.themanual.com/wp-content/uploads/sites/9/2017/07/aaron-kirman.jpg?fit=800%2C800&p=1",
-              },
-              {
-                agentName: "Michael",
-                photo:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU",
-              },
-              {
-                agentName: "Hairry",
-                photo:
-                  "https://getgoodhead.com/wp-content/uploads/2018/04/Jake-Roth-Best-Hair.jpg",
-              },
-            ]}
-            horizontal={true}
-            renderItem={({ item }: { item: any }) => (
-              <Spacer position="right" size="large">
-                <AgentChipItem
-                  onPress={() =>
-                    navigation.navigate("ApartmentDetail", {
-                      Apartment: item,
-                    })
-                  }
-                >
-                  <Avatar.Image size={70} source={{ uri: item.photo }} />
-                  <Spacer position="top" size="medium" />
-                  <Text variant="body">{item.agentName}</Text>
-                </AgentChipItem>
-              </Spacer>
-            )}
-            keyExtractor={(_, i) => `Apartment-${i}`}
-          />
-        </Spacer>
-        <Spacer position="top" size="large">
-          <ListHeader>
-            <Text variant="title">Explore Nearby Estates</Text>
-          </ListHeader>
-          <ApartmentHorizontalList
-            data={apartments}
-            numColumns={2}
-            renderItem={({ item }: { item: any }) => (
-              <CompactApartmentCard
-                onPress={() =>
-                  navigation.navigate("ApartmentDetail", { apartment: item })
-                }
-                apartment={item}
-              />
-            )}
-            keyExtractor={(_, i) => `Apartment-${i}`}
-          />
-        </Spacer>
-      </ScrollView>
+                  apartment={item}
+                />
+              )}
+              keyExtractor={(_, i) => `Apartment-${i}`}
+            />
+          </Spacer>
+        </ScrollView>
+      </ScrollViewNative>
     </SafeArea>
   );
 };

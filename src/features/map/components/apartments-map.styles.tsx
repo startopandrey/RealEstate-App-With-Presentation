@@ -17,7 +17,7 @@ export const MapApartmentCardsWrapper = styled.View`
 
   z-index: 999;
   position: absolute;
-  bottom: 20px;
+  bottom: 100px;
 `;
 export const MapApartmentItem = styled.TouchableOpacity`
   width: ${OUTER_CARD_WIDTH}px;
