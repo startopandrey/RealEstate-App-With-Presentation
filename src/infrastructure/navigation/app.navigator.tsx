@@ -77,7 +77,10 @@ const CustomTabBar = (props) => {
       }}
       intensity={90}
     >
-      <BottomTabBar style={{ backgroundColor: "transparent" }} {...props} />
+      <BottomTabBar
+        style={{ backgroundColor: "transparent", height: 80 }}
+        {...props}
+      />
     </BlurView>
   );
 };
