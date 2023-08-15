@@ -4,9 +4,9 @@ import styled, { useTheme, DefaultTheme } from "styled-components/native";
 type SpacerProps = {
   position?: "top" | "bottom" | "left" | "right";
   size?: "small" | "medium" | "large" | "xl" | "xxl";
-  // theme?: 
+  // theme?:
   children?: string | JSX.Element | JSX.Element[];
-}
+};
 const sizeVariant = {
   small: 1,
   medium: 2,
@@ -22,9 +22,9 @@ const positionVariant = {
   bottom: "marginBottom",
 };
 interface GetVariantProps extends SpacerProps {
-  theme: DefaultTheme
+  theme: DefaultTheme;
 }
-const getVariant = ({position, size, theme}: GetVariantProps): string => {
+const getVariant = ({ position, size, theme }: GetVariantProps): string => {
   const sizeIndex = sizeVariant[size];
   const property = positionVariant[position];
   const value = theme.space[sizeIndex];
@@ -33,12 +33,12 @@ const getVariant = ({position, size, theme}: GetVariantProps): string => {
 };
 
 const SpacerView = styled.View`
-  ${({ variant }: {variant: string}): string => variant};
+  ${({ variant }: { variant: string }): string => variant};
 `;
 
 export const Spacer = ({ position, size, children }: SpacerProps) => {
   const theme = useTheme();
-  const variant = getVariant({position, size, theme});
+  const variant = getVariant({ position, size, theme });
   return <SpacerView variant={variant}>{children}</SpacerView>;
 };
 

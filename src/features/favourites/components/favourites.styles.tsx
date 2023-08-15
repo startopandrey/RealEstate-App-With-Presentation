@@ -44,7 +44,7 @@ export const Description = styled(Text)`
   text-align: center;
 `;
 export const RemoveItem = styled.TouchableOpacity`
-  background: ${(props) => props.theme.colors.text.primary};
+  background: ${(props) => props.theme.colors.ui.primary};
   flex: 1;
   align-items: center;
   justify-content: center;
