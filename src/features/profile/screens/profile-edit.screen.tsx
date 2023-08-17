@@ -1,4 +1,3 @@
-import styled from "styled-components/native";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import React from "react";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
@@ -9,24 +8,14 @@ import { Text } from "../../../components/typography/text.component";
 import { Avatar } from "react-native-paper";
 import { Input } from "../../../components/input/input.component";
 import { Button } from "../../../components/button/button.component";
-const Header = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-const UserForm = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-  justify-content: center;
-  align-items: center;
-`;
-const LogoutWrapper = styled.View`
-  flex: 1;
-  justify-content: flex-end;
-  padding: ${(props) => props.theme.space[3]};
-`;
+import {
+  Header,
+  UserForm,
+  LogoutWrapper,
+} from "../components/profile-edit.styles";
+
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
-export const ProfileEditScreen = ({ navigation, route }: Props) => {
+export const ProfileEditScreen = ({ navigation }: Props) => {
   return (
     <SafeArea>
       <Header>

@@ -119,7 +119,8 @@ export const MapFilter = ({ isOpen, setIsOpen }) => {
           <ApplyButtonWrapper>
             <Button title="Apply Filter" onPress={() => null} />
           </ApplyButtonWrapper>
-          <Spacer position="top" size={"large"} />
+          <Spacer position="top" size={"xxl"} />
+          <Spacer position="top" size={"xl"} />
         </ScrollView>
       </CustomBottomSheet>
     </MapFilterWrapper>

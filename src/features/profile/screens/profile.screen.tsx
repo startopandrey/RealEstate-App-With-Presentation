@@ -1,13 +1,11 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import { SafeArea } from "../../../components/utility/safe-area.component";
-import styled from "styled-components/native";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { Avatar } from "react-native-paper";
 import { useContext, useState } from "react";
 import React from "react";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { TabsBar } from "../../../components/tabs-bar/tabs-bar.component";
 
 import { ApartmentsContext } from "../../../services/apartments/apartments.context";
@@ -15,46 +13,21 @@ import { FlatList } from "react-native";
 import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ProfileStackNavigatorParamList } from "../../../types/profile";
-const Header = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-const UserInfo = styled.View`
-  justify-content: center;
-  align-items: center;
-`;
-const TextLowercase = styled(Text)`
-  text-transform: lowercase;
-`;
-const AvatarPhoto = styled.Image``;
-const ActivityInfo = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-  flex-direction: row;
-  justify-content: space-between;
-`;
-const ActivityInfoCard = styled.View`
-  border: 1px ${(props) => props.theme.colors.bg.secondary};
-  border-radius: ${(props) => props.theme.borderRadius.large};
-  /* height: ${(props) => props.theme.space[5]}; */
-  flex: 1;
-  margin: ${(props) => props.theme.space[1]};
-  justify-content: center;
-  align-items: center;
-`;
-const TabsBarWrapper = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-`;
-const ListingWrapper = styled.View``;
-const ListingHeader = styled.View``;
-const SectionCategories = styled.View`
-  flex: 1;
-  padding: ${(props) => props.theme.space[3]};
-`;
+import {
+  Header,
+  ListingHeader,
+  ListingWrapper,
+  UserInfo,
+  TextLowercase,
+  ActivityInfo,
+  ActivityInfoCard,
+  TabsBarWrapper,
+  SectionCategories,
+} from "../components/profile.styles";
+
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
-export const ProfileScreen = ({ navigation, route }: Props) => {
-  const { user } = useContext(AuthenticationContext);
+export const ProfileScreen = ({ navigation }: Props) => {
+  // const { user } = useContext(AuthenticationContext);
   const { apartments } = useContext(ApartmentsContext);
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
   const renderListingSection = () => {
@@ -86,7 +59,10 @@ export const ProfileScreen = ({ navigation, route }: Props) => {
         <Header>
           <Spacer position="right" size="xl" />
           <Text variant="title">Profile</Text>
-          <IconButton onPress={() => navigation.navigate("ProfileEdit")} iconName="settings-outline" />
+          <IconButton
+            onPress={() => navigation.navigate("ProfileEdit")}
+            iconName="settings-outline"
+          />
         </Header>
         <UserInfo>
           <Avatar.Image

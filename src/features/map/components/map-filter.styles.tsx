@@ -39,5 +39,6 @@ export const BottomSheetBackground = styled.View`
   background-color: ${(props) => props.theme.colors.bg.primary};
 `;
 export const ApplyButtonWrapper = styled.View`
-  padding: ${(props) => props.theme.space[2]};
+  padding: ${(props) => props.theme.space[3]};
 `;
+
