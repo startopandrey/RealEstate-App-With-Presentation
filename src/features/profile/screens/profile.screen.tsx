@@ -86,7 +86,7 @@ export const ProfileScreen = ({ navigation, route }: Props) => {
         <Header>
           <Spacer position="right" size="xl" />
           <Text variant="title">Profile</Text>
-          <IconButton onPress={() => null} iconName="settings-outline" />
+          <IconButton onPress={() => navigation.navigate("ProfileEdit")} iconName="settings-outline" />
         </Header>
         <UserInfo>
           <Avatar.Image

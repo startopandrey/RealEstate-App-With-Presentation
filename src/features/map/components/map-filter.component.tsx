@@ -103,6 +103,7 @@ export const MapFilter = ({ isOpen, setIsOpen }) => {
             <Input
               setValue={setPriceFrom}
               value={`${priceFrom}`}
+              iconName="ios-logo-euro"
               placeholder="From"
               keyboardType="numeric"
             />
@@ -110,6 +111,7 @@ export const MapFilter = ({ isOpen, setIsOpen }) => {
             <Input
               setValue={setPriceTo}
               value={`${priceTo}`}
+              iconName="ios-logo-euro"
               placeholder="To"
               keyboardType="numeric"
             />

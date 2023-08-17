@@ -6,6 +6,7 @@ import {
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 import { ProfileStackNavigatorParamList } from "../../types/profile";
+import { ProfileEditScreen } from "../../features/profile/screens/profile-edit.screen";
 
 const ProfileStack = createStackNavigator<ProfileStackNavigatorParamList>();
 
@@ -24,7 +25,13 @@ export const ProfileNavigator = () => {
         name="Profile"
         component={ProfileScreen}
       />
-   
+      <ProfileStack.Screen
+        options={{
+          header: () => null,
+        }}
+        name="ProfileEdit"
+        component={ProfileEditScreen}
+      />
     </ProfileStack.Navigator>
   );
 };

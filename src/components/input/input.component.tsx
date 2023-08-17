@@ -18,38 +18,46 @@ const CustomInputIcon = styled(Ionicons)`
   right: ${(props) => props.theme.space[3]};
   top: ${(props) => props.theme.space[4]};
 `;
-const CustomInputWrapper = styled.View``;
+const CustomInputWrapper = styled.View`
+  width: 100%;
+`;
 export const Input = ({
   value,
   setValue,
   iconName,
-  keyboardType,
-
+  keyboardType = "default",
+  disabled = false,
+  defaultValue,
   placeholder,
 }: {
-  value: string;
-  setValue: (value) => void;
-  iconName?: string;
-  keyboardType: string;
-
-  placeholder: string;
+  value?: string;
+  setValue?: (value) => void;
+  iconName: string;
+  defaultValue?: string;
+  keyboardType?: string;
+  disabled?: boolean;
+  placeholder?: string;
 }) => {
   return (
     <CustomInputWrapper>
       <CustomInput
         value={value}
         placeholder={placeholder}
+        editable={!disabled}
+        selectTextOnFocus={!disabled}
         placeholderTextColor={theme.colors.text.muted}
         onChangeText={setValue}
         onChange={({ nativeEvent: { eventCount, target, text } }) => {
           setValue(text);
         }}
+        defaultValue={defaultValue}
+        contextMenuHidden={true}
         keyboardType={keyboardType}
       />
       <CustomInputIcon
         color={theme.colors.text.primary}
         size={20}
-        name="ios-logo-euro"
+        name={iconName}
       ></CustomInputIcon>
     </CustomInputWrapper>
   );

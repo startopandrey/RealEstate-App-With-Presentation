@@ -6,4 +6,5 @@ export const SafeArea = styled(SafeAreaView)<{ transparent?: boolean }>`
   ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}px`};
   background-color: ${(props) =>
     props.transparent ? "transparent" : props.theme.colors.bg.primary};
+  margin-bottom: 80px;
 `;

@@ -11,12 +11,12 @@ const IconWrapper = styled.TouchableOpacity<{ backgroundColor: string }>`
 `;
 const Icon = styled(Ionicons)``;
 export const IconButton = ({
-  iconName,
+  iconName = "chevron-back-outline",
   iconColor = theme.colors.text.primary,
   backgroundColor = theme.colors.bg.secondary,
   onPress,
 }: {
-  iconName: string;
+  iconName?: string;
   iconColor?: string;
   backgroundColor?: string;
   onPress: () => void;
