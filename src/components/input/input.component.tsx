@@ -32,7 +32,7 @@ export const Input = ({
 }: {
   value?: string;
   setValue?: (value) => void;
-  iconName: string;
+  iconName?: string;
   defaultValue?: string;
   keyboardType?: string;
   disabled?: boolean;

@@ -10,6 +10,7 @@ const MarkerPhoto = styled(Avatar.Image)`
   position: absolute;
   z-index: 999;
   right: 18px;
+  
   top: 10px;
 `;
 export const CustomMarker = ({ image }) => {

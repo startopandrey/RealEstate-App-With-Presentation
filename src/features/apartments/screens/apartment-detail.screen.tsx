@@ -195,6 +195,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
             }
           >
             <Map
+              userInterfaceStyle={"light"}
               region={{
                 latitude: apartment.geometry.location.lat,
                 longitudeDelta: 0.01,

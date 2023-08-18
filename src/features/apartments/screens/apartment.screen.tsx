@@ -27,10 +27,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../../../infrastructure/theme";
 import { ScrollView } from "react-native-virtualized-view";
 import { Chip } from "../../../components/chip/chip.component";
-type Props = NativeStackScreenProps<
-  ApartmentStackNavigatorParamList,
-  "Apartments"
->;
+
 import {
   GreetingName,
   ListHeader,
@@ -48,6 +45,10 @@ import {
   HeaderOverlay,
 } from "../components/apartment.styles";
 import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
+type Props = NativeStackScreenProps<
+  ApartmentStackNavigatorParamList,
+  "Apartments"
+>;
 export const ApartmentsScreen = ({ navigation }: Props) => {
   const { error: locationError } = useContext(LocationContext);
   const { isLoading, apartments, error } = useContext(ApartmentsContext);
