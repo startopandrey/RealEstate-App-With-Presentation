@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { OrderButton } from "../components/apartment-info-card.styles";
+
 import { CartContext } from "../../../services/cart/cart.context";
 import { ListRenderItem } from "react-native";
 import {
@@ -17,7 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../../infrastructure/theme";
 import { Chip } from "../../../components/chip/chip.component";
 import { Divider } from "react-native-paper";
-import { FlatList, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { LocationContext } from "../../../services/location/location.context";
 import MapView, { Marker } from "react-native-maps";

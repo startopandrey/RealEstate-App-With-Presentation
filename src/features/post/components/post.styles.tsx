@@ -21,8 +21,9 @@ export const TypesWrapper = styled.View`
 export const SectionCategory = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
-export const SectionCategoriesWrapper = styled.View`
+export const ChipsWrapper = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 export const SectionLocation = styled.View`
   padding: ${(props) => props.theme.space[3]};
@@ -112,3 +113,17 @@ export const SectionPrice = styled.View`
 export const SectionFeatures = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
+export const FeaturesList = styled.View`
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+`;
+export const SectionRooms = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+`;
+export const SectionFacility = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+`;
+export const ApplyButtonWrapper = styled.View`
+      padding: ${(props) => props.theme.space[3]};
+`

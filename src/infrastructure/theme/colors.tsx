@@ -10,6 +10,7 @@ export interface ColorTypes {
     yellow: "#FFC42D";
     secondary: "#757575";
     tertiary: "#F1F1F1";
+    purple: "#A1A5C1";
     quaternary: "#FFFFFF";
     disabled: "#DEDEDE";
     error: "#D0421B";
@@ -40,6 +41,7 @@ export const colors: ColorTypes = {
     muted: "#234f6898",
     yellow: "#FFC42D",
     secondary: "#757575",
+    purple: "#A1A5C1",
     tertiary: "#F1F1F1",
     quaternary: "#FFFFFF",
     disabled: "#DEDEDE",

@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
     },
     "android": {
       "adaptiveIcon": {
@@ -35,7 +36,6 @@
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
-    "owner": "andrey_llyukhin",
-
+    "owner": "andrey_llyukhin"
   }
 }

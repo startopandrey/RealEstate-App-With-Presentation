@@ -5,54 +5,39 @@ import { Ionicons } from "@expo/vector-icons";
 import { Spacer } from "../spacer/spacer.component";
 
 const ChipView = styled.TouchableOpacity<{
-  size: "medium" | "large";
   isSelected: boolean;
   disabled: boolean;
   title: string;
 }>`
   flex-direction: row;
   align-items: center;
-  border-radius: ${(props) =>
-    props.size == "large"
-      ? props.theme.borderRadius.large
-      : props.theme.borderRadius.small};
+  border-radius: ${(props) => props.theme.borderRadius.large};
   background: ${(props) =>
     !props.isSelected
       ? props.theme.colors.ui.primary
       : props.theme.colors.bg.secondary};
   align-self: center;
 
-  padding: ${(props) =>
-    props.size == "large" ? props.theme.space[3] : props.theme.space[2]};
-  padding-left: ${(props) =>
-    props.size == "large" ? props.theme.space[4] : props.theme.space[2]};
-  padding-right: ${(props) =>
-    props.size == "large" ? props.theme.space[4] : props.theme.space[2]};
+  padding: ${(props) => props.theme.space[3]};
+  padding-left: ${(props) => props.theme.space[4]};
+  padding-right: ${(props) => props.theme.space[4]};
 `;
 const ChipText = styled.Text<{
   isSelected: boolean;
-  size: "medium" | "large";
 }>`
   color: ${(props) =>
     !props.isSelected
       ? props.theme.colors.text.inverse
       : props.theme.colors.text.primary};
   font-family: ${(props) =>
-    props.size == "large"
+    props.isSelected == false
       ? props.theme.fonts.ralewayBold
       : props.theme.fonts.ralewayMedium};
-  font-size: ${(props) =>
-    props.size == "large"
-      ? props.theme.fontSizes.body
-      : props.theme.fontSizes.caption};
-  font-weight: ${(props) =>
-    props.size == "large"
-      ? props.theme.fontWeights.bold
-      : props.theme.fontWeights.regular};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  font-weight: ${(props) => props.theme.fontWeights.bold};
 `;
 
 export const Chip = ({
-  size = "large",
   isSelected = false,
   isButton = false,
   iconName,
@@ -75,7 +60,6 @@ export const Chip = ({
       onPress={onPress}
       isSelected={!isSelected}
       disabled={!isButton}
-      size={size}
       title={title}
     >
       {iconName && (
@@ -83,9 +67,7 @@ export const Chip = ({
           <Ionicons size={iconSize} color={iconColor} name={iconName} />
         </Spacer>
       )}
-      <ChipText size={size} isSelected={!isSelected}>
-        {title}
-      </ChipText>
+      <ChipText isSelected={!isSelected}>{title}</ChipText>
     </ChipView>
   );
 };

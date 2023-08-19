@@ -24,7 +24,7 @@ import {
   SectionType,
   TypesWrapper,
   SectionCategory,
-  SectionCategoriesWrapper,
+  ChipsWrapper,
   SectionLocation,
   LocationAddressWrapper,
   MapLocationWrapper,
@@ -39,15 +39,29 @@ import {
   DeleteButton,
   SectionPrice,
   SectionFeatures,
+  FeaturesList,
+  SectionRooms,
+  SectionFacility,
+  ApplyButtonWrapper,
 } from "../components/post.styles";
 import MapView from "react-native-maps";
+import { CounterRow } from "../components/counter-row.component";
+import { Button } from "../../../components/button/button.component";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {
+  featuresListMock,
+  apartmentCategories,
+  facilitiesList,
+} from "../../../../mockData";
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props) => {
-  const mapRef = useRef<MapView | null>();
+  const mapRef = useRef<MapView | null>(null);
   const { apartments } = useContext(ApartmentsContext);
   const apartment = apartments[0];
   const [latDelta, setLatDelta] = useState(0);
+  const [featuresList, setFeaturesList] = useState(featuresListMock);
+  const [totalRooms, setTotalRooms] = useState(1);
   const animatedValue: Animated.Value = new Animated.Value(0);
 
   const [photos, setPhotos] = useState([
@@ -119,10 +133,7 @@ export const PostScreen = ({ navigation }: Props) => {
     [editing]
   );
 
-  const onPressAdd = useCallback(
-    () => !editing && setPhotos([newData(photos.length + 1), ...photos]),
-    [editing, photos]
-  );
+  const onPressAdd = useCallback(() => console.log("press"), [editing, photos]);
 
   const onReleaseCell = useCallback(
     (items: any[]) => {
@@ -144,12 +155,7 @@ export const PostScreen = ({ navigation }: Props) => {
     (item) => {
       return (
         <GridItem>
-          <PhotoWrapper
-          // item={item}
-          // editing={editing}
-          // onPressDelete={onPressDelete}
-          // key={key}
-          >
+          <PhotoWrapper>
             <Photo resizeMode="cover" source={{ uri: item.name }}></Photo>
           </PhotoWrapper>
           <DeleteButton onPress={(item) => onPressDelete(item)}>
@@ -164,7 +170,23 @@ export const PostScreen = ({ navigation }: Props) => {
     },
     [editing, photos]
   );
-  console.log(editing);
+  const onPressCounter = (operation, type) => {
+    const newFeatures = featuresList.map((el) => {
+      if (el.type != type) {
+        return el;
+      }
+      if (operation == "plus") {
+        el.quantity++;
+        return el;
+      }
+      el.quantity--;
+      return el;
+    });
+    setFeaturesList(newFeatures);
+  };
+  const photoPicker = ()=> {
+    launch
+  }
   return (
     <SafeArea>
       <Header>
@@ -194,13 +216,10 @@ export const PostScreen = ({ navigation }: Props) => {
         <SectionCategory>
           <Text variant="title">Property category</Text>
           <Spacer position="top" size="large" />
-          <SectionCategoriesWrapper>
-            {[
-              { key: 1, category: { id: 1, name: "All" } },
-              { key: 2, category: { id: 2, name: "House" } },
-              { key: 3, category: { id: 3, name: "Apartment" } },
-            ].map((el) => (
+          <ChipsWrapper>
+            {apartmentCategories.map((el) => (
               <Spacer position="right" size="medium">
+                               <Spacer position="top" size="medium"></Spacer>
                 <Chip
                   size="large"
                   isButton={true}
@@ -209,7 +228,7 @@ export const PostScreen = ({ navigation }: Props) => {
                 />
               </Spacer>
             ))}
-          </SectionCategoriesWrapper>
+          </ChipsWrapper>
         </SectionCategory>
         <SectionLocation>
           <Text variant="title">Location</Text>
@@ -244,8 +263,7 @@ export const PostScreen = ({ navigation }: Props) => {
                 getAddress(data);
                 setRegion(data);
               }}
-            >
-            </Map>
+            ></Map>
             <CustomMarkerWrapper>
               <CustomMarker image={apartment.photos[0]} />
             </CustomMarkerWrapper>
@@ -285,7 +303,66 @@ export const PostScreen = ({ navigation }: Props) => {
         <SectionFeatures>
           <Text variant="title">Property Features</Text>
           <Spacer position="top" size="large" />
+
+          <FeaturesList>
+            {featuresList.map((feature) => (
+              <Spacer key={feature.type} position="bottom" size={"large"}>
+                <CounterRow
+                  label={feature.type}
+                  value={feature.quantity}
+                  onIncrease={(type) => {
+                    onPressCounter("plus", type);
+                  }}
+                  onDecrease={(type) => {
+                    if (feature.quantity <= 0) {
+                      return null;
+                    }
+                    onPressCounter("minus", type);
+                  }}
+                ></CounterRow>
+              </Spacer>
+            ))}
+          </FeaturesList>
         </SectionFeatures>
+        <SectionRooms>
+          <Text variant="title">Total Rooms</Text>
+          <Spacer position="top" size="large" />
+          <Spacer position="bottom" size={"large"}>
+            <CounterRow
+              label={"Total Rooms"}
+              value={totalRooms}
+              onIncrease={() => {
+                setTotalRooms(totalRooms + 1);
+              }}
+              onDecrease={() => {
+                if (totalRooms <= 0) {
+                  return null;
+                }
+                setTotalRooms(totalRooms - 1);
+              }}
+            ></CounterRow>
+          </Spacer>
+        </SectionRooms>
+        <SectionFacility>
+          <Text variant="title">Total Rooms</Text>
+          <Spacer position="top" size="large" />
+          <ChipsWrapper>
+            {facilitiesList.map((el) => (
+              <Spacer key={el.key} position="right" size="medium">
+                <Spacer position="top" size="medium"></Spacer>
+                <Chip
+                  size="large"
+                  isButton={true}
+                  isSelected={false}
+                  title={el.category.name}
+                />
+              </Spacer>
+            ))}
+          </ChipsWrapper>
+        </SectionFacility>
+        <ApplyButtonWrapper>
+          <Button onPress={() => null} title={"Upload"}></Button>
+        </ApplyButtonWrapper>
       </ScrollView>
     </SafeArea>
   );
