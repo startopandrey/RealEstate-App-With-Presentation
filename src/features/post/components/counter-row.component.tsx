@@ -33,17 +33,17 @@ export const CounterRow = ({ label, value, onDecrease, onIncrease }) => {
             name="add-outline"
             size={20}
             color={theme.colors.text.inverse}
-          ></Ionicons>
+          />
         </ButtonTrigger>
-        <Spacer position="right" size={"large"}></Spacer>
+        <Spacer position="right" size={"large"} />
         <Text variant="title">{value}</Text>
-        <Spacer position="right" size={"large"}></Spacer>
-        <ButtonTrigger  onPress={() => onDecrease(label)}>
+        <Spacer position="right" size={"large"} />
+        <ButtonTrigger onPress={() => onDecrease(label)}>
           <Ionicons
             name="remove-outline"
             size={20}
             color={theme.colors.text.inverse}
-          ></Ionicons>
+          />
         </ButtonTrigger>
       </CounterWrapper>
     </CounterRowWrapper>

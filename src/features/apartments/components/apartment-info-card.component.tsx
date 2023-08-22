@@ -18,10 +18,10 @@ import {
   PriceContainer,
   Price,
   Month,
-  ChipWrapper,
+  CategoryWrapper,
+  Category,
 } from "./apartment-info-card.styles";
 import { theme } from "../../../infrastructure/theme/index";
-import { Chip } from "../../../components/chip/chip.component";
 
 export const ApartmentInfoCard = ({
   apartment,
@@ -45,15 +45,9 @@ export const ApartmentInfoCard = ({
     <ApartmentCard>
       <ApartmentPhoto>
         <Favourite apartment={apartment} />
-        <ChipWrapper>
-          <Chip
-            title="Home"
-            size="medium"
-            isSelected={true}
-            isButton={false}
-            onPress={() => {}}
-          />
-        </ChipWrapper>
+        <CategoryWrapper>
+          <Category variant="caption">{apartment.category.name}</Category>
+        </CategoryWrapper>
         <ApartmentCardCover
           isMap={isMap}
           key={title}

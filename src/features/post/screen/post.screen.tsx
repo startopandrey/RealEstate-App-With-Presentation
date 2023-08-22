@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useEffect, useRef } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { PhotoType, PostStackNavigatorParamList } from "../../../types/post";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -8,16 +8,18 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Input } from "../../../components/input/input.component";
 import { useState } from "react";
 import { Chip } from "../../../components/chip/chip.component";
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 import { theme } from "../../../infrastructure/theme";
 import { CustomMarker } from "../../../features/map/components/custom-marker.component";
-import { ApartmentsContext } from "../../../services/apartments/apartments.context";
-import { LocationContext } from "../../../services/location/location.context";
 import { Ionicons } from "@expo/vector-icons";
 import GridView from "react-native-draggable-gridview";
 import _ from "lodash";
-import { Animated } from "react-native";
-import { OUTER_CARD_WIDTH } from "../../../utils/constants";
+import {
+  LATITUDE_DELTA,
+  LONGITUDE_DELTA,
+  OUTER_CARD_WIDTH,
+  initialRegion,
+} from "../../../utils/constants";
 import {
   Header,
   SectionTitle,
@@ -39,11 +41,9 @@ import {
   DeleteButton,
   SectionPrice,
   SectionFeatures,
-  FeaturesList,
   SectionRooms,
   SectionFacility,
   ApplyButtonWrapper,
-  FeatureItem,
   SectionDescription,
   HeaderPhotos,
   Address,
@@ -51,15 +51,13 @@ import {
 import MapView from "react-native-maps";
 import { CounterRow } from "../components/counter-row.component";
 import { Button } from "../../../components/button/button.component";
-import * as ImagePicker from "expo-image-picker";
-import * as Location from "expo-location";
 import {
   featuresListMock,
   apartmentCategories,
   facilitiesList,
 } from "../../../../mockData";
 import {
-  getCurrentLoction,
+  getCurrentUserLoction,
   isLocationPermission,
 } from "../../../services/helpers/location.helper";
 import {
@@ -69,27 +67,25 @@ import {
 import { MapLocationType } from "../../../types/location";
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
-export const PostScreen = ({ navigation }: Props) => {
+export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const mapRef = useRef<MapView | null>(null);
-  const { apartments } = useContext(ApartmentsContext);
-  const apartment = apartments[0];
 
   const [featuresList, setFeaturesList] = useState(featuresListMock);
-  const [totalRooms, setTotalRooms] = useState(1);
+  const [totalRooms, setTotalRooms] = useState<number>(1);
 
   const [photos, setPhotos] = useState<PhotoType[] | null>(null);
-  const [currentLocation, setCurrentLocation] =
-    useState<MapLocationType | null>(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const photosLength = photos ? photos.length : 0;
+
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
-  const [region, setRegion] = useState({});
-  const [price, setPrice] = useState("");
-  const [editing, setEditing] = useState(false);
-  const [displayedAddress, setDisplayedAddress] = useState(
-    currentLocation ?? "Property Address"
-  );
-  const [isPermissionsAccepted, setIsPermissionsAccepted] = useState(false);
+  const [region, setRegion] = useState<MapLocationType>(initialRegion);
+  const [price, setPrice] = useState<string>("");
+  const [editing, setEditing] = useState<boolean>(false);
+  const [displayedAddress, setDisplayedAddress] =
+    useState<string>("Property Address");
+  const [isPermissionsAccepted, setIsPermissionsAccepted] =
+    useState<boolean>(false);
 
   const getPermissions = async () => {
     const isGalleryAccepted = await isGalleryPermission();
@@ -102,41 +98,10 @@ export const PostScreen = ({ navigation }: Props) => {
     setIsPermissionsAccepted(false);
     return;
   };
-  const getCurrentLocation = async () => {
-    if (currentLocation) {
-      return;
-    }
-    let location = await getCurrentLoction();
-    if (location) {
-      setCurrentLocation({
-        latitude: location?.coords?.latitude,
-        longitudeDelta: 0.04,
-        latitudeDelta: 0.09,
-        longitude: location?.coords?.longitude,
-      });
-    }
-  };
-  const updatePhotos = (photoUri) => {
-    setPhotos([...photos, { key: `${photos.length++}`, uri: photoUri }]);
-  };
-  const pickImage = async () => {
-    const image = await pickGalleryImage();
-    if (!image.canceled) {
-      const imageUri = image.assets[0].uri;
-      updatePhotos(imageUri);
-    }
-  };
-  useEffect(() => {
-    if (!isPermissionsAccepted) {
-      getPermissions();
-    }
-    getCurrentLocation();
-  }, []);
-
   const getAddressFromCoords = (e) => {
     if (mapRef) {
-      mapRef
-        ?.current!.addressForCoordinate(e)
+      mapRef?.current
+        ?.addressForCoordinate(e)
         .then((address) => {
           setDisplayedAddress(
             `${address.country}, ${address.locality}, ${address.name}`
@@ -148,107 +113,161 @@ export const PostScreen = ({ navigation }: Props) => {
         });
     }
   };
-  const LockedItem = memo(({ editing, onPress, disabled }) => (
-    <LockedItemWrapper
-      disabled={disabled}
-      activeOpacity={editing ? 1 : 0.5}
-      onPress={onPress}
-    >
-      <Ionicons
-        size={40}
-        color={theme.colors.text.primary}
-        name={"add-outline"}
-      ></Ionicons>
-    </LockedItemWrapper>
-  ));
+  const generateLocationObject = (
+    latitude: number,
+    longitude: number
+  ): MapLocationType => {
+    return {
+      latitude: latitude,
+      longitudeDelta: LONGITUDE_DELTA,
+      latitudeDelta: LATITUDE_DELTA,
+      longitude: longitude,
+    };
+  };
+  const getCurrentLocation = async () => {
+    if (region.latitude !== 0) {
+      return;
+    }
+    const location = await getCurrentUserLoction();
+    if (location) {
+      setRegion(
+        generateLocationObject(
+          location?.coords?.latitude,
+          location?.coords?.longitude
+        )
+      );
+      getAddressFromCoords(
+        generateLocationObject(
+          location?.coords?.latitude,
+          location?.coords?.longitude
+        )
+      );
+    }
+  };
+  const updatePhotos = (photoUri: string) => {
+    if (photos) {
+      setPhotos([...photos, { key: `${photosLength + 1}`, uri: photoUri }]);
+    }
+    setPhotos([{ key: `${1}`, uri: photoUri }]);
+  };
+  const pickImage = async () => {
+    const image = await pickGalleryImage();
+    if (!image.canceled) {
+      const imageUri = image.assets[0].uri;
+      updatePhotos(imageUri);
+    }
+  };
+
+  const LockedItem = memo(
+    ({
+      editing,
+      onPress,
+      disabled,
+    }: {
+      editing: boolean;
+      onPress: () => void;
+      disabled: boolean;
+    }) => (
+      <LockedItemWrapper
+        disabled={disabled}
+        activeOpacity={editing ? 1 : 0.5}
+        onPress={onPress}
+      >
+        <Ionicons
+          size={40}
+          color={theme.colors.text.primary}
+          name={"add-outline"}
+        />
+      </LockedItemWrapper>
+    )
+  );
+  const onPressAdd = useCallback(
+    () => (photosLength < 8 ? pickImage() : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [photosLength]
+  );
   const renderLockedItem = useCallback(
     () => (
       <LockedItem
-        disabled={photos.length == 8}
+        disabled={photosLength === 8}
         editing={editing}
         onPress={onPressAdd}
       />
     ),
-    [editing, photos]
+    [editing, photosLength, onPressAdd]
   );
 
-  const locked = useCallback((item) => item == "+", []);
+  const locked = useCallback((item: PhotoType | "+") => item === "+", []);
 
   const onBeginDragging = useCallback(() => {
     !editing && setEditing(true);
     setIsDisableScrollView(true);
   }, [editing]);
 
-  const onPressCell = useCallback(
-    (item) => !editing && alert(item.color),
-    [editing]
-  );
-
-  const onPressAdd = useCallback(
-    () => (photos.length < 8 ? pickImage() : null),
-    [editing, photos]
-  );
-
   const onReleaseCell = useCallback(
-    (items: any[]) => {
+    (items: PhotoType[]) => {
       const photos1 = items.slice(1);
       console.log(photos1);
-      if (!_.isEqual(photos, photos1)) setPhotos(photos1);
+      if (!_.isEqual(photos, photos1)) {
+        setPhotos(photos1);
+      }
       setIsDisableScrollView(false);
     },
     [photos]
   );
-  console.log(currentLocation);
+
   const onPressDelete = useCallback(
     (item) => {
-      if (item == "+") {
+      if (item == "+" || !photos) {
         return;
       }
       setPhotos(photos.filter((v) => v.key !== item.key));
     },
     [photos]
   );
-  const onPressEdit = useCallback(() => {
-    setEditing(!editing);
-  }, [editing]);
+  useEffect(() => {
+    if (!isPermissionsAccepted) {
+      getPermissions();
+    }
+    getCurrentLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const renderItem = useCallback(
-    (item) => {
+    (item: PhotoType) => {
       return (
         <GridItem>
           <PhotoWrapper>
-            <Photo resizeMode="cover" source={{ uri: item.uri }}></Photo>
+            <Photo resizeMode="cover" source={{ uri: item.uri }} />
           </PhotoWrapper>
           <DeleteButton onPress={() => onPressDelete(item)}>
             <Ionicons
               size={20}
               color={theme.colors.text.inverse}
               name={"close-outline"}
-            ></Ionicons>
+            />
           </DeleteButton>
         </GridItem>
       );
     },
-    [editing, photos]
+    [onPressDelete]
   );
   const onPressCounter = (operation, type) => {
     const newFeatures = featuresList.map((el) => {
-      if (el.type != type) {
+      if (el.type !== type) {
         return el;
       }
-      if (operation == "plus") {
+      if (operation === "plus") {
         el.quantity++;
         return el;
       }
       el.quantity--;
       return el;
     });
-    console.log(newFeatures);
+
     setFeaturesList(newFeatures);
   };
-  //   const photoPicker = () => {
-  //     launch;
-  //   };
-  console.log(photos);
+
   return (
     <SafeArea>
       <Header>
@@ -292,7 +311,7 @@ export const PostScreen = ({ navigation }: Props) => {
           <ChipsWrapper>
             {apartmentCategories.map((el) => (
               <Spacer position="right" size="medium">
-                <Spacer position="top" size="medium"></Spacer>
+                <Spacer position="top" size="medium" />
                 <Chip
                   size="large"
                   isButton={true}
@@ -322,34 +341,35 @@ export const PostScreen = ({ navigation }: Props) => {
             <Map
               ref={mapRef}
               userInterfaceStyle={"light"}
-              region={currentLocation}
+              region={region}
+              zoomEnabled={true}
               onRegionChangeComplete={(data) => {
+                console.log(data);
                 getAddressFromCoords(data);
                 setRegion(data);
               }}
-            ></Map>
+            />
             <CustomMarkerWrapper>
-              <CustomMarker image={photos[0]?.uri ?? ""} />
+              <CustomMarker image={photos && photos[0]?.uri} />
             </CustomMarkerWrapper>
           </MapLocationWrapper>
         </SectionLocation>
         <SectionPhotos>
           <HeaderPhotos>
             <Text variant="title">Listing Photos</Text>
-            <Text variant="title">{`${photos.length} / 8`}</Text>
+            <Text variant="title">{`${photosLength} / 8`}</Text>
           </HeaderPhotos>
           <Spacer position="top" size="large" />
           <PhotosGridWrapper>
             <GridView
               width={OUTER_CARD_WIDTH * 0.9}
               style={{ flex: 1, width: "100%" }}
-              data={["+", ...photos]}
-              keyExtractor={(item) => (item == "+" ? item : item.key)}
+              data={photos ? ["+", ...photos] : ["+"]}
+              keyExtractor={(item) => (item === "+" ? item : item.key)}
               renderItem={renderItem}
               renderLockedItem={renderLockedItem}
               locked={locked}
               onBeginDragging={onBeginDragging}
-              onPressCell={onPressCell}
               onReleaseCell={onReleaseCell}
               numColumns={2}
               delayLongPress={50}
@@ -373,7 +393,7 @@ export const PostScreen = ({ navigation }: Props) => {
 
           <FlatList
             data={featuresList}
-            keyExtractor={(item, i) => item.type ?? "12"}
+            keyExtractor={(item) => item.type ?? "12"}
             renderItem={({ item }) => (
               <Spacer
                 // key={`${feature.type}-${i}`}
@@ -392,10 +412,10 @@ export const PostScreen = ({ navigation }: Props) => {
                     }
                     onPressCounter("minus", type);
                   }}
-                ></CounterRow>
+                />
               </Spacer>
             )}
-          ></FlatList>
+          />
         </SectionFeatures>
         <SectionRooms>
           <Text variant="title">Total Rooms</Text>
@@ -413,7 +433,7 @@ export const PostScreen = ({ navigation }: Props) => {
                 }
                 setTotalRooms(totalRooms - 1);
               }}
-            ></CounterRow>
+            />
           </Spacer>
         </SectionRooms>
         <SectionFacility>
@@ -422,7 +442,7 @@ export const PostScreen = ({ navigation }: Props) => {
           <ChipsWrapper>
             {facilitiesList.map((el) => (
               <Spacer key={el.key} position="right" size="medium">
-                <Spacer position="top" size="medium"></Spacer>
+                <Spacer position="top" size="medium" />
                 <Chip
                   size="large"
                   isButton={true}
@@ -434,7 +454,7 @@ export const PostScreen = ({ navigation }: Props) => {
           </ChipsWrapper>
         </SectionFacility>
         <ApplyButtonWrapper>
-          <Button onPress={() => null} title={"Upload"}></Button>
+          <Button onPress={() => null} title={"Upload"} />
         </ApplyButtonWrapper>
       </ScrollView>
     </SafeArea>

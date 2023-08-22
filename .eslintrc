@@ -1,6 +1,14 @@
 {
-    "extends": "@react-native-community",
-    "rules": {
-        "quotes": [2, "double", { "avoidEscape": true }]
-      }
+  "extends": [
+    "@react-native-community",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+
+  "rules": {
+    "quotes": [2, "double", { "avoidEscape": true }],
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars-experimental": "error",
+  }
 }

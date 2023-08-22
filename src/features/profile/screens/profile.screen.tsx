@@ -26,7 +26,7 @@ import {
 } from "../components/profile.styles";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
-export const ProfileScreen = ({ navigation }: Props) => {
+export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {
   // const { user } = useContext(AuthenticationContext);
   const { apartments } = useContext(ApartmentsContext);
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
@@ -36,7 +36,7 @@ export const ProfileScreen = ({ navigation }: Props) => {
         <ListingHeader>
           <Text variant="title">{apartments.length} Listings</Text>
         </ListingHeader>
-        <Spacer position="top" size="large"></Spacer>
+        <Spacer position="top" size="large" />
         <FlatList
           data={apartments}
           numColumns={2}

@@ -76,7 +76,7 @@ const RatingNumber = styled(Text).attrs({ variant: "caption" })`
   font-family: ${(props) => props.theme.fonts.montserratSemiBold};
 `;
 const PriceContainer = styled.View`
-  background: ${(props) => props.theme.colors.ui.primary};
+  background-color: rgba(35, 79, 104, 0.8);
   padding: ${(props) => props.theme.space[1]};
   border-radius: ${(props) => props.theme.borderRadius.small};
   flex-direction: row;
@@ -105,8 +105,6 @@ export const CompactApartmentCard = ({
   isMap?: boolean;
   children?: React.ReactNode;
 }) => {
-
-  const Image = isAndroid && isMap ? CompactWebview : CompactImage;
   const { rating = 4.5, address, apartmentPrice, title = "sdf" } = apartment;
   return (
     <ApartmentCard onPress={onPress}>
@@ -128,22 +126,18 @@ export const CompactApartmentCard = ({
         <ApartmentInfoRow>
           <Rating>
             <Spacer position="right" size="small">
-              <AntDesign
-                color={theme.colors.ui.yellow}
-                size={16}
-                name="star"
-              ></AntDesign>
+              <AntDesign color={theme.colors.ui.yellow} size={16} name="star" />
             </Spacer>
             <RatingNumber variant="caption">{rating}</RatingNumber>
           </Rating>
-          <Spacer position="right" size="small"></Spacer>
+          <Spacer position="right" size="small" />
           <Location>
             <Spacer position="right" size="small">
               <AntDesign
                 color={theme.colors.ui.primary}
                 size={16}
                 name="enviroment"
-              ></AntDesign>
+              />
             </Spacer>
             <Address numberOfLines={1} variant="body">
               {address}

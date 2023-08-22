@@ -60,7 +60,7 @@ export const CustomMarkerWrapper = styled.View`
   top: 50%;
   right: 50%;
   margin-right: -30px;
-  margin-top: -40px;
+  margin-top: -50px;
 `;
 export const SectionPhotos = styled.View`
   padding: ${(props) => props.theme.space[3]};

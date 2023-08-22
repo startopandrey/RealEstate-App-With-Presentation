@@ -3,13 +3,23 @@ import { ActivityIndicator, Button, Card, Colors } from "react-native-paper";
 import { colors } from "../../../infrastructure/theme/colors";
 import { View } from "react-native";
 import { Text } from "../../../components/typography/text.component";
-export const ChipWrapper = styled.View`
+
+export const CategoryWrapper = styled.View`
   position: absolute;
   bottom: 10px;
   left: 10px;
   z-index: 999;
+  padding-top: ${(props) => props.theme.space[2]};
+  padding-bottom: ${(props) => props.theme.space[2]};
+  padding-right: ${(props) => props.theme.space[3]};
+  padding-left: ${(props) => props.theme.space[3]};
+  background-color: rgba(35, 79, 104, 0.8);
+  border-radius: ${(props) => props.theme.borderRadius.large};
 `;
-
+export const Category = styled(Text)`
+  color: ${(props) => props.theme.colors.text.inverse};
+  font-family: ${(props) => props.theme.fonts.ralewayMedium};
+`;
 export const Icon = styled.Image`
   width: 15px;
   height: 15px;

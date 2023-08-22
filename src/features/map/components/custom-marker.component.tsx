@@ -1,5 +1,5 @@
-import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 import { theme } from "../../../infrastructure/theme";
 import styled from "styled-components/native";
 import { Avatar } from "react-native-paper";
@@ -13,21 +13,24 @@ const MarkerPhoto = styled(Avatar.Image)`
   background-color: ${(props) => props.theme.colors.brand.primary};
   top: 10px;
 `;
-export const CustomMarker = ({ image }) => {
+export const CustomMarker = ({
+  image,
+}: {
+  image: string | null;
+}): React.JSX.Element => {
   return (
     <Marker>
       <MarkerPhoto
-      
         size={35}
         source={{
-          uri: image,
+          uri: image ? image : undefined,
         }}
       />
       <Ionicons
         color={theme.colors.brand.primary}
         size={70}
         name="location-sharp"
-      ></Ionicons>
+      />
     </Marker>
   );
 };
