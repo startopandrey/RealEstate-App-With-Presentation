@@ -147,6 +147,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const updatePhotos = (photoUri: string) => {
     if (photos) {
       setPhotos([...photos, { key: `${photosLength + 1}`, uri: photoUri }]);
+      return
     }
     setPhotos([{ key: `${1}`, uri: photoUri }]);
   };
