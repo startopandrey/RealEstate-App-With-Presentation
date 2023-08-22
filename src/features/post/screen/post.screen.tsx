@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react";
 import { SafeArea } from "../../../components/utility/safe-area.component";
-import { PostStackNavigatorParamList } from "../../../types/post";
+import { PhotoType, PostStackNavigatorParamList } from "../../../types/post";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { Text } from "../../../components/typography/text.component";
@@ -66,6 +66,7 @@ import {
   isGalleryPermission,
   pickGalleryImage,
 } from "../../../services/helpers/photo.helper";
+import { MapLocationType } from "../../../types/location";
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props) => {
@@ -76,8 +77,9 @@ export const PostScreen = ({ navigation }: Props) => {
   const [featuresList, setFeaturesList] = useState(featuresListMock);
   const [totalRooms, setTotalRooms] = useState(1);
 
-  const [photos, setPhotos] = useState([]);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [photos, setPhotos] = useState<PhotoType[] | null>(null);
+  const [currentLocation, setCurrentLocation] =
+    useState<MapLocationType | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
@@ -105,13 +107,14 @@ export const PostScreen = ({ navigation }: Props) => {
       return;
     }
     let location = await getCurrentLoction();
-    console.log("loc");
-    setCurrentLocation({
-      latitude: location?.coords?.latitude,
-      longitudeDelta: 0.04,
-      latitudeDelta: 0.09,
-      longitude: location?.coords?.longitude,
-    });
+    if (location) {
+      setCurrentLocation({
+        latitude: location?.coords?.latitude,
+        longitudeDelta: 0.04,
+        latitudeDelta: 0.09,
+        longitude: location?.coords?.longitude,
+      });
+    }
   };
   const updatePhotos = (photoUri) => {
     setPhotos([...photos, { key: `${photos.length++}`, uri: photoUri }]);
