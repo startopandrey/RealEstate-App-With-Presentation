@@ -2,6 +2,15 @@
   "expo": {
     "name": "RealEstate",
     "slug": "realestate",
+    "plugins": [
+      "expo-image-picker",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow RealEstate to use your location."
+        }
+      ]
+    ],
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/foys_logo.png",
@@ -14,9 +23,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/bf6e3679-2940-4a09-b91c-202eb6fdecb7"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "y"

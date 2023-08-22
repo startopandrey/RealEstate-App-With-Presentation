@@ -10,14 +10,14 @@ const MarkerPhoto = styled(Avatar.Image)`
   position: absolute;
   z-index: 999;
   right: 18px;
-  
+  background-color: ${(props) => props.theme.colors.brand.primary};
   top: 10px;
 `;
 export const CustomMarker = ({ image }) => {
-
   return (
     <Marker>
       <MarkerPhoto
+      
         size={35}
         source={{
           uri: image,

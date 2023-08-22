@@ -8,7 +8,7 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Input } from "../../../components/input/input.component";
 import { useState } from "react";
 import { Chip } from "../../../components/chip/chip.component";
-import { ScrollView } from "react-native";
+import { FlatList, ScrollView, View } from "react-native";
 import { theme } from "../../../infrastructure/theme";
 import { CustomMarker } from "../../../features/map/components/custom-marker.component";
 import { ApartmentsContext } from "../../../services/apartments/apartments.context";
@@ -43,63 +43,101 @@ import {
   SectionRooms,
   SectionFacility,
   ApplyButtonWrapper,
+  FeatureItem,
+  SectionDescription,
+  HeaderPhotos,
+  Address,
 } from "../components/post.styles";
 import MapView from "react-native-maps";
 import { CounterRow } from "../components/counter-row.component";
 import { Button } from "../../../components/button/button.component";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
 import {
   featuresListMock,
   apartmentCategories,
   facilitiesList,
 } from "../../../../mockData";
+import {
+  getCurrentLoction,
+  isLocationPermission,
+} from "../../../services/helpers/location.helper";
+import {
+  isGalleryPermission,
+  pickGalleryImage,
+} from "../../../services/helpers/photo.helper";
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props) => {
   const mapRef = useRef<MapView | null>(null);
   const { apartments } = useContext(ApartmentsContext);
   const apartment = apartments[0];
-  const [latDelta, setLatDelta] = useState(0);
+
   const [featuresList, setFeaturesList] = useState(featuresListMock);
   const [totalRooms, setTotalRooms] = useState(1);
-  const animatedValue: Animated.Value = new Animated.Value(0);
 
-  const [photos, setPhotos] = useState([
-    {
-      name: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
-      key: "one",
-    },
-    {
-      name: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
-      key: "two",
-    },
-    {
-      name: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
-      key: "three",
-    },
-  ]);
-
+  const [photos, setPhotos] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState(null);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
   const [region, setRegion] = useState({});
   const [price, setPrice] = useState("");
   const [editing, setEditing] = useState(false);
   const [displayedAddress, setDisplayedAddress] = useState(
-    "Jl. Gerungsari, Bulusan, Kec. Tembalang, Kota Semarang, Jawa Tengah 50277"
+    currentLocation ?? "Property Address"
   );
-  const { location } = useContext(LocationContext);
-  const { lat, lng, viewport } = location!;
+  const [isPermissionsAccepted, setIsPermissionsAccepted] = useState(false);
+
+  const getPermissions = async () => {
+    const isGalleryAccepted = await isGalleryPermission();
+    const isLocationPermissionAccepted = await isLocationPermission();
+
+    if (isGalleryAccepted && isLocationPermissionAccepted) {
+      setIsPermissionsAccepted(true);
+      return;
+    }
+    setIsPermissionsAccepted(false);
+    return;
+  };
+  const getCurrentLocation = async () => {
+    if (currentLocation) {
+      return;
+    }
+    let location = await getCurrentLoction();
+    console.log("loc");
+    setCurrentLocation({
+      latitude: location?.coords?.latitude,
+      longitudeDelta: 0.04,
+      latitudeDelta: 0.09,
+      longitude: location?.coords?.longitude,
+    });
+  };
+  const updatePhotos = (photoUri) => {
+    setPhotos([...photos, { key: `${photos.length++}`, uri: photoUri }]);
+  };
+  const pickImage = async () => {
+    const image = await pickGalleryImage();
+    if (!image.canceled) {
+      const imageUri = image.assets[0].uri;
+      updatePhotos(imageUri);
+    }
+  };
   useEffect(() => {
-    const northeastLat = viewport.northeast.lat;
-    const southwestLat = viewport.southwest.lat;
-    setLatDelta(northeastLat - southwestLat);
-  }, [location, viewport]);
-  const getAddress = (e) => {
+    if (!isPermissionsAccepted) {
+      getPermissions();
+    }
+    getCurrentLocation();
+  }, []);
+
+  const getAddressFromCoords = (e) => {
     if (mapRef) {
       mapRef
         ?.current!.addressForCoordinate(e)
         .then((address) => {
-          setDisplayedAddress(address.name);
+          setDisplayedAddress(
+            `${address.country}, ${address.locality}, ${address.name}`
+          );
           console.log("address", address);
         })
         .catch((err) => {
@@ -107,8 +145,12 @@ export const PostScreen = ({ navigation }: Props) => {
         });
     }
   };
-  const LockedItem = memo(({ editing, onPress }) => (
-    <LockedItemWrapper activeOpacity={editing ? 1 : 0.5} onPress={onPress}>
+  const LockedItem = memo(({ editing, onPress, disabled }) => (
+    <LockedItemWrapper
+      disabled={disabled}
+      activeOpacity={editing ? 1 : 0.5}
+      onPress={onPress}
+    >
       <Ionicons
         size={40}
         color={theme.colors.text.primary}
@@ -117,7 +159,13 @@ export const PostScreen = ({ navigation }: Props) => {
     </LockedItemWrapper>
   ));
   const renderLockedItem = useCallback(
-    () => <LockedItem editing={editing} onPress={onPressAdd} />,
+    () => (
+      <LockedItem
+        disabled={photos.length == 8}
+        editing={editing}
+        onPress={onPressAdd}
+      />
+    ),
     [editing, photos]
   );
 
@@ -133,19 +181,28 @@ export const PostScreen = ({ navigation }: Props) => {
     [editing]
   );
 
-  const onPressAdd = useCallback(() => console.log("press"), [editing, photos]);
+  const onPressAdd = useCallback(
+    () => (photos.length < 8 ? pickImage() : null),
+    [editing, photos]
+  );
 
   const onReleaseCell = useCallback(
     (items: any[]) => {
-      const photos1 = items.slice(0, -1);
+      const photos1 = items.slice(1);
+      console.log(photos1);
       if (!_.isEqual(photos, photos1)) setPhotos(photos1);
       setIsDisableScrollView(false);
     },
     [photos]
   );
-
+  console.log(currentLocation);
   const onPressDelete = useCallback(
-    (item) => setPhotos(photos.filter((v) => v.key != item.key)),
+    (item) => {
+      if (item == "+") {
+        return;
+      }
+      setPhotos(photos.filter((v) => v.key !== item.key));
+    },
     [photos]
   );
   const onPressEdit = useCallback(() => {
@@ -156,9 +213,9 @@ export const PostScreen = ({ navigation }: Props) => {
       return (
         <GridItem>
           <PhotoWrapper>
-            <Photo resizeMode="cover" source={{ uri: item.name }}></Photo>
+            <Photo resizeMode="cover" source={{ uri: item.uri }}></Photo>
           </PhotoWrapper>
-          <DeleteButton onPress={(item) => onPressDelete(item)}>
+          <DeleteButton onPress={() => onPressDelete(item)}>
             <Ionicons
               size={20}
               color={theme.colors.text.inverse}
@@ -182,11 +239,13 @@ export const PostScreen = ({ navigation }: Props) => {
       el.quantity--;
       return el;
     });
+    console.log(newFeatures);
     setFeaturesList(newFeatures);
   };
-  const photoPicker = ()=> {
-    launch
-  }
+  //   const photoPicker = () => {
+  //     launch;
+  //   };
+  console.log(photos);
   return (
     <SafeArea>
       <Header>
@@ -199,11 +258,22 @@ export const PostScreen = ({ navigation }: Props) => {
           <Text variant="title">Listing Title</Text>
           <Spacer position="top" size="large" />
           <Input
-            placeholder="Flat with awesome view of the city"
+            placeholder="Bungalow House 1 room with ..."
             value={title}
             setValue={setTitle}
           />
         </SectionTitle>
+        <SectionDescription>
+          <Text variant="title">Listing Description</Text>
+          <Spacer position="top" size="large" />
+          <Input
+            placeholder="Perfect holiday house with pool ..."
+            value={description}
+            setValue={setDescription}
+            multiline={true}
+            textSize="medium"
+          />
+        </SectionDescription>
         <SectionType>
           <Text variant="title">Listing Title</Text>
           <Spacer position="top" size="large" />
@@ -219,7 +289,7 @@ export const PostScreen = ({ navigation }: Props) => {
           <ChipsWrapper>
             {apartmentCategories.map((el) => (
               <Spacer position="right" size="medium">
-                               <Spacer position="top" size="medium"></Spacer>
+                <Spacer position="top" size="medium"></Spacer>
                 <Chip
                   size="large"
                   isButton={true}
@@ -239,44 +309,38 @@ export const PostScreen = ({ navigation }: Props) => {
               iconColor={theme.colors.ui.primary}
             />
             <Spacer position="left" size="medium">
-              <Text color={theme.colors.text.muted} variant="body">
+              <Address color={theme.colors.text.muted} variant="body">
                 {displayedAddress}
-              </Text>
+              </Address>
             </Spacer>
           </LocationAddressWrapper>
           <Spacer position="top" size="large" />
-          <MapLocationWrapper
-            onPress={() =>
-              navigation.navigate("Map", { selectedApartment: apartment })
-            }
-          >
+          <MapLocationWrapper>
             <Map
               ref={mapRef}
               userInterfaceStyle={"light"}
-              region={{
-                latitude: apartment.geometry.location.lat,
-                longitudeDelta: 0.01,
-                latitudeDelta: latDelta,
-                longitude: apartment.geometry.location.lng,
-              }}
+              region={currentLocation}
               onRegionChangeComplete={(data) => {
-                getAddress(data);
+                getAddressFromCoords(data);
                 setRegion(data);
               }}
             ></Map>
             <CustomMarkerWrapper>
-              <CustomMarker image={apartment.photos[0]} />
+              <CustomMarker image={photos[0]?.uri ?? ""} />
             </CustomMarkerWrapper>
           </MapLocationWrapper>
         </SectionLocation>
         <SectionPhotos>
-          <Text variant="title">Listing Photos</Text>
+          <HeaderPhotos>
+            <Text variant="title">Listing Photos</Text>
+            <Text variant="title">{`${photos.length} / 8`}</Text>
+          </HeaderPhotos>
           <Spacer position="top" size="large" />
           <PhotosGridWrapper>
             <GridView
               width={OUTER_CARD_WIDTH * 0.9}
               style={{ flex: 1, width: "100%" }}
-              data={[...photos, "+"]}
+              data={["+", ...photos]}
               keyExtractor={(item) => (item == "+" ? item : item.key)}
               renderItem={renderItem}
               renderLockedItem={renderLockedItem}
@@ -304,25 +368,31 @@ export const PostScreen = ({ navigation }: Props) => {
           <Text variant="title">Property Features</Text>
           <Spacer position="top" size="large" />
 
-          <FeaturesList>
-            {featuresList.map((feature) => (
-              <Spacer key={feature.type} position="bottom" size={"large"}>
+          <FlatList
+            data={featuresList}
+            keyExtractor={(item, i) => item.type ?? "12"}
+            renderItem={({ item }) => (
+              <Spacer
+                // key={`${feature.type}-${i}`}
+                position="bottom"
+                size={"large"}
+              >
                 <CounterRow
-                  label={feature.type}
-                  value={feature.quantity}
+                  label={item.type}
+                  value={item.quantity}
                   onIncrease={(type) => {
                     onPressCounter("plus", type);
                   }}
                   onDecrease={(type) => {
-                    if (feature.quantity <= 0) {
+                    if (item.quantity <= 0) {
                       return null;
                     }
                     onPressCounter("minus", type);
                   }}
                 ></CounterRow>
               </Spacer>
-            ))}
-          </FeaturesList>
+            )}
+          ></FlatList>
         </SectionFeatures>
         <SectionRooms>
           <Text variant="title">Total Rooms</Text>
@@ -335,7 +405,7 @@ export const PostScreen = ({ navigation }: Props) => {
                 setTotalRooms(totalRooms + 1);
               }}
               onDecrease={() => {
-                if (totalRooms <= 0) {
+                if (totalRooms <= 1) {
                   return null;
                 }
                 setTotalRooms(totalRooms - 1);

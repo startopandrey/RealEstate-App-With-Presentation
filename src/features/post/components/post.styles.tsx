@@ -1,4 +1,6 @@
+import { FlatList } from "react-native";
 import MapView from "react-native-maps";
+import { Text } from "../../../components/typography/text.component";
 import styled from "styled-components/native";
 
 export const Header = styled.View`
@@ -32,7 +34,7 @@ export const LocationAddressWrapper = styled.View`
   flex-direction: row;
   padding-top: ${(props) => props.theme.space[3]};
 `;
-export const MapLocationWrapper = styled.TouchableOpacity`
+export const MapLocationWrapper = styled.View`
   width: 100%;
   height: 300px;
   border-radius: ${(props) => props.theme.borderRadius.large};
@@ -113,11 +115,7 @@ export const SectionPrice = styled.View`
 export const SectionFeatures = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
-export const FeaturesList = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-`;
+export const FeaturesList = styled(FlatList)``;
 export const SectionRooms = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
@@ -125,5 +123,20 @@ export const SectionFacility = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
 export const ApplyButtonWrapper = styled.View`
-      padding: ${(props) => props.theme.space[3]};
-`
+  padding: ${(props) => props.theme.space[3]};
+`;
+export const FeatureItem = styled.View`
+  flex: 1;
+  width: 100%;
+  align-self: flex-end;
+`;
+export const SectionDescription = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+`;
+export const HeaderPhotos = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+export const Address = styled(Text)`
+  flex-wrap: wrap;
+`;
