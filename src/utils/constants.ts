@@ -10,7 +10,7 @@ export const INNER_CARD_WIDTH = width * 0.9;
 export const LATITUDE_DELTA = 0.01;
 export const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 export const initialRegion = {
-  longitude: 45,
+  longitude: 0,
   latitude: 0,
   longitudeDelta: 0.004,
   latitudeDelta: 0.009,

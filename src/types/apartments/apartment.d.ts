@@ -29,15 +29,13 @@ export interface Facility {
 }
 
 export interface NewApartment {
-  geometry: Geometry;
-  category: Category | null;
+  location: Location;
+  category: ApartmentCategory | null;
   price: string;
   address: string;
   title: string;
   description: string;
   squareMeter: string;
-  bedrooms: number;
-  bathrooms: number;
   photos: ApartmentPhoto[];
   authorId: string;
   facilities?: Facility[] | null;
@@ -75,7 +73,7 @@ export interface ApartmentType {
   name: "For Sale" | "For Rent";
 }
 
-export interface Category {
+export interface ApartmentCategory {
   id: number;
   name: string;
 }
@@ -85,6 +83,7 @@ export interface ApartmentPhoto {
   height?: number;
   htmlAttributions?: any[];
   photoUrl: string;
+  name?: string;
   width?: number;
 }
 
