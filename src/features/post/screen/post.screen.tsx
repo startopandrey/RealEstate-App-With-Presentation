@@ -1,4 +1,11 @@
-import React, { memo, useCallback, useEffect, useRef } from "react";
+import React, {
+  memo,
+  useCallback,
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { PhotoType, PostStackNavigatorParamList } from "../../../types/post";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -6,7 +13,7 @@ import { IconButton } from "../../../components/icon-button/icon-button.componen
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Input } from "../../../components/input/input.component";
-import { useState } from "react";
+import axios from "axios";
 import { Chip } from "../../../components/chip/chip.component";
 import { FlatList, ScrollView } from "react-native";
 import { theme } from "../../../infrastructure/theme";
@@ -35,11 +42,10 @@ import {
   SectionPhotos,
   PhotosGridWrapper,
   PhotoWrapper,
-  Photo,
   LockedItemWrapper,
   GridItem,
   DeleteButton,
-  SectionPrice,
+  SectionNumberInput,
   SectionFeatures,
   SectionRooms,
   SectionFacility,
@@ -47,6 +53,7 @@ import {
   SectionDescription,
   HeaderPhotos,
   Address,
+  Photo,
 } from "../components/post.styles";
 import MapView from "react-native-maps";
 import { CounterRow } from "../components/counter-row.component";
@@ -65,27 +72,46 @@ import {
   pickGalleryImage,
 } from "../../../services/helpers/photo.helper";
 import { MapLocationType } from "../../../types/location";
+import {
+  ApartmentPhoto,
+  Facility,
+  NewApartment,
+} from "../../../types/apartments/apartment";
+// import useState from "react-usestateref";
+// import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const mapRef = useRef<MapView | null>(null);
 
   const [featuresList, setFeaturesList] = useState(featuresListMock);
-  const [totalRooms, setTotalRooms] = useState<number>(1);
 
-  const [photos, setPhotos] = useState<PhotoType[] | null>(null);
-  const photosLength = photos ? photos.length : 0;
-
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
   const [region, setRegion] = useState<MapLocationType>(initialRegion);
-  const [price, setPrice] = useState<string>("");
+
   const [editing, setEditing] = useState<boolean>(false);
-  const [displayedAddress, setDisplayedAddress] =
-    useState<string>("Property Address");
+
   const [isPermissionsAccepted, setIsPermissionsAccepted] =
     useState<boolean>(false);
+  const [createdApartment, setCreatedApartment] = useState<NewApartment>({
+    geometry: {
+      location: initialRegion,
+    },
+    category: null,
+    price: "",
+    address: "Property Address",
+    title: "",
+    description: "",
+    squareMeter: "",
+    bedrooms: 1,
+    bathrooms: 1,
+    photos: [],
+    authorId: "",
+    totalRooms: 1,
+    facilities: [],
+  });
+  const photos = createdApartment.photos;
+  const photosLength = photos ? photos.length : 0;
 
   const getPermissions = async () => {
     const isGalleryAccepted = await isGalleryPermission();
@@ -103,9 +129,10 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
       mapRef?.current
         ?.addressForCoordinate(e)
         .then((address) => {
-          setDisplayedAddress(
-            `${address.country}, ${address.locality}, ${address.name}`
-          );
+          setCreatedApartment({
+            ...createdApartment,
+            address: `${address.country}, ${address.locality}, ${address.name}`,
+          });
           console.log("address", address);
         })
         .catch((err) => {
@@ -115,12 +142,14 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   };
   const generateLocationObject = (
     latitude: number,
-    longitude: number
+    longitude: number,
+    longitudeDelta: number,
+    latitudeDelta: number
   ): MapLocationType => {
     return {
       latitude: latitude,
-      longitudeDelta: LONGITUDE_DELTA,
-      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: longitudeDelta,
+      latitudeDelta: latitudeDelta,
       longitude: longitude,
     };
   };
@@ -129,33 +158,87 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
       return;
     }
     const location = await getCurrentUserLoction();
+
     if (location) {
       setRegion(
         generateLocationObject(
           location?.coords?.latitude,
-          location?.coords?.longitude
+          location?.coords?.longitude,
+          LONGITUDE_DELTA,
+          LATITUDE_DELTA
         )
       );
       getAddressFromCoords(
         generateLocationObject(
           location?.coords?.latitude,
-          location?.coords?.longitude
+          location?.coords?.longitude,
+          LONGITUDE_DELTA,
+          LATITUDE_DELTA
         )
       );
     }
   };
   const updatePhotos = (photoUri: string) => {
+    console.log(photoUri);
+    const newPhoto = {
+      key: `${photos?.length === 0 ? 0 : photos?.length + 1}`,
+      photoUrl: photoUri,
+    };
     if (photos) {
-      setPhotos([...photos, { key: `${photosLength + 1}`, uri: photoUri }]);
-      return
+      setCreatedApartment({
+        ...createdApartment,
+        photos: photosLength ? [...photos, newPhoto] : [newPhoto],
+      });
+      return;
     }
-    setPhotos([{ key: `${1}`, uri: photoUri }]);
+    setCreatedApartment({
+      ...createdApartment,
+      photos: [newPhoto],
+    });
   };
+  const handleUpdata = async ({
+    imageUri,
+    type,
+    name,
+  }: {
+    imageUri: string;
+    type: string;
+    name: string;
+  }) => {
+    const formData = new FormData();
+    formData.append("profile", {
+      name: name,
+      type: type,
+      uri: imageUri,
+    });
+    // const res = await axios.post(
+    //   "http://192.168.0.9:7777/apartment/create",
+    //   formData,
+    //   {
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   }
+    // );
+
+    // console.log(res.data);
+  };
+
   const pickImage = async () => {
-    const image = await pickGalleryImage();
-    if (!image.canceled) {
-      const imageUri = image.assets[0].uri;
+    const imageResponse = await pickGalleryImage();
+    if (!imageResponse.assets || imageResponse.canceled) {
+      return;
+    }
+    const image = imageResponse?.assets[0];
+    if (image.uri) {
+      const imageUri = image.uri;
+      const type = `image/${imageUri.split(".")[1]}`;
+      const name = image.fileName ?? "image";
+      const source = { imageUri, type, name };
+      handleUpdata(source);
       updatePhotos(imageUri);
+      // console.log(source)
     }
   };
 
@@ -198,7 +281,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     [editing, photosLength, onPressAdd]
   );
 
-  const locked = useCallback((item: PhotoType | "+") => item === "+", []);
+  const locked = useCallback((item: ApartmentPhoto | "+") => item === "+", []);
 
   const onBeginDragging = useCallback(() => {
     !editing && setEditing(true);
@@ -206,40 +289,36 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   }, [editing]);
 
   const onReleaseCell = useCallback(
-    (items: PhotoType[]) => {
+    (items: ApartmentPhoto[]) => {
       const photos1 = items.slice(1);
       console.log(photos1);
       if (!_.isEqual(photos, photos1)) {
-        setPhotos(photos1);
+        setCreatedApartment({ ...createdApartment, photos: photos1 });
       }
       setIsDisableScrollView(false);
     },
-    [photos]
+    [photos, createdApartment]
   );
 
   const onPressDelete = useCallback(
     (item) => {
-      if (item == "+" || !photos) {
+      if (item === "+" || !photos) {
         return;
       }
-      setPhotos(photos.filter((v) => v.key !== item.key));
+      setCreatedApartment({
+        ...createdApartment,
+        photos: photos.filter((v) => v.key !== item.key),
+      });
     },
-    [photos]
+    [photos, createdApartment]
   );
-  useEffect(() => {
-    if (!isPermissionsAccepted) {
-      getPermissions();
-    }
-    getCurrentLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const renderItem = useCallback(
-    (item: PhotoType) => {
+    (item) => {
       return (
         <GridItem>
           <PhotoWrapper>
-            <Photo resizeMode="cover" source={{ uri: item.uri }} />
+            <Photo resizeMode="cover" source={{ uri: item.photoUrl }} />
           </PhotoWrapper>
           <DeleteButton onPress={() => onPressDelete(item)}>
             <Ionicons
@@ -268,7 +347,42 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
 
     setFeaturesList(newFeatures);
   };
+  const onPressFacility = (
+    facility: Facility,
+    selectedFacility: Facility | undefined
+  ) => {
+    if (
+      !createdApartment.facilities ||
+      !selectedFacility ||
+      selectedFacility.id !== facility.id
+    ) {
+      const newFacilities = createdApartment.facilities
+        ? [...createdApartment.facilities, facility]
+        : [facility];
+      setCreatedApartment({
+        ...createdApartment,
+        facilities: newFacilities,
+      });
+      return;
+    }
+    const newFacilities = createdApartment.facilities.filter(
+      (el) => el.id !== selectedFacility.id
+    );
 
+    setCreatedApartment({
+      ...createdApartment,
+      facilities: newFacilities,
+    });
+  };
+
+  useEffect(() => {
+    if (!isPermissionsAccepted) {
+      getPermissions();
+    }
+    console.log("cur");
+    getCurrentLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <SafeArea>
       <Header>
@@ -282,8 +396,10 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="top" size="large" />
           <Input
             placeholder="Bungalow House 1 room with ..."
-            value={title}
-            setValue={setTitle}
+            value={createdApartment.title}
+            setValue={(state) =>
+              setCreatedApartment({ ...createdApartment, title: state })
+            }
           />
         </SectionTitle>
         <SectionDescription>
@@ -291,8 +407,10 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="top" size="large" />
           <Input
             placeholder="Perfect holiday house with pool ..."
-            value={description}
-            setValue={setDescription}
+            value={createdApartment.description}
+            setValue={(state) =>
+              setCreatedApartment({ ...createdApartment, description: state })
+            }
             multiline={true}
             textSize="medium"
           />
@@ -310,17 +428,27 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Text variant="title">Property category</Text>
           <Spacer position="top" size="large" />
           <ChipsWrapper>
-            {apartmentCategories.map((el) => (
-              <Spacer position="right" size="medium">
-                <Spacer position="top" size="medium" />
-                <Chip
-                  size="large"
-                  isButton={true}
-                  isSelected={false}
-                  title={el.category.name}
-                />
-              </Spacer>
-            ))}
+            {apartmentCategories.map((el) => {
+              const category = el.category;
+              const isSelected = category.id === createdApartment?.category?.id;
+              return (
+                <Spacer position="right" size="medium">
+                  <Spacer position="top" size="medium" />
+                  <Chip
+                    size="large"
+                    isButton={true}
+                    onPress={() =>
+                      setCreatedApartment({
+                        ...createdApartment,
+                        category: category,
+                      })
+                    }
+                    isSelected={!!isSelected}
+                    title={category.name}
+                  />
+                </Spacer>
+              );
+            })}
           </ChipsWrapper>
         </SectionCategory>
         <SectionLocation>
@@ -333,7 +461,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             />
             <Spacer position="left" size="medium">
               <Address color={theme.colors.text.muted} variant="body">
-                {displayedAddress}
+                {createdApartment.address}
               </Address>
             </Spacer>
           </LocationAddressWrapper>
@@ -345,13 +473,20 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
               region={region}
               zoomEnabled={true}
               onRegionChangeComplete={(data) => {
-                console.log(data);
+                console.log("122", data);
                 getAddressFromCoords(data);
+                // setCreatedApartment({
+                //   ...createdApartment,
+                //   geometry: {
+                //     ...createdApartment.geometry,
+                //     location: data,
+                //   },
+                // });
                 setRegion(data);
               }}
             />
             <CustomMarkerWrapper>
-              <CustomMarker image={photos && photos[0]?.uri} />
+              <CustomMarker image={photos && photos[0]?.photoUrl} />
             </CustomMarkerWrapper>
           </MapLocationWrapper>
         </SectionLocation>
@@ -365,7 +500,11 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             <GridView
               width={OUTER_CARD_WIDTH * 0.9}
               style={{ flex: 1, width: "100%" }}
-              data={photos ? ["+", ...photos] : ["+"]}
+              data={
+                createdApartment?.photos
+                  ? ["+", ...createdApartment?.photos]
+                  : ["+"]
+              }
               keyExtractor={(item) => (item === "+" ? item : item.key)}
               renderItem={renderItem}
               renderLockedItem={renderLockedItem}
@@ -377,17 +516,32 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             />
           </PhotosGridWrapper>
         </SectionPhotos>
-        <SectionPrice>
+        <SectionNumberInput>
           <Text variant="title">Rent Price</Text>
           <Spacer position="top" size="large" />
           <Input
-            setValue={setPrice}
-            value={`${price}`}
+            value={createdApartment.price}
+            setValue={(state) =>
+              setCreatedApartment({ ...createdApartment, price: state })
+            }
             iconName="ios-logo-euro"
             placeholder="price per month"
             keyboardType="numeric"
           />
-        </SectionPrice>
+        </SectionNumberInput>
+        <SectionNumberInput>
+          <Text variant="title">Square Meter</Text>
+          <Spacer position="top" size="large" />
+          <Input
+            value={createdApartment.squareMeter}
+            setValue={(state) =>
+              setCreatedApartment({ ...createdApartment, squareMeter: state })
+            }
+            iconName="cube-outline"
+            placeholder="property meters"
+            keyboardType="numeric"
+          />
+        </SectionNumberInput>
         <SectionFeatures>
           <Text variant="title">Property Features</Text>
           <Spacer position="top" size="large" />
@@ -424,15 +578,21 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="bottom" size={"large"}>
             <CounterRow
               label={"Total Rooms"}
-              value={totalRooms}
+              value={createdApartment.totalRooms}
               onIncrease={() => {
-                setTotalRooms(totalRooms + 1);
+                setCreatedApartment({
+                  ...createdApartment,
+                  totalRooms: createdApartment.totalRooms + 1,
+                });
               }}
               onDecrease={() => {
-                if (totalRooms <= 1) {
+                if (createdApartment.totalRooms <= 1) {
                   return null;
                 }
-                setTotalRooms(totalRooms - 1);
+                setCreatedApartment({
+                  ...createdApartment,
+                  totalRooms: createdApartment.totalRooms - 1,
+                });
               }}
             />
           </Spacer>
@@ -441,17 +601,26 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Text variant="title">Total Rooms</Text>
           <Spacer position="top" size="large" />
           <ChipsWrapper>
-            {facilitiesList.map((el) => (
-              <Spacer key={el.key} position="right" size="medium">
-                <Spacer position="top" size="medium" />
-                <Chip
-                  size="large"
-                  isButton={true}
-                  isSelected={false}
-                  title={el.category.name}
-                />
-              </Spacer>
-            ))}
+            {facilitiesList.map((el) => {
+              const selectedFacility = createdApartment?.facilities?.find(
+                (value) => value.name === el.category.name
+              );
+
+              return (
+                <Spacer key={el.key} position="right" size="medium">
+                  <Spacer position="top" size="medium" />
+                  <Chip
+                    onPress={() =>
+                      onPressFacility(el.category, selectedFacility)
+                    }
+                    size="large"
+                    isButton={true}
+                    isSelected={!!selectedFacility}
+                    title={el.category.name}
+                  />
+                </Spacer>
+              );
+            })}
           </ChipsWrapper>
         </SectionFacility>
         <ApplyButtonWrapper>

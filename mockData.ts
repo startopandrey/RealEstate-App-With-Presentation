@@ -7,16 +7,16 @@ export const featuresListMock = [
     { key: 1, category: { id: 1, name: "House" } },
     { key: 2, category: { id: 2, name: "Apartment" } },
     { key: 3, category: { id: 3, name: "Hotel" } },
-    { key: 4, category: { id: 3, name: "Villa" } },
-    { key: 5, category: { id: 3, name: "Cottage" } },
+    { key: 4, category: { id: 4, name: "Villa" } },
+    { key: 5, category: { id: 5, name: "Cottage" } },
   ]
   export const facilitiesList = [
     { key: 1, category: { id: 1, name: "Parking Lot" } },
     { key: 2, category: { id: 2, name: "Pet Allowed" } },
     { key: 3, category: { id: 3, name: "Garden" } },
-    { key: 4, category: { id: 3, name: "Gym" } },
-    { key: 5, category: { id: 3, name: "Park" } },
-    { key: 6, category: { id: 3, name: "Home theatre" } },
-    { key: 7, category: { id: 3, name: "Kid’s Friendly" } },
-    { key: 8, category: { id: 3, name: "Pool" } },
+    { key: 4, category: { id: 4, name: "Gym" } },
+    { key: 5, category: { id: 5, name: "Park" } },
+    { key: 6, category: { id: 6, name: "Home theatre" } },
+    { key: 7, category: { id: 7, name: "Kid’s Friendly" } },
+    { key: 8, category: { id: 8, name: "Pool" } },
   ]

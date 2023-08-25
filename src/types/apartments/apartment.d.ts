@@ -1,3 +1,5 @@
+import { PhotoType } from "../post";
+
 export interface Apartment {
   id: string;
   geometry: Geometry;
@@ -6,9 +8,7 @@ export interface Apartment {
   apartmentPrice: number;
   rentPrice: number;
   icon: string;
-  isOpenNow?: boolean;
-  isClosedTemporarily?: boolean;
-  address?: number;
+  address?: string;
   rating?: number;
   name?: string;
   title: string;
@@ -16,22 +16,43 @@ export interface Apartment {
   square_meter: number;
   bedRooms: number;
   bathrooms: number;
-  photos: Photo[] | string[];
+  photos: ApartmentPhoto[] | string[];
   placeId: string;
   views: number;
   reference: string;
   vicinity: string;
   author: Author;
 }
+export interface Facility {
+  id: number;
+  name: string;
+}
 
+export interface NewApartment {
+  geometry: Geometry;
+  category: Category | null;
+  price: string;
+  address: string;
+  title: string;
+  description: string;
+  squareMeter: string;
+  bedrooms: number;
+  bathrooms: number;
+  photos: ApartmentPhoto[];
+  authorId: string;
+  facilities?: Facility[] | null;
+  totalRooms: number;
+}
 export interface Geometry {
   location: Location;
-  viewport: Viewport;
+  // viewport: Viewport;
 }
 
 export interface Location {
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
 }
 
 export interface Viewport {
@@ -55,15 +76,16 @@ export interface ApartmentType {
 }
 
 export interface Category {
-  id: string;
+  id: number;
   name: string;
 }
 
-export interface Photo {
-  height: number;
-  htmlAttributions: any[];
-  photo_url: string;
-  width: number;
+export interface ApartmentPhoto {
+  key?: any;
+  height?: number;
+  htmlAttributions?: any[];
+  photoUrl: string;
+  width?: number;
 }
 
 export interface Author {

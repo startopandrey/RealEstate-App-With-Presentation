@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Text as NativeText,
   ScrollView as ScrollViewNative,
@@ -45,6 +45,7 @@ import {
   HeaderOverlay,
 } from "../components/apartment.styles";
 import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
+import axios from "axios";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"

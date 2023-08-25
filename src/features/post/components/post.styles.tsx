@@ -109,7 +109,7 @@ export const DeleteButton = styled.TouchableOpacity`
   border-radius: ${(props) => props.theme.borderRadius.large};
   right: 0px;
 `;
-export const SectionPrice = styled.View`
+export const SectionNumberInput = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
 export const SectionFeatures = styled.View`
