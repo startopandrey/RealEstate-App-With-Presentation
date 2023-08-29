@@ -45,21 +45,24 @@ export const postTransform = (apartment: NewApartment) => {
 };
 export const postRequest = async (
   apartment: NewApartment
-): Promise<AxiosResponse<any, any>> => {
+): Promise<any> => {
   postTransform(apartment);
   //   const apartmentForm = new FormData();
 
   // return fetch("http://192.168.0.9:7777/apartment/create");
-  const res = await axios.post(
-    "http://192.168.0.9:7777/apartment/create",
-    postTransform(apartment),
-    {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-  console.log(res.data);
-  return res;
+  try {
+    const res = await axios.post(
+      "http://192.168.0.113:7777/apartment/create",
+      postTransform(apartment),
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
 };

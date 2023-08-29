@@ -1,14 +1,9 @@
-import React, { useCallback, useMemo, useRef } from "react";
-import BottomSheet, { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
+import React from "react";
 import { ScrollView } from "react-native";
 import { MapFilterWrapper } from "./apartments-map.styles";
-import { useSharedValue } from "react-native-reanimated";
 import {
   ApartmentTypeWrapper,
   ApplyButtonWrapper,
-  BottomSheetBackground,
-  CustomBottomSheet,
-  CustomHandle,
   Header,
   PriceWrapper,
 } from "./map-filter.styles";
@@ -18,50 +13,16 @@ import { CategoriesList } from "../../../features/apartments/components/apartmen
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Input } from "../../../components/input/input.component";
 import { Button } from "../../../components/button/button.component";
-import { CustomBackdrop } from "../helpers";
+
+import { CustomBottomSheet } from "../../../components/bottom-sheet/bottom-sheet.component";
 
 export const MapFilter = ({ isOpen, setIsOpen }) => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["70%"], []);
-  const animatedIndex = useSharedValue(isOpen ? 0 : -1);
-
-  // callbacks
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
-
   const [priceFrom, setPriceFrom] = React.useState("");
   const [priceTo, setPriceTo] = React.useState("");
-  const customBackground: React.FC<BottomSheetBackgroundProps> = ({
-    pointerEvents,
-    style,
-  }) => {
-    return (
-      <BottomSheetBackground pointerEvents={pointerEvents} style={[style]} />
-    );
-  };
 
   return (
     <MapFilterWrapper isOpen={isOpen}>
-      <CustomBottomSheet
-        ref={bottomSheetRef}
-        backgroundComponent={customBackground}
-        index={isOpen ? 0 : -1}
-        animatedIndex={animatedIndex}
-        handleComponent={() => <CustomHandle />}
-        snapPoints={snapPoints}
-        enablePanDownToClose
-        onClose={() => {
-          setIsOpen(false);
-        }}
-        backdropComponent={(props) =>
-          CustomBackdrop({ ...props, bottomSheetRef })
-        }
-        onChange={handleSheetChanges}
-      >
+      <CustomBottomSheet  onClose={() => setIsOpen(false)} isOpen={isOpen}>
         <Spacer position="top" size="xl" />
         <Header>
           <Text variant="title">Filter</Text>
@@ -117,7 +78,7 @@ export const MapFilter = ({ isOpen, setIsOpen }) => {
             />
           </PriceWrapper>
           <ApplyButtonWrapper>
-            <Button title="Apply Filter" onPress={() => null} />
+            <Button title="Apply Filter" onPress={() => setIsOpen(false)} />
           </ApplyButtonWrapper>
           <Spacer position="top" size={"xxl"} />
           <Spacer position="top" size={"xl"} />

@@ -73,6 +73,10 @@ import {
 } from "../../../types/apartments/apartment";
 import { postRequest } from "../../../services/post/post.service";
 import { isValidApartment } from "../../../services/post/post.utils";
+import { useScrollToTop } from "@react-navigation/native";
+import { Alert } from "../../../components/alert/alert.component";
+import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
+import { useFocusEffect } from "@react-navigation/native";
 
 // import useState from "react-usestateref";
 // import { AuthenticationContext } from "../../../services/authentication/authentication.context";
@@ -80,7 +84,7 @@ type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const mapRef = useRef<MapView | null>(null);
-
+  const mainRef = useRef(null);
   const [featuresList, setFeaturesList] = useState(featuresListMock);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -89,15 +93,18 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const [price, setPrice] = useState("");
   const [address, setAddress] = useState("Property Address");
   // const [authorId, setAuthorId] = useState("456");
+  const [isUploaded, setIsUploaded] = useState(false);
   const [totalRooms, setTotalRooms] = useState(1);
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [category, setCategory] = useState<ApartmentCategory | null>(null);
   const [photos, setPhotos] = useState<ApartmentPhoto[]>([]);
+  const [isAlert, setIsAlert] = useState(true);
   const [isPermissionsAccepted, setIsPermissionsAccepted] =
     useState<boolean>(false);
   const [createdApartment, setCreatedApartment] = useState<any>(null);
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
   const photosLength = photos ? photos.length : 0;
   console.log(createdApartment);
@@ -111,6 +118,23 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     }
     setIsPermissionsAccepted(false);
     return;
+  };
+  const setStatesToDefault = () => {
+    setFeaturesList(featuresListMock);
+    setTitle("");
+    setDescription("");
+    setSquareMeter("");
+
+    setPrice("");
+    setTotalRooms(1);
+    setFacilities([]);
+    setIsDisableScrollView(false);
+    setEditing(false);
+    setCategory(null);
+    setPhotos([]);
+    setIsAlert(true);
+    setIsPermissionsAccepted(false);
+    setCreatedApartment(null);
   };
   const getAddressFromCoords = (e) => {
     if (mapRef) {
@@ -278,6 +302,14 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     },
     [onPressDelete]
   );
+  const closeAlert = () => {
+    mainRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+    setIsAlert(false);
+    bottomSheetRef.current?.close();
+  };
   const onPressCounter = (operation, type) => {
     const newFeatures = featuresList.map((el) => {
       if (el.type !== type) {
@@ -312,12 +344,96 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
 
     setFacilities(newFacilities);
   };
-  const uploadApartment = () => {
+  const uploadApartment = async () => {
+    // setIsUploaded(true);
+    //     setIsAlert(true);
     if (createdApartment) {
-      const res = postRequest(createdApartment);
+      const res = await postRequest(createdApartment);
       console.log(res);
+
+      if (res?.data) {
+        console.log("success"); setIsAlert(true);
+        setIsUploaded(true);
+       
+        return;
+      }
+      setIsUploaded(false);
+      setIsAlert(true);
     }
   };
+  const renderAlert = () => {
+    if (isUploaded) {
+      return (
+        <Alert
+          type={"success"}
+          ref={bottomSheetRef}
+          titleArray={[
+            { fontWeight: "normal", text: "Your listing is now " },
+            { fontWeight: "bold", text: " published" },
+          ]}
+          buttonsArray={[
+            {
+              textColor: theme.colors.text.primary,
+              backgroundColor: theme.colors.bg.secondary,
+              title: "Add More",
+              onPress: () => {
+                closeAlert();
+                setStatesToDefault();
+              },
+            },
+            {
+              textColor: theme.colors.text.inverse,
+              backgroundColor: theme.colors.brand.primary,
+              title: "Finish",
+              onPress: () => {
+                navigation.navigate("Apartments");
+              },
+            },
+          ]}
+          snapPointPercent={"55%"}
+          isOpen={isAlert}
+          onClose={() => setIsAlert(false)}
+        />
+      );
+    }
+    return (
+      <Alert
+        type={"error"}
+        ref={bottomSheetRef}
+        titleArray={[
+          { fontWeight: "normal", text: "Aw snap, Some" },
+          { fontWeight: "bold", text: " error" },
+          { fontWeight: "normal", text: " happened" },
+        ]}
+        buttonsArray={[
+          {
+            textColor: theme.colors.text.primary,
+            backgroundColor: theme.colors.bg.secondary,
+            title: "Close",
+            onPress: () => {
+              navigation.navigate("Apartments");
+            },
+          },
+          {
+            textColor: theme.colors.text.inverse,
+            backgroundColor: theme.colors.brand.primary,
+            title: "Retry",
+            onPress: () => {
+              closeAlert();
+            },
+          },
+        ]}
+        snapPointPercent={"55%"}
+        isOpen={isAlert}
+        onClose={() => setIsAlert(false)}
+      />
+    );
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => bottomSheetRef.current?.close();
+    }, [])
+  );
   useEffect(() => {
     if (!isPermissionsAccepted) {
       getPermissions();
@@ -360,7 +476,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
         <Text variant="title">Property</Text>
         <Spacer position="right" size="xl" />
       </Header>
-      <ScrollView scrollEnabled={!isDisableScrollView}>
+      <ScrollView ref={mainRef} scrollEnabled={!isDisableScrollView}>
         <SectionTitle>
           <Text variant="title">Listing Title</Text>
           <Spacer position="top" size="large" />
@@ -529,6 +645,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
                 setTotalRooms(totalRooms + 1);
               }}
               onDecrease={() => {
+                setIsAlert(true);
                 if (totalRooms <= 1) {
                   return null;
                 }
@@ -569,6 +686,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           />
         </ApplyButtonWrapper>
       </ScrollView>
+      {isAlert && renderAlert()}
     </SafeArea>
   );
 };
