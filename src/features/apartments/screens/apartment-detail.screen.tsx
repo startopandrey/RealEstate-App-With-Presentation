@@ -40,6 +40,8 @@ import {
   MapApartmentWrapper,
   Map,
   MapRedirectButton,
+  DescriptionWrapper,
+  Description,
 } from "../components/apartment-detail.styles";
 import { CustomMarker } from "../../../features/map/components/custom-marker.component";
 
@@ -140,6 +142,14 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
             </SaleMonth>
           </SalePriceWrapper>
         </SaleInfo>
+        <DescriptionWrapper>
+          <Text variant="title">Description</Text>
+          <Spacer position="top" size="large"></Spacer>
+          <Description variant="body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+          </Description>
+        </DescriptionWrapper>
         <Spacer position="top" size="large">
           <Divider />
         </Spacer>

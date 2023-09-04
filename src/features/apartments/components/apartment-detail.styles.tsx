@@ -79,3 +79,9 @@ export const MapRedirectButton = styled.View`
   height: 60px;
   background: ${(props) => props.theme.colors.bg.secondary};
 `;
+export const DescriptionWrapper = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+`;
+export const Description = styled(Text)`
+  font-size: ${(props) => props.theme.fontSizes.subtitle};
+`;

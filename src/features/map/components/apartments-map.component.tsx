@@ -218,7 +218,7 @@ export const ApartmentsMap = ({
         </MapApartmentCardsWrapper>
       )}
 
-      <MapFilter setIsOpen={setIsOpenFilter} isOpen={isOpenFilter} />
+      <MapFilter  setIsOpen={setIsOpenFilter} isOpen={isOpenFilter} />
     </>
   );
 };
