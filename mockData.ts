@@ -1,5 +1,8 @@
 import { initialRegion } from "./src/utils/constants";
-import { ApartmentFeature, NewApartment } from "./src/types/apartments/apartment";
+import {
+  ApartmentFeature,
+  NewApartment,
+} from "./src/types/apartments/apartment";
 
 export const featuresListMock: ApartmentFeature[] = [
   { type: "bedroom", quantity: 1 },
@@ -37,3 +40,39 @@ export const initialNewApartment: NewApartment = {
   photos: [],
   authorId: "authorID",
 };
+export const initialOnboardingBlocks = [
+  {
+    titleArray: [
+      { text: "Find best place to stay in", fontWeight: "normal" },
+      { text: "good price", fontWeight: "bold" },
+    ],
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.",
+    photoUrl:
+      "https://www.thenordroom.com/wp-content/uploads/2022/03/small-dark-blue-living-room-bay-window-fireplace-built-in-bookshelves-nordroom-1500x1000.jpg",
+    isSelected: true,
+  },
+  {
+    isSelected: false,
+    titleArray: [
+      { text: "Fast sell your property in just", fontWeight: "normal" },
+      { text: "one click", fontWeight: "bold" },
+    ],
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.",
+    photoUrl:
+      "https://decoholic.org/wp-content/uploads/2020/02/cozy-attic-living-room-720x900.jpg",
+  },
+  {
+    isSelected: false,
+    titleArray: [
+      { text: "Find", fontWeight: "normal" },
+      { text: "perfect choice ", fontWeight: "bold" },
+      { text: "for your future house ", fontWeight: "normal" },
+    ],
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.",
+    photoUrl:
+      "https://images.squarespace-cdn.com/content/v1/58a4b95fbebafb6777c5ede5/1487976510483-207U36DHUB050ODBNPVS/sugarberry-cottage-house-plan-l.jpg",
+  },
+];
