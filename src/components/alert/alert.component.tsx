@@ -1,12 +1,11 @@
 import styled from "styled-components/native";
-import React, { RefObject, forwardRef, useRef } from "react";
+import React, { forwardRef } from "react";
 import { Text } from "../typography/text.component";
 import { Button } from "../button/button.component";
-import { theme } from "../../infrastructure/theme";
 import { Spacer } from "../spacer/spacer.component";
 import { CustomBottomSheet } from "../bottom-sheet/bottom-sheet.component";
-import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { Title } from "../title/title.component";
+import { TitleType } from "../title/title.d";
 
 const CustomBottomSheetWrapper = styled.View<{ isOpen?: boolean }>`
   z-index: ${(props) => (props.isOpen ? 99999 : -1)};
@@ -52,15 +51,7 @@ const ButtonsWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
-const ButtonWrapper = styled.View`
-  padding: ${(props) => props.theme.space[2]};
-  flex: 1;
-  height: 100%;
-`;
-interface Title {
-  text: string;
-  fontWeight: "normal" | "bold";
-}
+
 interface Button {
   textColor: string;
   backgroundColor: string;
@@ -72,7 +63,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   snapPointPercent: string;
-  titleArray: Title[];
+  titleArray: TitleType[];
   buttonsArray: Button[];
 }
 export const Alert = forwardRef(
@@ -101,24 +92,14 @@ export const Alert = forwardRef(
         <CustomBottomSheet
           ref={ref}
           snapPointPercent={snapPointPercent}
-          setIsOpen={onClose}
+          onClose={onClose}
           isOpen={isOpen}
         >
           <AlertWrapper>
-          <Spacer position="top" size="large" />
+            <Spacer position="top" size="large" />
             <AlertPhoto source={ICONS[type].uri} />
             <AlertTitleWrapper>
-              {titleArray.map((title) => {
-                if (title.fontWeight !== "bold") {
-                  return <AlertTitle variant="title">{title.text}</AlertTitle>;
-                } else {
-                  return (
-                    <AlertTitleBold variant="title">
-                      {title.text}
-                    </AlertTitleBold>
-                  );
-                }
-              })}
+              <Title titleArray={titleArray}></Title>
             </AlertTitleWrapper>
             <Spacer position="top" size="xl" />
             <ButtonsWrapper>

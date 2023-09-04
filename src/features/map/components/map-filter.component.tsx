@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { ScrollView } from "react-native";
 import { MapFilterWrapper } from "./apartments-map.styles";
 import {
@@ -15,14 +15,20 @@ import { Input } from "../../../components/input/input.component";
 import { Button } from "../../../components/button/button.component";
 
 import { CustomBottomSheet } from "../../../components/bottom-sheet/bottom-sheet.component";
+import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 
 export const MapFilter = ({ isOpen, setIsOpen }) => {
   const [priceFrom, setPriceFrom] = React.useState("");
   const [priceTo, setPriceTo] = React.useState("");
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
   return (
     <MapFilterWrapper isOpen={isOpen}>
-      <CustomBottomSheet  onClose={() => setIsOpen(false)} isOpen={isOpen}>
+      <CustomBottomSheet
+        ref={bottomSheetRef}
+        onClose={() => setIsOpen(false)}
+        isOpen={isOpen}
+      >
         <Spacer position="top" size="xl" />
         <Header>
           <Text variant="title">Filter</Text>

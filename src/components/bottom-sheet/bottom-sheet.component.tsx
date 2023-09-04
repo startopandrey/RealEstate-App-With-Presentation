@@ -18,20 +18,16 @@ import { TouchableOpacity } from "react-native";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 type Props = {
   children: string | JSX.Element | JSX.Element[];
-  setIsOpen: (state: boolean) => void;
+  onClose: () => void;
   isOpen: boolean;
   snapPointPercent?: string;
 };
 
 export const CustomBottomSheet = forwardRef(
   (
-    { children, setIsOpen, isOpen, snapPointPercent = "70%" }: Props,
+    { children, onClose, isOpen, snapPointPercent = "70%" }: Props,
     ref
   ): React.ReactElement => {
-    const handleClosePress = useCallback(() => {
-      ref.current?.close();
-    }, []);
-
     const snapPoints = useMemo(() => [snapPointPercent], [snapPointPercent]);
     const animatedIndex = useSharedValue(isOpen ? 0 : -1);
     const handleSheetChanges = useCallback((index: number) => {
@@ -55,9 +51,7 @@ export const CustomBottomSheet = forwardRef(
         handleComponent={() => <CustomHandle />}
         snapPoints={snapPoints}
         enablePanDownToClose
-        onClose={() => {
-          setIsOpen(false);
-        }}
+        onClose={onClose}
         backdropComponent={(props) => CustomBackdrop({ ...props, ref })}
         onChange={handleSheetChanges}
       >
