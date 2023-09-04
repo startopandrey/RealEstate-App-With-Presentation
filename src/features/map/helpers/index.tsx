@@ -1,7 +1,7 @@
 import { OUTER_CARD_WIDTH } from "../../../utils/constants";
 import { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import { StyleSheet } from "react-native";
-import React from "react";
+import React, { ForwardedRef } from "react";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -47,19 +47,19 @@ export const onScroll = (
   }
 };
 interface CustomBackdropProps extends BottomSheetBackdropProps {
-  bottomSheetRef: RefObject<BottomSheetMethods>;
+  ref: ForwardedRef<BottomSheetMethods>;
 }
 export const CustomBackdrop = ({
   animatedIndex,
   style,
-  bottomSheetRef,
+  ref,
 }: CustomBackdropProps) => {
   const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
   const animatedProps = useAnimatedProps(() => {
     const intensity = interpolate(
       animatedIndex.value + 1,
-      [0, 0, 60],
+      [0, 0, 90],
       [0, 0, 60],
       Extrapolate.CLAMP
     );
@@ -73,8 +73,8 @@ export const CustomBackdrop = ({
   const containerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(
       animatedIndex.value + 1,
-      [0, 0.5],
-      [0, 0.5],
+      [0, 0.8],
+      [0, 0.8],
       Extrapolate.CLAMP
     ),
   }));
@@ -96,7 +96,7 @@ export const CustomBackdrop = ({
       style={[StyleSheet.absoluteFillObject, {}]}
       //blurAmount={ 100}
 
-      onTouchStart={() => bottomSheetRef.current?.close()}
+      onTouchStart={() => ref.current?.close()}
       tint="dark"
       animatedProps={animatedProps}
     >

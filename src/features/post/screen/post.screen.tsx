@@ -18,7 +18,6 @@ import {
   LATITUDE_DELTA,
   LONGITUDE_DELTA,
   OUTER_CARD_WIDTH,
-  initialRegion,
 } from "../../../utils/constants";
 import {
   Header,
@@ -52,9 +51,9 @@ import MapView from "react-native-maps";
 import { CounterRow } from "../components/counter-row.component";
 import { Button } from "../../../components/button/button.component";
 import {
-  featuresListMock,
   apartmentCategories,
   facilitiesList,
+  initialNewApartment,
 } from "../../../../mockData";
 import {
   getCurrentUserLoction,
@@ -73,40 +72,32 @@ import {
 } from "../../../types/apartments/apartment";
 import { postRequest } from "../../../services/post/post.service";
 import { isValidApartment } from "../../../services/post/post.utils";
-import { useScrollToTop } from "@react-navigation/native";
 import { Alert } from "../../../components/alert/alert.component";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 import { useFocusEffect } from "@react-navigation/native";
+import { Loading } from "../../../components/loading/loading.component";
+import { useCheckNetworkConnection } from "../../../utils/network";
 
-// import useState from "react-usestateref";
-// import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const mapRef = useRef<MapView | null>(null);
-  const mainRef = useRef(null);
-  const [featuresList, setFeaturesList] = useState(featuresListMock);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [squareMeter, setSquareMeter] = useState("");
-  const [location, setLocation] = useState<MapLocationType>(initialRegion);
-  const [price, setPrice] = useState("");
-  const [address, setAddress] = useState("Property Address");
-  // const [authorId, setAuthorId] = useState("456");
+  const mainRef = useRef<ScrollView>(null);
+
   const [isUploaded, setIsUploaded] = useState(false);
-  const [totalRooms, setTotalRooms] = useState(1);
-  const [facilities, setFacilities] = useState<Facility[]>([]);
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
-  const [category, setCategory] = useState<ApartmentCategory | null>(null);
-  const [photos, setPhotos] = useState<ApartmentPhoto[]>([]);
-  const [isAlert, setIsAlert] = useState(true);
+  const [isAlert, setIsAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isPermissionsAccepted, setIsPermissionsAccepted] =
     useState<boolean>(false);
-  const [createdApartment, setCreatedApartment] = useState<any>(null);
+  const [createdApartment, setCreatedApartment] =
+    useState<NewApartment>(initialNewApartment);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const photosLength = photos ? photos.length : 0;
+  const photosLength = createdApartment.photos
+    ? createdApartment.photos.length
+    : 0;
   console.log(createdApartment);
   const getPermissions = async () => {
     const isGalleryAccepted = await isGalleryPermission();
@@ -119,34 +110,32 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     setIsPermissionsAccepted(false);
     return;
   };
-  const setStatesToDefault = () => {
-    setFeaturesList(featuresListMock);
-    setTitle("");
-    setDescription("");
-    setSquareMeter("");
-
-    setPrice("");
-    setTotalRooms(1);
-    setFacilities([]);
-    setIsDisableScrollView(false);
-    setEditing(false);
-    setCategory(null);
-    setPhotos([]);
-    setIsAlert(true);
-    setIsPermissionsAccepted(false);
-    setCreatedApartment(null);
-  };
+  const clearStates = useCallback(() => {
+    setIsAlert(false);
+    setCreatedApartment((apartment) => ({
+      ...initialNewApartment,
+      location: apartment.location,
+      address: apartment.address,
+    }));
+    scrollToTop();
+    // setIsPermissionsAccepted(false);
+  }, []);
   const getAddressFromCoords = (e) => {
     if (mapRef) {
       mapRef?.current
         ?.addressForCoordinate(e)
         .then((address) => {
-          setAddress(
-            `${address.country}, ${address.locality}, ${address.name}`
-          );
+          setCreatedApartment((apartment) => ({
+            ...apartment,
+            address: `${address.country}, ${address.locality}, ${address.name}`,
+          }));
         })
         .catch((err) => {
-          console.log("err", err);
+          console.log(err);
+          setCreatedApartment((apartment) => ({
+            ...apartment,
+            address: "Address could not be found",
+          }));
         });
     }
   };
@@ -164,20 +153,21 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     };
   };
   const getCurrentLocation = async () => {
-    if (location.latitude !== 0) {
+    if (createdApartment.location.latitude !== 0) {
       return;
     }
     const currentLocation = await getCurrentUserLoction();
 
     if (currentLocation) {
-      setLocation(
-        generateLocationObject(
+      setCreatedApartment((apartment) => ({
+        ...apartment,
+        location: generateLocationObject(
           currentLocation?.coords?.latitude,
           currentLocation?.coords?.longitude,
           LONGITUDE_DELTA,
           LATITUDE_DELTA
-        )
-      );
+        ),
+      }));
       getAddressFromCoords(
         generateLocationObject(
           currentLocation?.coords?.latitude,
@@ -191,15 +181,27 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const updatePhotos = (photoUri: string, name: string) => {
     console.log(photoUri);
     const newPhoto: ApartmentPhoto = {
-      key: `${photos?.length === 0 ? 0 : photos?.length + 1}`,
+      key: `${
+        createdApartment.photos?.length === 0
+          ? 0
+          : createdApartment.photos?.length + 1
+      }`,
       photoUrl: photoUri,
       name: name,
     };
-    if (photos) {
-      setPhotos(photosLength ? [...photos, newPhoto] : [newPhoto]);
+    if (createdApartment.photos) {
+      setCreatedApartment((apartment) => ({
+        ...apartment,
+        photos: photosLength
+          ? [...createdApartment.photos, newPhoto]
+          : [newPhoto],
+      }));
       return;
     }
-    setPhotos([newPhoto]);
+    setCreatedApartment((apartment) => ({
+      ...apartment,
+      photos: [newPhoto],
+    }));
   };
 
   const pickImage = async () => {
@@ -265,22 +267,25 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     (items: ApartmentPhoto[]) => {
       const photos1 = items.slice(1);
       console.log(photos1);
-      if (!_.isEqual(photos, photos1)) {
-        setPhotos(photos1);
+      if (!_.isEqual(createdApartment.photos, photos1)) {
+        setCreatedApartment((apartment) => ({ ...apartment, photos: photos1 }));
       }
       setIsDisableScrollView(false);
     },
-    [photos]
+    [createdApartment.photos]
   );
 
   const onPressDelete = useCallback(
     (item) => {
-      if (item === "+" || !photos) {
+      if (item === "+" || !createdApartment.photos) {
         return;
       }
-      setPhotos(photos.filter((v) => v.key !== item.key));
+      setCreatedApartment((apartment) => ({
+        ...apartment,
+        photos: apartment.photos.filter((v) => v.key !== item.key),
+      }));
     },
-    [photos]
+    [createdApartment.photos]
   );
 
   const renderItem = useCallback(
@@ -302,16 +307,19 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     },
     [onPressDelete]
   );
-  const closeAlert = () => {
+  const scrollToTop = () => {
     mainRef.current?.scrollTo({
       y: 0,
       animated: true,
     });
+  };
+  const closeAlert = () => {
+    scrollToTop();
     setIsAlert(false);
     bottomSheetRef.current?.close();
   };
   const onPressCounter = (operation, type) => {
-    const newFeatures = featuresList.map((el) => {
+    const newFeatures = createdApartment.features.map((el) => {
       if (el.type !== type) {
         return el;
       }
@@ -322,44 +330,52 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
       el.quantity--;
       return el;
     });
-
-    setFeaturesList(newFeatures);
+    setCreatedApartment((apartment) => ({
+      ...apartment,
+      features: newFeatures,
+    }));
   };
   const onPressFacility = (
     facility: Facility,
     selectedFacility: Facility | undefined
   ) => {
     if (
-      !facilities ||
+      !createdApartment.facilities ||
       !selectedFacility ||
       selectedFacility.id !== facility.id
     ) {
-      const newFacilities = facilities ? [...facilities, facility] : [facility];
-      setFacilities(newFacilities);
+      const newFacilities = createdApartment.facilities
+        ? [...createdApartment.facilities, facility]
+        : [facility];
+      setCreatedApartment((apartment) => ({
+        ...apartment,
+        facilities: newFacilities,
+      }));
       return;
     }
-    const newFacilities = facilities.filter(
+    const newFacilities = createdApartment.facilities.filter(
       (el) => el?.id !== selectedFacility.id
     );
 
-    setFacilities(newFacilities);
+    setCreatedApartment((apartment) => ({
+      ...apartment,
+      facilities: newFacilities,
+    }));
   };
   const uploadApartment = async () => {
-    // setIsUploaded(true);
-    //     setIsAlert(true);
-    if (createdApartment) {
-      const res = await postRequest(createdApartment);
-      console.log(res);
+    setIsLoading(true);
+    const res = await postRequest(createdApartment);
 
-      if (res?.data) {
-        console.log("success"); setIsAlert(true);
-        setIsUploaded(true);
-       
-        return;
-      }
-      setIsUploaded(false);
+    if (res?.data) {
+      setIsLoading(false);
       setIsAlert(true);
+      setIsUploaded(true);
+
+      return;
     }
+    setIsLoading(false);
+    setIsUploaded(false);
+    setIsAlert(true);
   };
   const renderAlert = () => {
     if (isUploaded) {
@@ -378,7 +394,8 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
               title: "Add More",
               onPress: () => {
                 closeAlert();
-                setStatesToDefault();
+
+                clearStates();
               },
             },
             {
@@ -386,13 +403,19 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
               backgroundColor: theme.colors.brand.primary,
               title: "Finish",
               onPress: () => {
+                closeAlert();
+
+                clearStates();
                 navigation.navigate("Apartments");
               },
             },
           ]}
           snapPointPercent={"55%"}
           isOpen={isAlert}
-          onClose={() => setIsAlert(false)}
+          onClose={() => {
+            clearStates();
+            navigation.navigate("Apartments");
+          }}
         />
       );
     }
@@ -419,55 +442,40 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             backgroundColor: theme.colors.brand.primary,
             title: "Retry",
             onPress: () => {
+              clearStates();
               closeAlert();
             },
           },
         ]}
         snapPointPercent={"55%"}
         isOpen={isAlert}
-        onClose={() => setIsAlert(false)}
+        onClose={() => {
+          closeAlert();
+        }}
       />
     );
   };
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       return () => bottomSheetRef.current?.close();
     }, [])
   );
+  const isConnected = useCheckNetworkConnection();
+  useEffect(() => {
+    if (!isConnected) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isConnected]);
+
   useEffect(() => {
     if (!isPermissionsAccepted) {
       getPermissions();
     }
-    console.log("cur");
     getCurrentLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    setCreatedApartment({
-      location: location,
-      category: category,
-      price: price,
-      address: address,
-      title: title,
-      description: description,
-      squareMeter: squareMeter,
-      photos: photos,
-      authorId: "hkihigiu",
-      totalRooms: totalRooms,
-      facilities: facilities,
-    });
-  }, [
-    location,
-    category,
-    price,
-    address,
-    title,
-    description,
-    squareMeter,
-    photos,
-    totalRooms,
-    facilities,
-  ]);
 
   return (
     <SafeArea>
@@ -482,8 +490,13 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="top" size="large" />
           <Input
             placeholder="Bungalow House 1 room with ..."
-            value={title}
-            setValue={(state) => setTitle(state)}
+            value={createdApartment.title}
+            setValue={(state) =>
+              setCreatedApartment((apartmnent) => ({
+                ...apartmnent,
+                title: state,
+              }))
+            }
           />
         </SectionTitle>
         <SectionDescription>
@@ -491,8 +504,13 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="top" size="large" />
           <Input
             placeholder="Perfect holiday house with pool ..."
-            value={description}
-            setValue={(state) => setDescription(state)}
+            value={createdApartment.description}
+            setValue={(state) =>
+              setCreatedApartment((apartmnent) => ({
+                ...apartmnent,
+                description: state,
+              }))
+            }
             multiline={true}
             textSize="medium"
           />
@@ -511,8 +529,8 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="top" size="large" />
           <ChipsWrapper>
             {apartmentCategories.map((currentCategory: ApartmentCategory) => {
-              const isSelected = category
-                ? currentCategory.id === category?.id
+              const isSelected = createdApartment.category
+                ? currentCategory.id === createdApartment.category?.id
                 : false;
               return (
                 <Spacer position="right" size="medium">
@@ -520,7 +538,12 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
                   <Chip
                     size="large"
                     isButton={true}
-                    onPress={() => setCategory(currentCategory)}
+                    onPress={() =>
+                      setCreatedApartment((apartmnent) => ({
+                        ...apartmnent,
+                        category: currentCategory,
+                      }))
+                    }
                     isSelected={!!isSelected}
                     title={currentCategory.name}
                   />
@@ -539,7 +562,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             />
             <Spacer position="left" size="medium">
               <Address color={theme.colors.text.muted} variant="body">
-                {address}
+                {createdApartment.address}
               </Address>
             </Spacer>
           </LocationAddressWrapper>
@@ -548,15 +571,18 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             <Map
               ref={mapRef}
               userInterfaceStyle={"light"}
-              region={location}
+              region={createdApartment.location}
               zoomEnabled={true}
               onRegionChangeComplete={(data) => {
                 getAddressFromCoords(data);
-                setLocation(data);
+                setCreatedApartment((apartmnent) => ({
+                  ...apartmnent,
+                  location: data,
+                }));
               }}
             />
             <CustomMarkerWrapper>
-              <CustomMarker image={photos && photos[0]?.photoUrl} />
+              <CustomMarker image={createdApartment.photos[0]?.photoUrl} />
             </CustomMarkerWrapper>
           </MapLocationWrapper>
         </SectionLocation>
@@ -570,7 +596,11 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             <GridView
               width={OUTER_CARD_WIDTH * 0.9}
               style={{ flex: 1, width: "100%" }}
-              data={photos ? ["+", ...photos] : ["+"]}
+              data={
+                createdApartment.photos
+                  ? ["+", ...createdApartment.photos]
+                  : ["+"]
+              }
               keyExtractor={(item) => (item === "+" ? item : item.key)}
               renderItem={renderItem}
               renderLockedItem={renderLockedItem}
@@ -586,8 +616,13 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Text variant="title">Rent Price</Text>
           <Spacer position="top" size="large" />
           <Input
-            value={price}
-            setValue={(state) => setPrice(state)}
+            value={createdApartment.price}
+            setValue={(state) =>
+              setCreatedApartment((apartmnent) => ({
+                ...apartmnent,
+                price: state,
+              }))
+            }
             iconName="ios-logo-euro"
             placeholder="price per month"
             keyboardType="numeric"
@@ -597,8 +632,13 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Text variant="title">Square Meter</Text>
           <Spacer position="top" size="large" />
           <Input
-            value={squareMeter}
-            setValue={(state) => setSquareMeter(state)}
+            value={createdApartment.squareMeter}
+            setValue={(state) =>
+              setCreatedApartment((apartmnent) => ({
+                ...apartmnent,
+                squareMeter: state,
+              }))
+            }
             iconName="cube-outline"
             placeholder="property meters"
             keyboardType="numeric"
@@ -609,14 +649,10 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="top" size="large" />
 
           <FlatList
-            data={featuresList}
+            data={createdApartment.features}
             keyExtractor={(item) => item.type ?? "12"}
             renderItem={({ item }) => (
-              <Spacer
-                // key={`${feature.type}-${i}`}
-                position="bottom"
-                size={"large"}
-              >
+              <Spacer position="bottom" size={"large"}>
                 <CounterRow
                   label={item.type}
                   value={item.quantity}
@@ -640,29 +676,33 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Spacer position="bottom" size={"large"}>
             <CounterRow
               label={"Total Rooms"}
-              value={totalRooms}
+              value={createdApartment.totalRooms}
               onIncrease={() => {
-                setTotalRooms(totalRooms + 1);
+                setCreatedApartment((apartment) => ({
+                  ...apartment,
+                  totalRooms: apartment.totalRooms + 1,
+                }));
               }}
               onDecrease={() => {
-                setIsAlert(true);
-                if (totalRooms <= 1) {
+                if (createdApartment.totalRooms <= 1) {
                   return null;
                 }
-                setTotalRooms(totalRooms - 1);
+                setCreatedApartment((apartment) => ({
+                  ...apartment,
+                  totalRooms: apartment.totalRooms - 1,
+                }));
               }}
             />
           </Spacer>
         </SectionRooms>
         <SectionFacility>
-          <Text variant="title">Total Rooms</Text>
+          <Text variant="title">Property Facilities</Text>
           <Spacer position="top" size="large" />
           <ChipsWrapper>
             {facilitiesList.map((el) => {
-              const selectedFacility = facilities?.find(
+              const selectedFacility = createdApartment.facilities?.find(
                 (value) => value.name === el.name
               );
-
               return (
                 <Spacer key={el.id} position="right" size="medium">
                   <Spacer position="top" size="medium" />
@@ -686,6 +726,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           />
         </ApplyButtonWrapper>
       </ScrollView>
+      <Loading isOpen={isLoading} />
       {isAlert && renderAlert()}
     </SafeArea>
   );

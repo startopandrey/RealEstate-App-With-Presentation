@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { NewApartment } from "../../types/apartments/apartment";
+import { useGetIpAddress } from "../../utils/network";
 export const postTransform = (apartment: NewApartment) => {
   const {
     title,
@@ -14,7 +15,6 @@ export const postTransform = (apartment: NewApartment) => {
     totalRooms,
     facilities,
   }: NewApartment = apartment;
-  console.log(location);
   const formApartment = new FormData();
   formApartment.append("title", title);
   formApartment.append("description", description);
@@ -43,16 +43,11 @@ export const postTransform = (apartment: NewApartment) => {
 
   return formApartment;
 };
-export const postRequest = async (
-  apartment: NewApartment
-): Promise<any> => {
-  postTransform(apartment);
-  //   const apartmentForm = new FormData();
-
-  // return fetch("http://192.168.0.9:7777/apartment/create");
+export const postRequest = async (apartment: NewApartment): Promise<any> => {
+  const ipAddress = "172.20.10.8";
   try {
     const res = await axios.post(
-      "http://192.168.0.113:7777/apartment/create",
+      `http://${ipAddress}:7777/apartment/create`,
       postTransform(apartment),
       {
         headers: {
