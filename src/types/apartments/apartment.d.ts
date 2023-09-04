@@ -27,7 +27,10 @@ export interface Facility {
   id: number;
   name: string;
 }
-
+export interface ApartmentFeature {
+  type: "bedroom" | "bathroom" | "balcony";
+  quantity: number;
+}
 export interface NewApartment {
   location: Location;
   category: ApartmentCategory | null;
@@ -38,6 +41,7 @@ export interface NewApartment {
   squareMeter: string;
   photos: ApartmentPhoto[];
   authorId: string;
+  features: ApartmentFeature[];
   facilities?: Facility[] | null;
   totalRooms: number;
 }
