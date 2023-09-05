@@ -22,7 +22,7 @@ export interface FontSizesType {
   title: "18px";
   subtitle: "14px";
   h5: "24px";
-  h4: "34px";
+  h4: "28px";
   h3: "45px";
   h2: "56px";
   h1: "112px";
@@ -53,7 +53,7 @@ export const fontSizes: FontSizesType = {
   subtitle: "14px",
   title: "18px",
   h5: "24px",
-  h4: "34px",
+  h4: "28px",
   h3: "45px",
   h2: "56px",
   h1: "112px",

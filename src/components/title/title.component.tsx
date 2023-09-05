@@ -1,18 +1,19 @@
 import styled from "styled-components/native";
 import { Text } from "../typography/text.component";
 import { TitleType } from "./title.d";
-import React, { FC } from "react";
+import React from "react";
+
 const TitleRegular = styled(Text)`
   text-align: center;
-  font-size: ${(props) => props.theme.fontSizes.h5};
+  font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.latoRegular};
   text-transform: inherit;
   text-align: left;
 `;
 const TitleBold = styled(Text)`
   text-align: center;
-  font-size: ${(props) => props.theme.fontSizes.h5};
-  text-transform: lowercase;
+  font-size: ${(props) => props.theme.fontSizes.h4};
+  text-transform: inherit;
   text-align: left;
 `;
 const TitleWrapper = styled.Text`

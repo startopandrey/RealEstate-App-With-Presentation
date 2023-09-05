@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../infrastructure/theme";
 import React from "react";
-import { Text, View } from "react-native";
+import { KeyboardTypeOptions, Text, View } from "react-native";
 const CustomInput = styled.TextInput<{ textSize: "medium" | "large" }>`
   padding-right: ${(props) => props.theme.space[3]};
   padding-left: ${(props) => props.theme.space[3]};
@@ -16,8 +16,6 @@ const CustomInput = styled.TextInput<{ textSize: "medium" | "large" }>`
       : props.theme.fonts.latoRegular};
   font-size: ${(props) => props.theme.fontSizes.title};
   color: ${(props) => props.theme.colors.text.primary};
-  line-height: 27px;
-
 `;
 const CustomInputIcon = styled(Ionicons)`
   position: absolute;
@@ -32,7 +30,7 @@ export const Input = ({
   setValue,
   iconName,
   keyboardType = "default",
-
+  isPasswordShowed = false,
   disabled = false,
   defaultValue,
   placeholder,
@@ -41,9 +39,10 @@ export const Input = ({
 }: {
   value?: string;
   setValue?: (value) => void;
+  isPasswordShowed?: boolean;
   iconName?: string;
   defaultValue?: string;
-  keyboardType?: string;
+  keyboardType?: KeyboardTypeOptions;
   disabled?: boolean;
   placeholder?: string;
   multiline?: boolean;
@@ -54,6 +53,7 @@ export const Input = ({
       <CustomInput
         placeholder={placeholder}
         editable={!disabled}
+        secureTextEntry={isPasswordShowed}
         selectTextOnFocus={!disabled}
         placeholderTextColor={theme.colors.ui.purple}
         onChangeText={setValue}
@@ -67,7 +67,7 @@ export const Input = ({
         keyboardType={keyboardType}
         textSize={textSize}
       >
-        <Text style={{ lineHeight: 27, height: 27 }}>{value}</Text>
+        <Text>{value}</Text>
       </CustomInput>
       <CustomInputIcon
         color={theme.colors.text.primary}

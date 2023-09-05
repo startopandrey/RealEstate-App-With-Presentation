@@ -1,5 +1,5 @@
 export type AccountStackNavigatorParamList = {
-    Main: undefined;
+  Onboarding: undefined;
     Login: undefined;
     Register: undefined;
   };
