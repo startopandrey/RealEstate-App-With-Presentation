@@ -11,9 +11,8 @@ const Stack = createStackNavigator<AccountStackNavigatorParamList>();
 
 export const AccountNavigator = () => (
   <Stack.Navigator headerMode="none">
+    <Stack.Screen name="Register" component={RegisterScreen} />
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-
-    <Stack.Screen name="Register" component={RegisterScreen} />
   </Stack.Navigator>
 );

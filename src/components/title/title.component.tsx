@@ -17,7 +17,7 @@ const TitleBold = styled(Text)`
   text-align: left;
 `;
 const TitleWrapper = styled.Text`
-  width: 70%;
+  width: 80%;
   line-height: 35%;
   text-align: left;
 `;

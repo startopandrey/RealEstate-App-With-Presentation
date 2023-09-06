@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
-import { Button, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { colors } from "../../../infrastructure/theme/colors";
 import { Text } from "../../../components/typography/text.component";
+import { Button } from "../../../components/button/button.component";
 export const HeaderWrapper = styled.View`
   flex-direction: row;
   align-items: center;
@@ -98,4 +99,8 @@ export const AuthBannerWrapper = styled.View`
 `;
 export const AuthSwitchText = styled.Text`
   text-align: center;
+`;
+export const AuthButton = styled(Button)`
+
+  /* flex: 1; */
 `;

@@ -11,6 +11,7 @@ import {
   AuthBannerWrapper,
   AuthBanner,
   AuthSwitchText,
+  AuthButton,
 } from "../components/account.styles";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import styled from "styled-components/native";
@@ -77,8 +78,10 @@ export const LoginScreen = ({ navigation }: Props) => {
               } password`}</Text>
             </TouchableOpacity>
           </FormRow>
+          <Spacer position="top" size="large" />
+          <AuthButton title="Register" onPress={() => null}></AuthButton>
         </AuthForm>
-        <AuthSwitch>
+        <AuthSwitch onPress={() => navigation.navigate("Register")}>
           <AuthSwitchText>
             <Text variant="body">Don’t have an account? </Text>
             <Text variant="subtitle">Register</Text>
