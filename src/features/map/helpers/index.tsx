@@ -28,15 +28,14 @@ export const onScroll = (
     }
 
     mapIndex.current = index;
-    const coordinate =
-      apartmentsDisplayed[index] && apartmentsDisplayed[index].geometry;
+    const { location } = apartmentsDisplayed[index];
 
     setTimeout(
       () =>
         _map.current?.animateToRegion(
           {
-            latitude: coordinate.location.lat,
-            longitude: coordinate.location.lng,
+            latitude: location.latitude,
+            longitude: location.longitude,
             latitudeDelta: latDelta,
             longitudeDelta: 0.01,
           },

@@ -24,13 +24,15 @@ export const Favourite = ({
   apartment,
   size = "small",
 }: {
-  apartment: Apartment;
+  apartment: NewApartment;
   size?: "small" | "medium";
 }) => {
   const { favourites, addToFavourites, removeFromFavourites } =
     useContext(FavouritesContext);
 
-  const isFavourite: boolean = !!favourites?.find((r) => r.id === apartment.id);
+  const isFavourite: boolean = !!favourites?.find(
+    (r) => r._id === apartment._id
+  );
 
   return (
     <FavouriteButton
