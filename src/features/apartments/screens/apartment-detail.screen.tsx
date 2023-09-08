@@ -4,11 +4,14 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 
 import { CartContext } from "../../../services/cart/cart.context";
-import { ListRenderItem } from "react-native";
+import { ListRenderItem, View, Linking, Share } from "react-native";
+
 import {
   Apartment,
+  ApartmentFeature,
   ApartmentStackNavigatorParamList,
-} from "src/types/apartments/apartment";
+  NewApartment,
+} from "../../../types/apartments/apartment";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ApartmentOverview } from "../components/apartment-overview.component";
 
@@ -42,74 +45,48 @@ import {
   MapRedirectButton,
   DescriptionWrapper,
   Description,
+  ApartmentFeatures,
+  ChipsWrapper,
 } from "../components/apartment-detail.styles";
 import { CustomMarker } from "../../../features/map/components/custom-marker.component";
+import { LATITUDE_DELTA } from "../../../utils/constants";
+import { facilitiesList, featuresListMock } from "../../../../mockData";
 
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "ApartmentDetail"
 >;
 
-interface FacilityListProps {
+interface FeatureVariantsType {
   icon: keyof typeof Ionicons.glyphMap;
-  facility: {
-    name: string;
-    number: number;
-  };
+  id: string;
 }
 
 export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
-  const { apartment }: { apartment: Apartment } = route.params!;
-  const { title, address, apartmentPrice, author } = apartment;
+  const { apartment }: { apartment: NewApartment } = route.params!;
+  const { title, address, price, authorId, photos, facilities, features } =
+    apartment;
+  const apartmentPhoto =
+    photos[0]?.url ??
+    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
   const { addToCart } = useContext(CartContext);
   const { location } = useContext(LocationContext);
-  const [latDelta, setLatDelta] = useState(0);
-  const { lat, lng, viewport } = location!;
 
-  useEffect(() => {
-    const northeastLat = viewport.northeast.lat;
-    const southwestLat = viewport.southwest.lat;
-    setLatDelta(northeastLat - southwestLat);
-  }, [location, viewport]);
-  const facilitiesData: FacilityListProps[] = [
+  const featureVariant: FeatureVariantsType[] = [
     {
       icon: "bed-outline",
-      facility: {
-        name: "Bedroom",
-        number: 2,
-      },
+      id: "1",
     },
     {
       icon: "water-outline",
-      facility: {
-        name: "Bathroom",
-        number: 3,
-      },
+      id: "2",
     },
     {
       icon: "fast-food-outline",
-      facility: {
-        name: "Kitchen",
-        number: 1,
-      },
+      id: "3",
     },
   ];
-  const renderFacilityItem: ListRenderItem<FacilityListProps> = ({
-    item,
-  }: {
-    item: FacilityListProps;
-  }) => {
-    return (
-      <Spacer position={"right"} size={"medium"}>
-        <Chip
-          size={"large"}
-          iconColor={theme.colors.brand.primary}
-          iconName={item.icon}
-          title={`${item.facility.number} ${item.facility.name}`}
-        />
-      </Spacer>
-    );
-  };
+
   return (
     <SafeArea>
       <ScrollView>
@@ -136,7 +113,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
             <Chip isSelected={false} size="large" title="Buy" />
           </SaleType>
           <SalePriceWrapper>
-            <SalePrice variant="title">€ {apartmentPrice}</SalePrice>
+            <SalePrice variant="title">€ {price}</SalePrice>
             <SaleMonth variant="body" color={theme.colors.text.muted}>
               per month
             </SaleMonth>
@@ -144,7 +121,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
         </SaleInfo>
         <DescriptionWrapper>
           <Text variant="title">Description</Text>
-          <Spacer position="top" size="large"></Spacer>
+          <Spacer position="top" size="large" />
           <Description variant="body">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
@@ -154,10 +131,14 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
           <Divider />
         </Spacer>
         <Spacer position="bottom" size="large" />
-        <AgentCard>
+        <AgentCard onPress={() => Linking.openURL("tel:+380673569597")}>
           <AgentInfo>
             <Spacer position="right" size="large">
-              <AgentPhoto source={{ uri: author.avatarImage }} />
+              <AgentPhoto
+                source={{
+                  uri: "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_100_100/0/1691073703367?e=1694610000&v=beta&t=rHsG_DXMo0y3rLwUtGWhlZRfj3wPhULlF-v98e10zgM",
+                }}
+              />
             </Spacer>
             <AgentContact>
               <Text variant="caption">Anderson</Text>
@@ -172,16 +153,55 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
           />
         </AgentCard>
         <Spacer position={"top"} size="medium" />
+        <ApartmentFeatures>
+          <Text variant="title">Property Features</Text>
+          <Spacer position={"top"} size="large">
+            <ChipsWrapper>
+              {features.map((item: ApartmentFeature) => {
+                const variant = featureVariant.find((el) => el.id === item.id);
+                console.log(variant);
+                if (!variant) {
+                  return;
+                }
+                return (
+                  <Spacer position={"right"} size={"medium"}>
+                    <Spacer position="top" size="medium" />
+                    <Chip
+                      size={"large"}
+                      iconColor={theme.colors.brand.primary}
+                      iconName={variant.icon}
+                      title={`${item.type} ${item.quantity}`}
+                    />
+                  </Spacer>
+                );
+              })}
+            </ChipsWrapper>
+          </Spacer>
+        </ApartmentFeatures>
         <Spacer position={"left"} size="medium">
-          <ScrollView>
-            <FacilitiesList
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-              data={facilitiesData}
-              renderItem={renderFacilityItem}
-              keyExtractor={(item: any) => item?.icon!}
-            />
-          </ScrollView>
+          {facilities && (
+            <View>
+              <Text variant="title">Property Facilities</Text>
+              <Spacer position="top" size="large" />
+              <ChipsWrapper>
+                {facilitiesList.map((el) => {
+                  const selectedFacility = facilities.find(
+                    (value) => value.name === el.name
+                  );
+                  return (
+                    <Spacer position="right" size="medium">
+                      <Spacer position="top" size="medium" />
+                      <Chip
+                        size="large"
+                        isSelected={!!selectedFacility}
+                        title={el.name}
+                      />
+                    </Spacer>
+                  );
+                })}
+              </ChipsWrapper>
+            </View>
+          )}
         </Spacer>
         <Spacer position={"top"} size="large" />
         <ApartmentLocation>
@@ -198,7 +218,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
               </Text>
             </Spacer>
           </ApartmentAddressWrapper>
-          <Spacer position="top" size="large"></Spacer>
+          <Spacer position="top" size="large" />
           <MapApartmentWrapper
             onPress={() =>
               navigation.navigate("Map", { selectedApartment: apartment })
@@ -207,22 +227,28 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
             <Map
               userInterfaceStyle={"light"}
               region={{
-                latitude: apartment.geometry.location.lat,
+                latitude: apartment.location.latitude,
                 longitudeDelta: 0.01,
-                latitudeDelta: latDelta,
-                longitude: apartment.geometry.location.lng,
+                latitudeDelta: LATITUDE_DELTA,
+                longitude: apartment.location.longitude,
               }}
             >
               <Marker
-                key={apartment.name}
-                title={apartment.name}
+                key={apartment.title}
+                title={apartment.title}
+                flat
                 onPress={() => null}
                 coordinate={{
-                  latitude: apartment.geometry.location.lat,
-                  longitude: apartment.geometry.location.lng,
+                  latitude: apartment.location.latitude,
+                  longitude: apartment.location.longitude,
                 }}
               >
-                <CustomMarker image={apartment.photos[0]} />
+                <CustomMarker
+                  image={
+                    apartment.photos[0].url ??
+                    "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png"
+                  }
+                />
               </Marker>
             </Map>
             <MapRedirectButton>
