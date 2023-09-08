@@ -1,6 +1,8 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import firebase from "firebase";
-import { loginRequest } from "./authentication.service";
+import { loginRequest, registerRequest } from "./authentication.service";
+import { Location } from "src/types/apartments/apartment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface AuthenticationContextType {
   isAuthenticated?: boolean;
@@ -8,15 +10,38 @@ interface AuthenticationContextType {
   isLoading: boolean;
   error: string | null;
   onLogin: (email: string, password: string) => void;
-  onRegister: (email: string, password: string, repeatedPassword: string) => void;
+  onRegister: (
+    email: string,
+    password: string,
+    userLocation: Location,
+    username: string
+  ) => void;
+
   onLogout: () => void;
 }
-export const AuthenticationContext = createContext<AuthenticationContextType>({});
+export const AuthenticationContext =
+  createContext<AuthenticationContextType | null>({});
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<firebase.User | null>();
   const [error, setError] = useState<string | null>(null);
+
+  const saveUserToStorage = async (user) => {
+    const userJson = JSON.stringify(user);
+    await AsyncStorage.setItem("@user", userJson);
+  };
+
+  useEffect(() => {
+    const getUserFromStorage = async () => {
+      const userFromStorage = await AsyncStorage.getItem("@user");
+
+      if (userFromStorage) {
+        return setUser(JSON.parse(userFromStorage));
+      }
+    };
+    getUserFromStorage();
+  }, []);
 
   firebase.auth().onAuthStateChanged((usr) => {
     if (usr) {
@@ -30,27 +55,31 @@ export const AuthenticationContextProvider = ({ children }) => {
   const onLogin = (email, password) => {
     setIsLoading(true);
     loginRequest(email, password)
-      .then((u) => {
-        setUser(u);
+      .then((data) => {
+        const user = data.data.data;
+        console.log(user);
+        if (user && user._id) {
+          saveUserToStorage(user);
+          setUser(user);
+        }
+
         setIsLoading(false);
       })
-      .catch((e: string) => {
+      .catch((e) => {
+        console.log(e);
         setIsLoading(false);
         setError(e.toString());
       });
   };
 
-  const onRegister = (email, password, repeatedPassword) => {
+  const onRegister = (email, password, userLocation, username) => {
     setIsLoading(true);
-    if (password !== repeatedPassword) {
-      setError("Error: Passwords do not match");
-    }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((u: firebase.auth.UserCredential) => {
-        if (!u) {
-          setUser(u);
+    registerRequest(email, password, userLocation, username)
+      .then((data) => {
+        const user = data.data.data;
+        if (user && user._id) {
+          saveUserToStorage(user);
+          setUser(user);
         }
 
         setIsLoading(false);
@@ -61,14 +90,10 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
   };
 
-  const onLogout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setUser(null);
-        setError(null);
-      });
+  const onLogout = async () => {
+    await AsyncStorage.removeItem("@user");
+    setUser(null);
+    setError(null);
   };
 
   return (
