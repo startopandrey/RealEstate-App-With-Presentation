@@ -1,5 +1,5 @@
 import { SafeArea } from "../../../components/utility/safe-area.component";
-import React from "react";
+import React, { useContext } from "react";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { ProfileStackNavigatorParamList } from "../../../types/profile";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -13,9 +13,12 @@ import {
   UserForm,
   LogoutWrapper,
 } from "../components/profile-edit.styles";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
 export const ProfileEditScreen = ({ navigation }: Props) => {
+  const { user, onLogout } = useContext(AuthenticationContext);
+
   return (
     <SafeArea>
       <Header>
@@ -31,24 +34,24 @@ export const ProfileEditScreen = ({ navigation }: Props) => {
         <Spacer position="top" size="xl" />
         <Input
           disabled={true}
-          defaultValue="Andrew Ilyukhin"
+          defaultValue={user.username}
           iconName="person-circle-outline"
         />
         <Spacer position="top" size="large" />
         <Input
           disabled={true}
-          defaultValue="+38 068-35-695-97"
+          defaultValue="+38 077-77-777-77"
           iconName="call-outline"
         />
         <Spacer position="top" size="large" />
         <Input
           disabled={true}
-          defaultValue="andrey01work@gmail.com"
+          defaultValue={user.email}
           iconName="mail-outline"
         />
       </UserForm>
       <LogoutWrapper>
-        <Button onPress={() => null} title="Logout" />
+        <Button onPress={() => onLogout()} title="Logout" />
       </LogoutWrapper>
     </SafeArea>
   );

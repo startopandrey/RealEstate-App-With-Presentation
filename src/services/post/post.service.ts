@@ -1,6 +1,7 @@
 import axios from "axios";
 import { NewApartment } from "../../types/apartments/apartment";
 import { useGetIpAddress } from "../../utils/network";
+import { serverUrl } from "../../utils/env";
 export const postTransform = (apartment: NewApartment) => {
   const {
     title,
@@ -44,10 +45,10 @@ export const postTransform = (apartment: NewApartment) => {
   return formApartment;
 };
 export const postRequest = async (apartment: NewApartment): Promise<any> => {
-  const ipAddress = "172.20.10.8";
+
   try {
     const res = await axios.post(
-      `http://${ipAddress}:7777/apartment/create`,
+      `${serverUrl}/apartment/create`,
       postTransform(apartment),
       {
         headers: {

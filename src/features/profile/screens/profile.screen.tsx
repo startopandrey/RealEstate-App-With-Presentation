@@ -24,10 +24,11 @@ import {
   TabsBarWrapper,
   SectionCategories,
 } from "../components/profile.styles";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
 export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {
-  // const { user } = useContext(AuthenticationContext);
+  const { user } = useContext(AuthenticationContext);
   const { apartments } = useContext(ApartmentsContext);
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
   const renderListingSection = () => {
@@ -70,11 +71,9 @@ export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {
             source={require("../../../../assets/avatar.jpg")}
           />
           <Spacer position="top" size="large" />
-          <Text variant="title">{"Andrew Ilyukhin"}</Text>
+          <Text variant="title">{user.username}</Text>
           <Spacer position="top" size="small" />
-          <TextLowercase variant="body">
-            {"andrey01work@gmail.com"}
-          </TextLowercase>
+          <TextLowercase variant="body">{user.email}</TextLowercase>
         </UserInfo>
         <ActivityInfo>
           {[

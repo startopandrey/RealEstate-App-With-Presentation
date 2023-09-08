@@ -11,7 +11,7 @@ export const Navigation = () => {
   // refactor
   return (
     <NavigationContainer>
-      {false ? <AppNavigator /> : <AccountNavigator />}
+      {isAuthenticated ? <AppNavigator /> : <AccountNavigator />}
     </NavigationContainer>
   );
 };

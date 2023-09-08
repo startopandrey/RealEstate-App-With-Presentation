@@ -35,12 +35,12 @@ type Props = NativeStackScreenProps<
   "Settings"
 >;
 export const SettingsScreen = ({ navigation }: Props) => {
-  const { onLogout, user } = useContext(AuthenticationContext);
+  const { user } = useContext(AuthenticationContext);
   return (
     <SettingsBackground>
       <TransperantSafeArea>
         <AvatarContainer>
-          <Avatar.Icon
+          <Avatar.Iconz
             size={180}
             icon="human"
             style={{backgroundColor: colors.brand.primary}}
@@ -86,7 +86,7 @@ export const SettingsScreen = ({ navigation }: Props) => {
             left={(props) => (
               <List.Icon {...props} color={colors.ui.secondary} icon="door" />
             )}
-            onPress={onLogout}
+            onPress={()=> onLogout()}
           />
         </List.Section>
       </TransperantSafeArea>

@@ -35,17 +35,15 @@ import {
   Greeting,
   NotificationsButton,
   HeaderEnd,
-  Loading,
   CategoriesList,
   Header,
-  LoadingContainer,
   LocationDropdown,
   LocationChipItem,
   AgentChipItem,
   HeaderOverlay,
 } from "../components/apartment.styles";
 import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
-import axios from "axios";
+import { Loading } from "../../../components/loading/loading.component";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"
@@ -62,11 +60,6 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
   return (
     <SafeArea>
       <ScrollViewNative nestedScrollEnabled={true}>
-        {isLoading && (
-          <LoadingContainer>
-            <Loading size={50} animating={true} color={Colors.blue300} />
-          </LoadingContainer>
-        )}
         <Header>
           <HeaderOverlay />
           <LocationDropdown>
@@ -284,6 +277,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
           </Spacer>
         </ScrollView>
       </ScrollViewNative>
+      <Loading isOpen={isLoading}></Loading>
     </SafeArea>
   );
 };

@@ -1,4 +1,11 @@
-import React, { memo, useCallback, useState, useEffect, useRef } from "react";
+import React, {
+  memo,
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from "react";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { PostStackNavigatorParamList } from "../../../types/post";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -77,13 +84,14 @@ import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 import { useFocusEffect } from "@react-navigation/native";
 import { Loading } from "../../../components/loading/loading.component";
 import { useCheckNetworkConnection } from "../../../utils/network";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
 export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const mapRef = useRef<MapView | null>(null);
   const mainRef = useRef<ScrollView>(null);
-
+  const { user } = useContext(AuthenticationContext);
   const [isUploaded, setIsUploaded] = useState(false);
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
@@ -98,7 +106,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const photosLength = createdApartment.photos
     ? createdApartment.photos.length
     : 0;
-  console.log(createdApartment);
+
   const getPermissions = async () => {
     const isGalleryAccepted = await isGalleryPermission();
     const isLocationPermissionAccepted = await isLocationPermission();
@@ -468,6 +476,12 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
       setIsLoading(false);
     }
   }, [isConnected]);
+  useEffect(() => {
+    setCreatedApartment((apartment: NewApartment) => ({
+      ...apartment,
+      authorId: user._id,
+    }));
+  }, [user]);
 
   useEffect(() => {
     if (!isPermissionsAccepted) {
