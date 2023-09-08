@@ -14,6 +14,7 @@ export const postTransform = (apartment: NewApartment) => {
     price,
     authorId,
     totalRooms,
+    features,
     facilities,
   }: NewApartment = apartment;
   const formApartment = new FormData();
@@ -27,6 +28,7 @@ export const postTransform = (apartment: NewApartment) => {
   formApartment.append("authorId", authorId);
   formApartment.append("totalRooms", totalRooms);
   formApartment.append("facilities", JSON.stringify(facilities));
+  formApartment.append("features", JSON.stringify(features));
   if (photos) {
     photos.forEach((photo) => {
       const photoUrl = photo.photoUrl;
@@ -45,7 +47,6 @@ export const postTransform = (apartment: NewApartment) => {
   return formApartment;
 };
 export const postRequest = async (apartment: NewApartment): Promise<any> => {
-
   try {
     const res = await axios.post(
       `${serverUrl}/apartment/create`,
