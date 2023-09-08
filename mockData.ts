@@ -5,9 +5,9 @@ import {
 } from "./src/types/apartments/apartment";
 
 export const featuresListMock: ApartmentFeature[] = [
-  { type: "bedroom", quantity: 1 },
-  { type: "bathroom", quantity: 1 },
-  { type: "balcony", quantity: 1 },
+  { id: 1, type: "bedroom", quantity: 1 },
+  { id: 2, type: "bathroom", quantity: 1 },
+  { id: 3, type: "balcony", quantity: 1 },
 ];
 export const apartmentCategories = [
   { id: 1, name: "House" },
