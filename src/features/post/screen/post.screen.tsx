@@ -412,7 +412,6 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
               title: "Finish",
               onPress: () => {
                 closeAlert();
-
                 clearStates();
                 navigation.navigate("Apartments");
               },
