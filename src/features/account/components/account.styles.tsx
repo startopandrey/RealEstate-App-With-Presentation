@@ -84,6 +84,7 @@ export const FormRow = styled.View`
 export const AuthSwitch = styled.TouchableOpacity`
   width: 100%;
   justify-content: space-between;
+
 `;
 export const AuthBanner = styled.Image`
   width: 100%;
