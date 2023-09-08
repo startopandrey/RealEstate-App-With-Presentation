@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { AccountStackNavigatorParamList } from "src/types/accout";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { TouchableOpacity, View, Text as TextNative } from "react-native";
+import { TouchableOpacity } from "react-native";
 import {
   AuthSwitch,
   AuthContainer,
@@ -14,18 +14,19 @@ import {
   AuthButton,
 } from "../components/account.styles";
 import { SafeArea } from "../../../components/utility/safe-area.component";
-import styled from "styled-components/native";
 import { Title } from "../../../components/title/title.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { Input } from "../../../components/input/input.component";
+import { isValidLogin, isValidRegister } from "../../../utils/tests.test";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordShowed, setIsPasswordShowed] = useState(false);
-  // const { onLogin, error, isLoading } = useContext(AuthenticationContext);
+  const { onLogin, error, isLoading } = useContext(AuthenticationContext);
   const showPassword = () => {
     setIsPasswordShowed((pwd) => !pwd);
   };
@@ -54,6 +55,7 @@ export const LoginScreen = ({ navigation }: Props) => {
           <Input
             setValue={setEmail}
             value={email}
+            textTransform={"lowercase"}
             iconName="mail-outline"
             keyboardType="email-address"
             placeholder={"Email"}
@@ -78,8 +80,12 @@ export const LoginScreen = ({ navigation }: Props) => {
               } password`}</Text>
             </TouchableOpacity>
           </FormRow>
-          <Spacer position="top" size="large" />
-          <AuthButton title="Register" onPress={() => null}></AuthButton>
+          <Spacer position="top" size="xl" />
+          <AuthButton
+            disabled={!isValidLogin(email, password)}
+            title="Login"
+            onPress={() => onLogin(email, password)}
+          ></AuthButton>
         </AuthForm>
         <AuthSwitch onPress={() => navigation.navigate("Register")}>
           <AuthSwitchText>
