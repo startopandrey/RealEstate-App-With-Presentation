@@ -113,7 +113,7 @@ export const Alert = forwardRef(
                 />
               ))}
             </ButtonsWrapper>
-            <Spacer position="top" size="xl" />
+            <Spacer position="top" size="xxl" />
           </AlertWrapper>
         </CustomBottomSheet>
       </CustomBottomSheetWrapper>

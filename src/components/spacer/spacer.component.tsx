@@ -6,7 +6,7 @@ type SpacerProps = {
   size?: "small" | "medium" | "large" | "xl" | "xxl";
   key?: any;
   // theme?:
-  children?: string | JSX.Element | JSX.Element[];
+  children?: React.ReactElement | string | JSX.Element | JSX.Element[] | null;
 };
 const sizeVariant = {
   small: 1,

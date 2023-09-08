@@ -33,6 +33,7 @@ const ChipText = styled.Text<{
     props.isSelected == false
       ? props.theme.fonts.ralewayBold
       : props.theme.fonts.ralewayMedium};
+  text-transform: capitalize;
   font-size: ${(props) => props.theme.fontSizes.body};
   font-weight: ${(props) => props.theme.fontWeights.bold};
 `;
