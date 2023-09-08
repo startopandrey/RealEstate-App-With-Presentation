@@ -1,26 +1,57 @@
 import camelize from "camelize";
-import { host, isMock } from "../../utils/env";
-import { Apartment } from "../../types/apartments/apartment";
-export const apartmentsRequest = (location: string = "51.219448,4.402464") => {
-  return fetch(`${host}/placesNearby?location=${location}&mock=${isMock}`).then(
-    (res: Response) => {
-      return res.json();
-    }
-  );
+import { host, ipAddress, isMock, serverUrl } from "../../utils/env";
+import {
+  Apartment,
+  Location,
+  NewApartment,
+} from "../../types/apartments/apartment";
+import antwerp from "../../../functions/places/mock/antwerp";
+import { useContext } from "react";
+import { LocationContext } from "../location/location.context";
+
+export const apartmentsRequest = async (location) => {
+  const mockApartment = new Promise((resolve, reject) => {
+    console.log(antwerp.results);
+    resolve(antwerp);
+  });
+  return true
+    ? fetch(`${serverUrl}/api/apartment/getAllApartments`).then(
+        (res: Response) => {
+          console.log(res);
+          return res.json();
+        }
+      )
+    : fetch(`${host}/placesNearby?location=${location}&mock=${isMock}`).then(
+        (res: Response) => {
+          return res.json();
+        }
+      );
 };
 
 export const apartmentsTransform = ({
-  results = [],
+  data = [],
+  location,
 }: {
-  results: Apartment[];
+  data: Apartment[];
+  location: Location;
 }): Apartment[] => {
-  const camelizedApartments = camelize(results);
+  console.log(data, "resl");
+  const camelizedApartments = data;
   const mappedResults = camelizedApartments.map((apartment: Apartment) => {
-    return {
-      ...apartment,
-      address: apartment.vicinity,
-    };
+    return apartment;
   });
+  const isApartmentInRadius = (marker, circle, radius) => {
+    console.log(marker, circle)
+    const km = radius / 1000;
+    const kx = Math.cos((Math.PI * circle.latitude) / 180) * 111;
+    const dx = Math.abs(circle.longitude - marker.longitude) * kx;
+    const dy = Math.abs(circle.latitude - marker.latitude) * 111;
+    return Math.sqrt(dx * dx + dy * dy) <= km;
+  };
 
-  return mappedResults;
+  const apartmentsResults = mappedResults.filter(
+    (ap) => isApartmentInRadius(ap.location, location, 20000) && ap
+  );
+  console.log(apartmentsResults, "reso");
+  return apartmentsResults;
 };

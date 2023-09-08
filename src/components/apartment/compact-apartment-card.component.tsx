@@ -105,7 +105,16 @@ export const CompactApartmentCard = ({
   isMap?: boolean;
   children?: React.ReactNode;
 }) => {
-  const { rating = 4.5, address, apartmentPrice, title = "sdf" } = apartment;
+  const {
+    rating = 4.5,
+    address,
+    apartmentPrice,
+    title = "sdf",
+    photos,
+  } = apartment;
+  const apartmentPhoto =
+    photos[0]?.photoUrl ??
+    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
   return (
     <ApartmentCard onPress={onPress}>
       <CompactApartmentPhoto>
@@ -118,7 +127,7 @@ export const CompactApartmentCard = ({
         </ChipWrapper>
         <ApartmentCardCover
           key={title}
-          source={{ uri: apartment.photos[0], headers: { Accept: "image/*" } }}
+          source={{ uri: apartmentPhoto, headers: { Accept: "image/*" } }}
         />
       </CompactApartmentPhoto>
       <ApartmentInfo>

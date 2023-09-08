@@ -4,7 +4,7 @@ import { Favourite } from "../../../components/favourites/favourite.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { AntDesign } from "@expo/vector-icons";
-import { Apartment as ApartmentType } from "../../../types/apartments/apartment";
+import { Apartment as ApartmentType, NewApartment } from "../../../types/apartments/apartment";
 import {
   ApartmentCard,
   ApartmentCardCover,
@@ -27,20 +27,21 @@ export const ApartmentInfoCard = ({
   apartment,
   isMap = false,
 }: {
-  apartment: ApartmentType;
+  apartment: NewApartment;
   isMap?: boolean;
 }) => {
+  console.log(apartment, "apo")
   const {
     title = "Sky Dandelions Apartment",
-    photos = [
-      "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
-      "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
-    ],
+    photos,
     address = "100 some random street",
     rating = 4,
-    apartmentPrice,
+    price,
   } = apartment;
 
+  const apartmentPhoto =
+    photos[0]?.url ??
+    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
   return (
     <ApartmentCard>
       <ApartmentPhoto>
@@ -51,7 +52,7 @@ export const ApartmentInfoCard = ({
         <ApartmentCardCover
           isMap={isMap}
           key={title}
-          source={{ uri: photos[0], headers: { Accept: "image/*" } }}
+          source={{ uri: apartmentPhoto }}
         />
       </ApartmentPhoto>
       <Info>
@@ -78,7 +79,7 @@ export const ApartmentInfoCard = ({
           )}
         </Section>
         <PriceContainer>
-          <Price>€ {apartmentPrice}</Price>
+          <Price>€ {price}</Price>
           <Month>/month</Month>
         </PriceContainer>
       </Info>

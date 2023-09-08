@@ -3,7 +3,7 @@ import React, { useState, useContext, createContext, useEffect } from "react";
 import { apartmentsRequest, apartmentsTransform } from "./apartments.service";
 
 import { LocationContext } from "../location/location.context";
-import { Apartment } from "src/types/apartments/apartment";
+import { Apartment, Location } from "src/types/apartments/apartment";
 import { FavouritesContext } from "../favourites/favourites.context";
 interface ApartmentsContextType {
   apartments: Apartment[];
@@ -22,13 +22,13 @@ export const ApartmentsContextProvider = ({ children }) => {
   const { location } = useContext(LocationContext);
   const { favourites } = useContext(FavouritesContext);
 
-  const retrieveApartments = (loc: string): void => {
+  const retrieveApartments = (loc: Location): void => {
     setIsLoading(true);
     setApartments([]);
-
     apartmentsRequest(loc)
-      .then(apartmentsTransform)
+      .then((data) => apartmentsTransform({ data: data.data, location: loc }))
       .then((results: Apartment[]) => {
+        console.log(results, "lll");
         setError("");
         setIsLoading(false);
         setApartments(results);
@@ -40,8 +40,7 @@ export const ApartmentsContextProvider = ({ children }) => {
   };
   useEffect(() => {
     if (location) {
-      const locationString: string = `${location.lat},${location.lng}`;
-      retrieveApartments(locationString);
+      retrieveApartments(location);
     }
   }, [location]);
 

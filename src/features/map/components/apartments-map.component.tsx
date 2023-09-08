@@ -64,7 +64,20 @@ export const ApartmentsMap = ({
   const mapIndex = useRef(0);
   const scrollAnimation = useRef(new Animated.Value(0)).current;
 
-  const { lat, lng, viewport } = location!;
+  const { latitude, longitude, viewport } = location!;
+
+  useEffect(() => {
+    const { latitude, longitude } = location!;
+    const northeastLat = viewport.northeast.lat;
+    const southwestLat = viewport.southwest.lat;
+    setLatDelta(northeastLat - southwestLat);
+    setInitialRegion({
+      latitude: latitude,
+      longitudeDelta: 0.01,
+      latitudeDelta: latDelta,
+      longitude: longitude,
+    });
+  }, [location]);
 
   const mapScrollToIndex = (index: number) => {
     flatlistRef.current?.scrollToIndex({
@@ -92,21 +105,24 @@ export const ApartmentsMap = ({
     );
     setApartmentsDisplayed([selectedApartment, ...filteredApartments]);
   }, [apartments, selectedApartment, selectedApartment?.id]);
-  useEffect(() => {
-    const resetInitialRegion = (apartment: Apartment) => {
-      setInitialRegion({
-        latitude: apartment.geometry.location.lat,
-        longitudeDelta: 0.01,
-        latitudeDelta: latDelta,
-        longitude: apartment.geometry.location.lng,
-      });
-    };
-    if (!selectedApartment) {
-      resetInitialRegion(apartments[0]);
-      return;
-    }
-    return resetInitialRegion(selectedApartment);
-  }, [lat, lng, viewport, latDelta, selectedApartment, apartments]);
+  // useEffect(() => {
+  //   if (!apartments[0]) {
+  //     return;
+  //   }
+  //   const resetInitialRegion = (apartment: Apartment) => {
+  //     setInitialRegion({
+  //       latitude: apartment.geometry.location.lat,
+  //       longitudeDelta: 0.01,
+  //       latitudeDelta: latDelta,
+  //       longitude: apartment.geometry.location.lng,
+  //     });
+  //   };
+  //   if (!selectedApartment) {
+  //     resetInitialRegion(apartments[0]);
+  //     return;
+  //   }
+  //   return resetInitialRegion(selectedApartment);
+  // }, [latitude, longitude, viewport, latDelta, selectedApartment, apartments]);
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
     const southwestLat = viewport.southwest.lat;
@@ -171,17 +187,20 @@ export const ApartmentsMap = ({
       <Map ref={_map} userInterfaceStyle={"light"} region={initialRegion}>
         {apartmentsDisplayed &&
           apartments.map((apartment: Apartment) => {
+            const apartmentPhoto =
+              apartment.photos[0]?.photoUrl ??
+              "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
             return (
               <Marker
                 key={apartment.id}
                 title={apartment.name}
                 onPress={() => onMarkerPress(apartment.id)}
                 coordinate={{
-                  latitude: apartment.geometry.location.lat,
-                  longitude: apartment.geometry.location.lng,
+                  latitude: apartment.location.latitude,
+                  longitude: apartment.location.longitude,
                 }}
               >
-                <CustomMarker image={apartment.photos[0]} />
+                <CustomMarker image={apartmentPhoto} />
               </Marker>
             );
           })}
@@ -213,12 +232,12 @@ export const ApartmentsMap = ({
             )}
             horizontal={true}
             renderItem={renderApartmentItem}
-            keyExtractor={(item: any): string => item.id.toString()}
+            keyExtractor={(item: any): string => item._id.toString()}
           />
         </MapApartmentCardsWrapper>
       )}
 
-      <MapFilter  setIsOpen={setIsOpenFilter} isOpen={isOpenFilter} />
+      <MapFilter setIsOpen={setIsOpenFilter} isOpen={isOpenFilter} />
     </>
   );
 };
