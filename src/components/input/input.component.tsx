@@ -1,14 +1,20 @@
+import React from "react";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../infrastructure/theme";
-import React from "react";
-import { KeyboardTypeOptions, Text, View } from "react-native";
-const CustomInput = styled.TextInput<{ textSize: "medium" | "large" }>`
+
+import { KeyboardTypeOptions, Text } from "react-native";
+type TextTransformType = "lowercase" | "capitalize" | "inherit";
+const CustomInput = styled.TextInput<{
+  textSize: "medium" | "large";
+  textTransform: TextTransformType;
+}>`
   padding-right: ${(props) => props.theme.space[3]};
   padding-left: ${(props) => props.theme.space[3]};
   padding-top: ${(props) => props.theme.space[4]};
   padding-bottom: ${(props) => props.theme.space[4]};
   background: ${(props) => props.theme.colors.bg.secondary};
+  text-transform: ${(props) => props.textTransform};
   border-radius: ${(props) => props.theme.borderRadius.large};
   font-family: ${(props) =>
     props.textSize == "large"
@@ -17,6 +23,7 @@ const CustomInput = styled.TextInput<{ textSize: "medium" | "large" }>`
   font-size: ${(props) => props.theme.fontSizes.title};
   color: ${(props) => props.theme.colors.text.primary};
 `;
+
 const CustomInputIcon = styled(Ionicons)`
   position: absolute;
   right: ${(props) => props.theme.space[3]};
@@ -25,8 +32,23 @@ const CustomInputIcon = styled(Ionicons)`
 const CustomInputWrapper = styled.View`
   width: 100%;
 `;
+
+interface InputType {
+  value?: string;
+  setValue?: (value) => void;
+  textTransform?: TextTransformType;
+  isPasswordShowed?: boolean;
+  iconName?: string;
+  defaultValue?: string;
+  keyboardType?: KeyboardTypeOptions;
+  disabled?: boolean;
+  placeholder?: string;
+  multiline?: boolean;
+  textSize?: "medium" | "large";
+}
 export const Input = ({
   value,
+  textTransform = "inherit",
   setValue,
   iconName,
   keyboardType = "default",
@@ -36,22 +58,12 @@ export const Input = ({
   placeholder,
   multiline = false,
   textSize = "large",
-}: {
-  value?: string;
-  setValue?: (value) => void;
-  isPasswordShowed?: boolean;
-  iconName?: string;
-  defaultValue?: string;
-  keyboardType?: KeyboardTypeOptions;
-  disabled?: boolean;
-  placeholder?: string;
-  multiline?: boolean;
-  textSize?: "medium" | "large";
-}) => {
+}: InputType): React.ReactElement => {
   return (
     <CustomInputWrapper>
       <CustomInput
         placeholder={placeholder}
+        textTransform={textTransform}
         editable={!disabled}
         secureTextEntry={isPasswordShowed}
         selectTextOnFocus={!disabled}
