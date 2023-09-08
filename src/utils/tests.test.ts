@@ -12,7 +12,9 @@ export const isValidStringLength = (
 ) => {
   return value.length <= maxLength && value.length >= minLength;
 };
-
+export const isValidNumber = (value) => {
+  return typeof Number(value) === "number";
+};
 export const isValidRegister = (email, password, username) => {
   return (
     isValidEmail(email) &&
