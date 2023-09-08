@@ -4,7 +4,7 @@ import { Favourite } from "../../../components/favourites/favourite.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { AntDesign } from "@expo/vector-icons";
-import { Apartment as ApartmentType, NewApartment } from "../../../types/apartments/apartment";
+import { NewApartment } from "../../../types/apartments/apartment";
 import {
   ApartmentCard,
   ApartmentCardCover,
@@ -23,19 +23,16 @@ import {
 } from "./apartment-info-card.styles";
 import { theme } from "../../../infrastructure/theme/index";
 
-export const ApartmentInfoCard = ({
-  apartment,
-  isMap = false,
-}: {
+interface Props {
   apartment: NewApartment;
   isMap?: boolean;
-}) => {
-  console.log(apartment, "apo")
+}
+export const ApartmentInfoCard = ({ apartment, isMap = false }: Props) => {
   const {
     title = "Sky Dandelions Apartment",
     photos,
     address = "100 some random street",
-    rating = 4,
+
     price,
   } = apartment;
 
@@ -62,7 +59,7 @@ export const ApartmentInfoCard = ({
             <Spacer position="right" size="small">
               <AntDesign color={theme.colors.ui.yellow} size={16} name="star" />
             </Spacer>
-            <RatingNumber variant="caption">{rating}</RatingNumber>
+            <RatingNumber variant="caption">{4.5}</RatingNumber>
           </Rating>
           {!isMap && (
             <Location>

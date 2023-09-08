@@ -28,12 +28,14 @@ export interface Facility {
   name: string;
 }
 export interface ApartmentFeature {
+  id: string;
   type: "bedroom" | "bathroom" | "balcony";
   quantity: number;
 }
 export interface NewApartment {
+  _id: string;
   location: Location;
-  category: ApartmentCategory | null;
+  category: ApartmentCategory;
   price: string;
   address: string;
   title: string;
@@ -85,6 +87,7 @@ export interface ApartmentCategory {
 export interface ApartmentPhoto {
   key?: any;
   height?: number;
+  url?: string;
   htmlAttributions?: any[];
   photoUrl: string;
   name?: string;

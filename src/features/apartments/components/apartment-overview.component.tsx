@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { Apartment } from "../../../types/apartments/apartment";
+import { Apartment, NewApartment } from "../../../types/apartments/apartment";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { Favourite } from "../../../components/favourites/favourite.component";
 import { Text } from "../../../components/typography/text.component";
@@ -24,17 +24,39 @@ import {
   ApartmentTypeWrapper,
   GalleryText,
 } from "./apartment-overview.styles";
-
+import { Share } from "react-native";
+interface Props {
+  navigation: any;
+  apartment: NewApartment;
+}
 export const ApartmentOverview = ({
   navigation,
   apartment,
-}: {
-  navigation: any;
-
-  apartment: Apartment;
-}) => {
-  const { photos, apartmentPrice, id, rating = 4.1 } = apartment;
-
+}: Props): React.ReactElement => {
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: "Foys | Build Apps",
+        url: "https://focusonyoursoftware.com/",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  const { photos, price, _id, category } = apartment;
+  console.log(apartment, "over");
+  const apartmentPhoto =
+    photos[0]?.url ??
+    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
   return (
     <ApartmentOverviewCard>
       <Header>
@@ -43,13 +65,13 @@ export const ApartmentOverview = ({
           iconName="chevron-back-outline"
         />
         <HeaderEnd>
-          <IconButton onPress={() => null} iconName="share-outline" />
+          <IconButton onPress={onShare} iconName="share-outline" />
           <Favourite size={"medium"} apartment={apartment} />
         </HeaderEnd>
       </Header>
       <ApartmentPhotoWrapper>
         <ApartmentPhoto
-          source={{ uri: photos[0], headers: { Accept: "image/*" } }}
+          source={{ uri: apartmentPhoto, headers: { Accept: "image/*" } }}
         />
       </ApartmentPhotoWrapper>
       <Footer>
@@ -62,25 +84,25 @@ export const ApartmentOverview = ({
                 name="star"
               ></Ionicons>
             </Spacer>
-            <RatingNumber variant="caption">{rating}</RatingNumber>
+            <RatingNumber variant="caption">{4.5}</RatingNumber>
           </Rating>
           <Spacer position="right" size="medium"></Spacer>
           <ApartmentTypeWrapper>
             <Text color={theme.colors.text.inverse} variant="body">
-              {apartment.category.name}
+              {category.name}
             </Text>
           </ApartmentTypeWrapper>
         </FooterLeft>
         <GalleryButton
           onPress={() =>
             navigation.navigate("ApartmentGallery", {
-              go_back_key: id,
+              go_back_key: _id,
               photos: photos,
             })
           }
         >
           <GalleryPhotoWrapper>
-            <GalleryPhoto blurRadius={2} source={{ uri: photos[0] }} />
+            <GalleryPhoto blurRadius={2} source={{ uri: apartmentPhoto }} />
             <GalleryPhotoOverlay></GalleryPhotoOverlay>
           </GalleryPhotoWrapper>
           <GalleryText color={theme.colors.text.inverse} variant="title">

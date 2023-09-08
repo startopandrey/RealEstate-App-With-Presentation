@@ -29,7 +29,7 @@ export const ApartmentInfoCardWrapper = styled.View`
   align-self: center;
 `;
 export const Header = styled.View`
-  padding: ${(props) => props.theme.space[3]};
+
   position: absolute;
   /* flex-direction: row; */
   align-items: center;
@@ -41,7 +41,8 @@ export const Header = styled.View`
 export const HeaderButtons = styled.View`
   flex: 1;
   width: 100%;
-
+  padding: ${(props) => props.theme.space[3]};
+  padding-bottom: 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -53,6 +54,11 @@ export const SearchTextWrapper = styled.View`
   padding: ${(props) => props.theme.space[3]};
   background: ${(props) => props.theme.colors.bg.secondary};
   border-radius: ${(props) => props.theme.borderRadius.large};
+`;
+export const SearchWrapper = styled.View`
+
+  flex: 1;
+  width: 100%;
 `;
 export const MapFilterWrapper = styled.View<{ isOpen?: boolean }>`
   z-index: ${(props) => (props.isOpen ? 99999 : -1)};

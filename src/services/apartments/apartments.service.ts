@@ -32,12 +32,12 @@ export const apartmentsTransform = ({
   data = [],
   location,
 }: {
-  data: Apartment[];
+  data: NewApartment[];
   location: Location;
-}): Apartment[] => {
+}): NewApartment[] => {
   console.log(data, "resl");
   const camelizedApartments = data;
-  const mappedResults = camelizedApartments.map((apartment: Apartment) => {
+  const mappedResults = camelizedApartments.map((apartment: NewApartment) => {
     return apartment;
   });
   const isApartmentInRadius = (marker, circle, radius) => {

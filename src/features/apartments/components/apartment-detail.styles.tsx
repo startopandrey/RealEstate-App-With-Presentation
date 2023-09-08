@@ -85,3 +85,10 @@ export const DescriptionWrapper = styled.View`
 export const Description = styled(Text)`
   font-size: ${(props) => props.theme.fontSizes.subtitle};
 `;
+export const ApartmentFeatures = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+`;
+export const ChipsWrapper = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
