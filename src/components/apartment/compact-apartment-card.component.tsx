@@ -11,6 +11,8 @@ import { Card } from "react-native-paper";
 import { Spacer } from "../spacer/spacer.component";
 import { AntDesign } from "@expo/vector-icons";
 import { theme } from "../../infrastructure/theme/index";
+import Image from "react-native-image-progress";
+import { Skeleton } from "../skeleton/skeleton.component";
 const CompactImage = styled.Image`
   border-radius: 10px;
   width: 120px;
@@ -59,9 +61,11 @@ const ChipWrapper = styled.View`
   right: 10px;
   z-index: 999;
 `;
-const ApartmentCardCover = styled(Card.Cover)`
+const ApartmentPhoto = styled(Image)`
   border-radius: ${(props) => props.theme.borderRadius.large};
   background-color: ${(props) => props.theme.colors.bg.secondary};
+  width: 100%;
+  height: 200px;
 `;
 const ApartmentInfoRow = styled.View`
   flex-direction: row;
@@ -101,19 +105,21 @@ export const CompactApartmentCard = ({
   onPress,
 }: {
   onPress: () => void;
-  apartment: Apartment;
+  apartment: NewApartment;
   isMap?: boolean;
   children?: React.ReactNode;
 }) => {
   const {
     rating = 4.5,
     address,
-    apartmentPrice,
+    price,
     title = "sdf",
+    _id,
     photos,
   } = apartment;
+
   const apartmentPhoto =
-    photos[0]?.photoUrl ??
+    photos[0]?.url ??
     "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
   return (
     <ApartmentCard onPress={onPress}>
@@ -121,13 +127,22 @@ export const CompactApartmentCard = ({
         <Favourite apartment={apartment} />
         <ChipWrapper>
           <PriceContainer>
-            <Price>€ {apartmentPrice}</Price>
+            <Price>€ {price}</Price>
             <Month>/month</Month>
           </PriceContainer>
         </ChipWrapper>
-        <ApartmentCardCover
-          key={title}
-          source={{ uri: apartmentPhoto, headers: { Accept: "image/*" } }}
+        <ApartmentPhoto
+          renderIndicator={() => (
+            <Skeleton
+              borderRadius={theme.borderRadius.large}
+              width={"100%"}
+              height={"100%"}
+            ></Skeleton>
+          )}
+          imageStyle={{ borderRadius: theme.borderRadius.large }}
+          key={_id}
+          // indicator={{ process: 1 }}
+          source={{ uri: apartmentPhoto }}
         />
       </CompactApartmentPhoto>
       <ApartmentInfo>
