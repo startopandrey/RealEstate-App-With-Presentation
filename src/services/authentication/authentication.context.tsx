@@ -3,6 +3,16 @@ import firebase from "firebase";
 import { loginRequest, registerRequest } from "./authentication.service";
 import { Location } from "src/types/apartments/apartment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  LATITUDE_DELTA,
+  LONGITUDE_DELTA,
+  initialRegion,
+} from "../../utils/constants";
+import {
+  getLocation,
+  getUserCurrentLoction,
+  isLocationPermission,
+} from "../helpers/location.helper";
 
 interface AuthenticationContextType {
   isAuthenticated?: boolean;
@@ -26,6 +36,9 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<firebase.User | null>();
   const [error, setError] = useState<string | null>(null);
+  const [isPermissionsAccepted, setIsPermissionsAccepted] =
+    useState<boolean>(false);
+  const [userLocation, setUserLocation] = useState(initialRegion);
 
   const saveUserToStorage = async (user) => {
     const userJson = JSON.stringify(user);
@@ -57,7 +70,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     loginRequest(email, password)
       .then((data) => {
         const user = data.data.data;
-        console.log(user);
+
         if (user && user._id) {
           saveUserToStorage(user);
           setUser(user);
@@ -95,6 +108,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     setUser(null);
     setError(null);
   };
+
 
   return (
     <AuthenticationContext.Provider
