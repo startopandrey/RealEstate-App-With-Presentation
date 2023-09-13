@@ -1,16 +1,55 @@
 import * as Location from "expo-location";
-export const isLocationPermission = async () => {
-  const { status } = await Location.requestForegroundPermissionsAsync();
-
-  return status === "granted";
+import * as Permissions from "expo-permissions";
+import { Alert } from "react-native";
+import { LATITUDE_DELTA, LONGITUDE_DELTA } from "../../utils/constants";
+import { GOOGLE_API_KEY } from "../../utils/env";
+export const getLocationPermission = async () => {
+  const result = await Permissions.askAsync(Permissions.LOCATION);
+  return result;
 };
-export const getCurrentUserLoction = async () => {
+
+export const getLocation = async () => {
   const location = await Location.getCurrentPositionAsync({
     accuracy: Location.Accuracy.High,
   });
   if (location) {
     return location;
   }
+};
+export const getUserCurrentLoction = async (location, setLocation) => {
+  const currentLocation = await getLocation();
+  console.log(currentLocation, "dfdfdw");
+  if (location.latitude !== 0) {
+    return;
+  }
+
+  if (currentLocation) {
+    setLocation({
+      latitude: currentLocation?.coords?.latitude,
+      longitude: currentLocation?.coords?.longitude,
+      longitudeDelta: LONGITUDE_DELTA,
+      latitudeDelta: LATITUDE_DELTA,
+    });
+    // getAddressFromCoords(
+    //   generateLocationObject(
+    //     currentLocation?.coords?.latitude,
+    //     currentLocation?.coords?.longitude,
+    //     LONGITUDE_DELTA,
+    //     LATITUDE_DELTA
+    //   )
+    // );
+  }
+  return location;
+};
+export const getLocationFromAddress = async (searchTerm) => {
+  return await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerm}&key=${GOOGLE_API_KEY}`
+  ).then((res) => res.json());
+};
+export const getAddressFromLocation = async (lat, lng) => {
+  return await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
+  ).then((res) => res.json());
 };
 const getCenterOffsetForAnchor = (
   anchor: { x: number; y: number },
