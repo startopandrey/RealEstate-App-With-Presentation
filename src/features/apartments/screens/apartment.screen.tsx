@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text as NativeText,
   ScrollView as ScrollViewNative,
 } from "react-native";
-import { Avatar, Colors } from "react-native-paper";
+import { Avatar as AvatarPaper } from "react-native-paper";
 
 import { FadeInView } from "../../../components/animations/fade.animation";
 import { SafeArea } from "../../../components/utility/safe-area.component";
@@ -26,7 +26,6 @@ import { ApartmentStackNavigatorParamList } from "src/types/apartments";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../../../infrastructure/theme";
 import { ScrollView } from "react-native-virtualized-view";
-import { Chip } from "../../../components/chip/chip.component";
 
 import {
   GreetingName,
@@ -35,27 +34,30 @@ import {
   Greeting,
   NotificationsButton,
   HeaderEnd,
-  CategoriesList,
   Header,
   LocationDropdown,
   LocationChipItem,
   AgentChipItem,
   HeaderOverlay,
+  ErrorWrapper,
 } from "../components/apartment.styles";
 import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
 import { Loading } from "../../../components/loading/loading.component";
+import { mockApartments, topAreasMock } from "../../../../mockData";
+import { CategoryRow } from "../../../components/category-row/category-row.component";
+import { Avatar } from "../../../components/avatar/ avatar.component";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"
 >;
 export const ApartmentsScreen = ({ navigation }: Props) => {
-  const { error: locationError } = useContext(LocationContext);
+  const { error: locationError, userLocation } = useContext(LocationContext);
   const { isLoading, apartments, error } = useContext(ApartmentsContext);
-
+  console.log(userLocation);
   const { favourites } = useContext(FavouritesContext);
   const [isToggled, setIsToggled] = useState<boolean>(false);
-
-  const hasError = !!error || !!locationError;
+  const [userAddress, setUserAddress] = useState("");
+  const hasError = !!error || !!locationError || !apartments.length;
 
   return (
     <SafeArea>
@@ -86,9 +88,11 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               />
             </NotificationsButton>
             <Spacer position="right" size={"medium"} />
-            <Avatar.Image
+            <Avatar
               size={50}
-              source={require("../../../../assets/avatar.jpg")}
+              url={
+                "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695222000&v=beta&t=61RHxwYF4KAd91DD1EEjHfliBMoyWPcKfd2RLeV8_4A"
+              }
             />
           </HeaderEnd>
         </Header>
@@ -106,35 +110,15 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
           onFavouritesToggle={() => setIsToggled(!isToggled)}
         />
         <Spacer position="left" size="large">
-          <CategoriesList
-            data={[
-              { key: 1, category: { id: 1, name: "All" } },
-              { key: 2, category: { id: 2, name: "House" } },
-              { key: 3, category: { id: 3, name: "Apartment" } },
-            ]}
-            horizontal={true}
-            renderItem={({ item }: { item: any }) => (
-              <Spacer position="right" size={"medium"}>
-                <Chip
-                  isSelected={item.category.name === "All"}
-                  title={item.category.name}
-                  isButton={true}
-                  size={"large"}
-                />
-              </Spacer>
-            )}
-            keyExtractor={(item: any) => item?.key}
-          />
+          <CategoryRow></CategoryRow>
         </Spacer>
         {isToggled && (
           <FavouritesBar favourites={favourites} navigation={navigation} />
         )}
-        {hasError ? (
-          <Spacer position={"left"} size="large">
-            <Text variant="error">
-              Something went wrong retrieving the data
-            </Text>
-          </Spacer>
+        {!isLoading && !apartments.length ? (
+          <ErrorWrapper>
+            <Text variant="error">No apartments found.</Text>
+          </ErrorWrapper>
         ) : (
           <ScrollViewNative nestedScrollEnabled={true}>
             <Spacer position="top" size="large">
@@ -146,7 +130,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               </ListHeader>
 
               <ApartmentHorizontalList
-                data={apartments}
+                data={!isLoading ? apartments : mockApartments}
                 horizontal={true}
                 renderItem={({ item }: { item: any }) => (
                   <ApartmentHorizontalItem
@@ -158,12 +142,15 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                   >
                     <Spacer position="right" size="large">
                       <FadeInView>
-                        <ApartmentInfoCard apartment={item} />
+                        <ApartmentInfoCard
+                          isLoading={isLoading}
+                          apartment={item}
+                        />
                       </FadeInView>
                     </Spacer>
                   </ApartmentHorizontalItem>
                 )}
-                keyExtractor={(item, i) => `Apartment-${item.title}`}
+                keyExtractor={(item, i) => `Apartment-${item?._id}`}
               />
             </Spacer>
           </ScrollViewNative>
@@ -177,34 +164,20 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               </Text>
             </ListHeader>
             <ApartmentHorizontalList
-              data={[
-                {
-                  locationName: "Bali",
-                  photo:
-                    "https://balidave.com/wp-content/uploads/2022/11/best-hotel-bali.jpeg",
-                },
-                {
-                  locationName: "Vinnitysa",
-                  photo:
-                    "https://toget.education/wp-content/uploads/2016/02/vinnitsa4-300x210.png",
-                },
-                {
-                  locationName: "Florence",
-                  photo:
-                    "https://media.timeout.com/images/105879414/750/422/image.jpg",
-                },
-              ]}
+              data={topAreasMock}
               horizontal={true}
-              renderItem={({ item }: { item: any }) => (
-                <Spacer position="right" size="large">
-                  <LocationChipItem onPress={() => console.log("hhii")}>
-                    <Avatar.Image size={50} source={{ uri: item.photo }} />
-                    <Spacer position="right" size="medium" />
-                    <Text variant="body">{item.locationName}</Text>
-                  </LocationChipItem>
-                </Spacer>
-              )}
-              keyExtractor={(_, i) => `Apartment-${i}`}
+              renderItem={({ item }) => {
+                return (
+                  <Spacer position="right" size="large">
+                    <LocationChipItem onPress={() => console.log("hhii")}>
+                      <Avatar size={50} url={item.photoUrl} />
+                      <Spacer position="right" size="medium" />
+                      <Text variant="body">{item.areaName}</Text>
+                    </LocationChipItem>
+                  </Spacer>
+                );
+              }}
+              keyExtractor={(_, i) => `Apartment-${i.id}`}
             />
           </Spacer>
           <Spacer position="top" size="large">
@@ -218,22 +191,22 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               data={[
                 {
                   agentName: "Anderea",
-                  photo:
+                  photoUrl:
                     "https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1152002039RealEstateBroker.jpg",
                 },
                 {
                   agentName: "Aaron",
-                  photo:
+                  photoUrl:
                     "https://www.themanual.com/wp-content/uploads/sites/9/2017/07/aaron-kirman.jpg?fit=800%2C800&p=1",
                 },
                 {
                   agentName: "Michael",
-                  photo:
+                  photoUrl:
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU",
                 },
                 {
                   agentName: "Hairry",
-                  photo:
+                  photoUrl:
                     "https://getgoodhead.com/wp-content/uploads/2018/04/Jake-Roth-Best-Hair.jpg",
                 },
               ]}
@@ -247,7 +220,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                       })
                     }
                   >
-                    <Avatar.Image size={70} source={{ uri: item.photo }} />
+                    <Avatar size={70} url={item.photoUrl} />
                     <Spacer position="top" size="medium" />
                     <Text variant="body">{item.agentName}</Text>
                   </AgentChipItem>

@@ -1,6 +1,6 @@
 import { Text } from "../../../components/typography/text.component";
 import styled from "styled-components/native";
-
+import Image from "react-native-image-progress";
 export const ApartmentOverviewCard = styled.View`
   height: 450px;
   border-radius: ${(props) => props.theme.borderRadius.xl};
@@ -14,8 +14,8 @@ export const ApartmentPhotoWrapper = styled.View`
   flex: 1;
   border-radius: ${(props) => props.theme.borderRadius.xl};
 `;
-export const ApartmentPhoto = styled.Image`
-  background: rgba(0, 0, 0, 1);
+export const ApartmentPhoto = styled(Image)`
+  /* background: rgba(0, 0, 0, 1); */
   border-radius: ${(props) => props.theme.borderRadius.xl};
   flex: 1;
   width: 100%;

@@ -124,7 +124,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
           <Spacer position="top" size="large" />
           <Description variant="body">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </Description>
         </DescriptionWrapper>
         <Spacer position="top" size="large">
@@ -159,7 +159,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
             <ChipsWrapper>
               {features.map((item: ApartmentFeature) => {
                 const variant = featureVariant.find((el) => el.id === item.id);
-                console.log(variant);
+
                 if (!variant) {
                   return;
                 }

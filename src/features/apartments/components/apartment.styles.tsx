@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { ActivityIndicator, Avatar, Colors } from "react-native-paper";
+import Image from "react-native-image-progress";
 export const HeaderOverlay = styled.View`
   width: 350px;
   height: 350px;
@@ -10,7 +11,11 @@ export const HeaderOverlay = styled.View`
   bottom: -150px;
   border-radius: 200%;
 `;
-export const CategoriesList = styled.FlatList``;
+export const ErrorWrapper = styled.View`
+  height: 150px;
+  justify-content: center;
+  align-items: center;
+`;
 export const Loading = styled(ActivityIndicator)`
   margin-left: -25px;
 `;
@@ -79,3 +84,4 @@ export const AgentChipItem = styled.TouchableOpacity`
   /* padding: ${(props) => props.theme.space[2]}; */
   border-radius: ${(props) => props.theme.borderRadius.large};
 `;
+export const AreaPhoto = styled(Image)``;

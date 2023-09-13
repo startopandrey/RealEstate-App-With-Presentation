@@ -25,6 +25,7 @@ import {
   GalleryText,
 } from "./apartment-overview.styles";
 import { Share } from "react-native";
+import { Skeleton } from "../../../components/skeleton/skeleton.component";
 interface Props {
   navigation: any;
   apartment: NewApartment;
@@ -53,7 +54,7 @@ export const ApartmentOverview = ({
     }
   };
   const { photos, price, _id, category } = apartment;
-  console.log(apartment, "over");
+
   const apartmentPhoto =
     photos[0]?.url ??
     "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
@@ -71,7 +72,17 @@ export const ApartmentOverview = ({
       </Header>
       <ApartmentPhotoWrapper>
         <ApartmentPhoto
-          source={{ uri: apartmentPhoto, headers: { Accept: "image/*" } }}
+          renderIndicator={() => (
+            <Skeleton
+              borderRadius={theme.borderRadius.large}
+              width={"100%"}
+              height={"100%"}
+            ></Skeleton>
+          )}
+          imageStyle={{ borderRadius: theme.borderRadius.large }}
+          key={_id}
+          // indicator={{ process: 1 }}
+          source={{ uri: apartmentPhoto }}
         />
       </ApartmentPhotoWrapper>
       <Footer>
