@@ -74,7 +74,8 @@ export const Input = ({
         }}
         numberOfLines={2}
         multiline={multiline}
-        defaultValue={defaultValue}
+        // defaultValue={defaultValue
+        value=""
         contextMenuHidden={true}
         keyboardType={keyboardType}
         textSize={textSize}

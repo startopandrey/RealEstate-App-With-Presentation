@@ -9,14 +9,16 @@ const CustomButton = styled(MuiButton)<{
   spacing?: number;
 }>`
   margin: ${(props) => `${props.spacing ? props.spacing * 8 : 0}px`};
-  flex: 1;
+
   box-shadow: none;
   border: none;
+  align-self: flex-start;
+  width: 100%;
   /* align-items: center; */
   /* justify-content: flex-start;
-  /* align-self: flex-start; */
-  /* width: 100%; */
-  /* height: 20px; */
+
+ 
+  height: 50px;
   /* justify-content: center; */
   background: ${(props) =>
     props.disabled ? props.theme.colors.ui.disabled : props.backgoundColor};

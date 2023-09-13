@@ -20,6 +20,7 @@ import { Text } from "../../../components/typography/text.component";
 import { Input } from "../../../components/input/input.component";
 import { isValidLogin, isValidRegister } from "../../../utils/tests.test";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { Button } from "../../../components/button/button.component";
 type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: Props) => {
@@ -81,11 +82,11 @@ export const LoginScreen = ({ navigation }: Props) => {
             </TouchableOpacity>
           </FormRow>
           <Spacer position="top" size="xl" />
-          <AuthButton
+          <Button
             disabled={!isValidLogin(email, password)}
             title="Login"
             onPress={() => onLogin(email, password)}
-          ></AuthButton>
+          ></Button>
         </AuthForm>
         <AuthSwitch onPress={() => navigation.navigate("Register")}>
           <AuthSwitchText>

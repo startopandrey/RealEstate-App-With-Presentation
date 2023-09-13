@@ -30,9 +30,7 @@ export const CustomBottomSheet = forwardRef(
   ): React.ReactElement => {
     const snapPoints = useMemo(() => [snapPointPercent], [snapPointPercent]);
     const animatedIndex = useSharedValue(isOpen ? 0 : -1);
-    const handleSheetChanges = useCallback((index: number) => {
-      console.log("handleSheetChanges", index);
-    }, []);
+
     const customBackground: React.FC<BottomSheetBackgroundProps> = ({
       pointerEvents,
       style,
@@ -53,7 +51,7 @@ export const CustomBottomSheet = forwardRef(
         enablePanDownToClose
         onClose={onClose}
         backdropComponent={(props) => CustomBackdrop({ ...props, ref })}
-        onChange={handleSheetChanges}
+      
       >
         {children}
       </BottomSheetStyled>

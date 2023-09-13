@@ -12,7 +12,7 @@ export const UserForm = styled.View`
   align-items: center;
 `;
 export const LogoutWrapper = styled.View`
-  flex: 1;
+flex: 1;
   justify-content: flex-end;
   padding: ${(props) => props.theme.space[3]};
 `;

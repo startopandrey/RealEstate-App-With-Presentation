@@ -14,7 +14,7 @@ export const isValidApartment = (apartment: NewApartment) => {
     photos,
     authorId,
   } = apartment;
-  console.log(photos);
+
   if (
     title &&
     description &&

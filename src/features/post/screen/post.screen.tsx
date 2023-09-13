@@ -187,7 +187,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     }
   };
   const updatePhotos = (photoUri: string, name: string) => {
-    console.log(photoUri);
+
     const newPhoto: ApartmentPhoto = {
       key: `${
         createdApartment.photos?.length === 0
@@ -274,7 +274,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const onReleaseCell = useCallback(
     (items: ApartmentPhoto[]) => {
       const photos1 = items.slice(1);
-      console.log(photos1);
+
       if (!_.isEqual(createdApartment.photos, photos1)) {
         setCreatedApartment((apartment) => ({ ...apartment, photos: photos1 }));
       }
