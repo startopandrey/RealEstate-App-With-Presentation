@@ -3,7 +3,7 @@ import { ActivityIndicator, Button, Card, Colors } from "react-native-paper";
 import { colors } from "../../../infrastructure/theme/colors";
 import { View } from "react-native";
 import { Text } from "../../../components/typography/text.component";
-
+import Image from "react-native-image-progress";
 export const CategoryWrapper = styled.View`
   position: absolute;
   bottom: 10px;
@@ -36,6 +36,7 @@ export const RatingNumber = styled(Text).attrs({ variant: "caption" })`
 export const ApartmentCard = styled(View)`
   background-color: ${(props) => props.theme.colors.bg.secondary};
   border-radius: ${(props) => props.theme.borderRadius.large};
+  
   width: 100%;
 
   flex-direction: row;
@@ -55,7 +56,9 @@ export const Month = styled(Text).attrs({ variant: "caption" })`
   font-family: ${(props) => props.theme.fonts.montserratMedium};
   margin-bottom: 3px;
 `;
-export const ApartmentCardCover = styled.Image<{ isMap: boolean }>`
+export const ApartmentCardCover = styled(Image)<{
+  isMap: boolean;
+}>`
   height: ${(props) => (props.isMap ? 140 : 190)}px;
   border-radius: ${(props) => props.theme.borderRadius.large};
   background-color: ${(props) => props.theme.colors.bg.secondary};
