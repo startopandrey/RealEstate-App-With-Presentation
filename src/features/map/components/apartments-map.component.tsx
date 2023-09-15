@@ -10,8 +10,8 @@ import { LATITUDE_DELTA, OUTER_CARD_WIDTH } from "../../../utils/constants";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { theme } from "../../../infrastructure/theme";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Apartment, NewApartment } from "../../../types/apartments/apartment";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Apartment, NewApartment } from "@src/types/apartments/apartment";
 import {
   MapApartmentItem,
   ApartmentInfoCardWrapper,
@@ -89,11 +89,12 @@ export const ApartmentsMap = ({
   const onScrollApartmentList = (e) => {
     onScroll(e, mapIndex, _map, apartmentsDisplayed, LATITUDE_DELTA);
   };
-  useEffect(() => {
-    if (selectedApartment && apartmentsDisplayed) {
-      mapScrollToIndex(0);
-    }
-  }, [selectedApartment, apartmentsDisplayed]);
+  // useEffect(() => {
+  //   console.log(selectedApartment, apartmentsDisplayed);
+  //   if (selectedApartment && apartmentsDisplayed) {
+  //     mapScrollToIndex(0);
+  //   }
+  // }, [selectedApartment, apartmentsDisplayed]);
 
   useEffect(() => {
     if (!selectedApartment) {
@@ -104,29 +105,35 @@ export const ApartmentsMap = ({
       (el) => el._id !== selectedApartment._id
     );
     setApartmentsDisplayed([selectedApartment, ...filteredApartments]);
+    if (apartmentsDisplayed?.length) {
+      mapScrollToIndex(0);
+    }
   }, [apartments, selectedApartment, selectedApartment?._id]);
 
   useEffect(() => {
-
-    if (!apartments[0]) {
+    if (!apartments) {
       return;
     }
+
     const resetInitialRegion = (apartment: NewApartment) => {
-      setInitialRegion({
-        latitude: apartment.location.latitude,
-        longitudeDelta: 0.01,
-        latitudeDelta: LATITUDE_DELTA,
-        longitude: apartment.location.longitude,
-      });
+      console.log(apartment?.location, "locf");
+      if (apartment?.location) {
+        setInitialRegion({
+          latitude: apartment.location.latitude,
+          longitudeDelta: 0.01,
+          latitudeDelta: LATITUDE_DELTA,
+          longitude: apartment.location.longitude,
+        });
+      }
     };
 
-    if (!selectedApartment && apartments[0].location) {
+    if (!selectedApartment) {
       resetInitialRegion(apartments[0]);
       return;
     }
+
     return resetInitialRegion(selectedApartment);
   }, [selectedApartment, apartments]);
-
   const onMarkerPress = (id: string) => {
     if (!apartmentsDisplayed) {
       return;
@@ -160,7 +167,7 @@ export const ApartmentsMap = ({
       </MapApartmentItem>
     );
   };
-
+  console.log(apartmentsDisplayed, "hol");
   return (
     <>
       <Header>
@@ -212,6 +219,7 @@ export const ApartmentsMap = ({
             );
           })}
       </Map>
+
       {apartmentsDisplayed && (
         <MapApartmentCardsWrapper>
           <MapApartmentCards
@@ -243,7 +251,6 @@ export const ApartmentsMap = ({
           />
         </MapApartmentCardsWrapper>
       )}
-
       <MapFilter setIsOpen={setIsOpenFilter} isOpen={isOpenFilter} />
     </>
   );

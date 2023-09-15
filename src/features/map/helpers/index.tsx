@@ -28,6 +28,9 @@ export const onScroll = (
     }
 
     mapIndex.current = index;
+    if (!apartmentsDisplayed[index]) {
+      return;
+    }
     const { location } = apartmentsDisplayed[index];
 
     setTimeout(

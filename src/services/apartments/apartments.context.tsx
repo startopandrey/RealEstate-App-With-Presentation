@@ -1,19 +1,20 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
 
-import { apartmentsRequest, apartmentsTransform } from "./apartments.service";
+import {
+  apartmentFilterRequest,
+  apartmentsRequest,
+  apartmentsTransform,
+} from "./apartments.service";
 
 import { LocationContext } from "../location/location.context";
 import {
   Apartment,
+  ApartmentsContextType,
+  FilterOptionsType,
   Location,
   NewApartment,
 } from "../../types/apartments/apartment";
 import { FavouritesContext } from "../favourites/favourites.context";
-interface ApartmentsContextType {
-  apartments: NewApartment[];
-  isLoading: boolean;
-  error?: string;
-}
 
 export const ApartmentsContext = createContext<ApartmentsContextType>(
   {} as ApartmentsContextType
@@ -23,16 +24,20 @@ export const ApartmentsContextProvider = ({ children }) => {
   const [apartments, setApartments] = useState<NewApartment[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+
+  const [filterOptions, setFilterOptions] = useState<FilterOptionsType>({});
   const { location } = useContext(LocationContext);
   const { favourites } = useContext(FavouritesContext);
-
-  const retrieveApartments = (loc: Location): void => {
+  const retrieveApartments = (
+    loc: Location,
+    filterOptions: FilterOptionsType
+  ): void => {
+    console.log(filterOptions);
     setIsLoading(true);
     setApartments([]);
-    apartmentsRequest(loc)
+    apartmentsRequest(loc, filterOptions)
       .then((data) => apartmentsTransform({ data: data.data, location: loc }))
       .then((results: NewApartment[]) => {
-        console.log(results, "lll");
         setError("");
         setIsLoading(false);
         setApartments(results);
@@ -42,11 +47,12 @@ export const ApartmentsContextProvider = ({ children }) => {
         setError(err);
       });
   };
+
   useEffect(() => {
     if (location) {
-      retrieveApartments(location);
+      retrieveApartments(location, filterOptions);
     }
-  }, [location]);
+  }, [location, filterOptions]);
 
   return (
     <ApartmentsContext.Provider
@@ -54,6 +60,8 @@ export const ApartmentsContextProvider = ({ children }) => {
         apartments,
         isLoading,
         error,
+        setFilterOptions,
+        filterOptions,
       }}
     >
       {children}

@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   Text as NativeText,
   ScrollView as ScrollViewNative,
+  TouchableOpacity,
 } from "react-native";
 import { Avatar as AvatarPaper } from "react-native-paper";
 
@@ -45,23 +46,34 @@ import { CompactApartmentCard } from "../../../components/apartment/compact-apar
 import { Loading } from "../../../components/loading/loading.component";
 import { mockApartments, topAreasMock } from "../../../../mockData";
 import { CategoryRow } from "../../../components/category-row/category-row.component";
-import { Avatar } from "../../../components/avatar/ avatar.component";
+import { Avatar } from "../../../components/avatar/avatar.component";
+import { Linking } from "react-native";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"
 >;
 export const ApartmentsScreen = ({ navigation }: Props) => {
-  const { error: locationError, userLocation } = useContext(LocationContext);
+  const {
+    error: locationError,
+    userLocation,
+    search,
+  } = useContext(LocationContext);
   const { isLoading, apartments, error } = useContext(ApartmentsContext);
   console.log(userLocation);
+  const mainRef = useRef<ScrollViewNative>(null);
   const { favourites } = useContext(FavouritesContext);
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const [userAddress, setUserAddress] = useState("");
   const hasError = !!error || !!locationError || !apartments.length;
-
+  const scrollToTop = () => {
+    mainRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
   return (
     <SafeArea>
-      <ScrollViewNative nestedScrollEnabled={true}>
+      <ScrollViewNative ref={mainRef} nestedScrollEnabled={true}>
         <Header>
           <HeaderOverlay />
           <LocationDropdown>
@@ -88,12 +100,16 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               />
             </NotificationsButton>
             <Spacer position="right" size={"medium"} />
-            <Avatar
-              size={50}
-              url={
-                "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695222000&v=beta&t=61RHxwYF4KAd91DD1EEjHfliBMoyWPcKfd2RLeV8_4A"
-              }
-            />
+            <TouchableOpacity
+              onPress={() => Linking.openURL("tel:+380673569597")}
+            >
+              <Avatar
+                size={50}
+                url={
+                  "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695222000&v=beta&t=61RHxwYF4KAd91DD1EEjHfliBMoyWPcKfd2RLeV8_4A"
+                }
+              />
+            </TouchableOpacity>
           </HeaderEnd>
         </Header>
         <Greeting>
@@ -150,7 +166,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     </Spacer>
                   </ApartmentHorizontalItem>
                 )}
-                keyExtractor={(item, i) => `Apartment-${item?._id}`}
+                keyExtractor={(item, i) => `Apartment-${i ?? 0}`}
               />
             </Spacer>
           </ScrollViewNative>
@@ -169,7 +185,12 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               renderItem={({ item }) => {
                 return (
                   <Spacer position="right" size="large">
-                    <LocationChipItem onPress={() => console.log("hhii")}>
+                    <LocationChipItem
+                      onPress={() => {
+                        search(item.areaName);
+                        scrollToTop();
+                      }}
+                    >
                       <Avatar size={50} url={item.photoUrl} />
                       <Spacer position="right" size="medium" />
                       <Text variant="body">{item.areaName}</Text>
@@ -177,7 +198,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                   </Spacer>
                 );
               }}
-              keyExtractor={(_, i) => `Apartment-${i.id}`}
+              keyExtractor={(_, i) => `Apartment-${i?.id ?? 0}`}
             />
           </Spacer>
           <Spacer position="top" size="large">
@@ -214,11 +235,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               renderItem={({ item }: { item: any }) => (
                 <Spacer position="right" size="large">
                   <AgentChipItem
-                    onPress={() =>
-                      navigation.navigate("ApartmentDetail", {
-                        Apartment: item,
-                      })
-                    }
+                    onPress={() => Linking.openURL("tel:+380673569597")}
                   >
                     <Avatar size={70} url={item.photoUrl} />
                     <Spacer position="top" size="medium" />
@@ -234,19 +251,27 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               <Text variant="title">Explore Nearby Estates</Text>
             </ListHeader>
             <Spacer position="top" size="large" />
-            <ApartmentHorizontalList
-              data={apartments}
-              numColumns={2}
-              renderItem={({ item }: { item: any }) => (
-                <CompactApartmentCard
-                  onPress={() =>
-                    navigation.navigate("ApartmentDetail", { apartment: item })
-                  }
-                  apartment={item}
-                />
-              )}
-              keyExtractor={(_, i) => `Apartment-${i}`}
-            />
+            {!isLoading && !apartments.length ? (
+              <ErrorWrapper>
+                <Text variant="error">No apartments found.</Text>
+              </ErrorWrapper>
+            ) : (
+              <ApartmentHorizontalList
+                data={apartments}
+                numColumns={2}
+                renderItem={({ item }: { item: any }) => (
+                  <CompactApartmentCard
+                    onPress={() =>
+                      navigation.navigate("ApartmentDetail", {
+                        apartment: item,
+                      })
+                    }
+                    apartment={item}
+                  />
+                )}
+                keyExtractor={(_, i) => `Apartment-${i}`}
+              />
+            )}
           </Spacer>
         </ScrollView>
       </ScrollViewNative>
