@@ -32,6 +32,11 @@ export interface ApartmentFeature {
   type: "bedroom" | "bathroom" | "balcony";
   quantity: number;
 }
+export interface TopArea {
+  id: number;
+  photoUrl: string;
+  areaName: string;
+}
 export interface NewApartment {
   _id: string;
   location: Location;
@@ -46,6 +51,7 @@ export interface NewApartment {
   features: ApartmentFeature[];
   facilities?: Facility[] | null;
   totalRooms: number;
+  isMock?: boolean;
 }
 export interface Geometry {
   location: Location;
@@ -88,6 +94,7 @@ export interface ApartmentPhoto {
   key?: any;
   height?: number;
   url?: string;
+  public_id?: string;
   htmlAttributions?: any[];
   photoUrl: string;
   name?: string;
@@ -112,3 +119,16 @@ export type ApartmentStackNavigatorParamList = {
   ApartmentDetail: undefined;
   ApartmentGallery: undefined;
 };
+export interface FilterOptionsType {
+  categoryId?: number | string;
+  price?: string;
+}
+export interface ApartmentsContextType {
+  apartments: NewApartment[];
+  isLoading: boolean;
+  error?: string;
+  filterOptions?: FilterOptionsType;
+  setFilterOptions: (
+    filter: FilterOptionsType | undefined | null
+  ) => void | undefined | null;
+}
