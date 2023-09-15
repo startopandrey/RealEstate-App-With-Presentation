@@ -4,7 +4,7 @@ import { Searchbar } from "react-native-paper";
 
 import { LocationContext } from "../../../services/location/location.context";
 import { theme } from "../../../infrastructure/theme";
-
+import { Ionicons } from "@expo/vector-icons";
 const SearchContainer = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
@@ -16,14 +16,7 @@ const CustomSearchbar = styled(Searchbar)`
   border-radius: ${(props) => props.theme.borderRadius.medium};
   elevation: 0;
 `;
-interface SearchProps {
-  isFavouritesToggled: boolean;
-  onFavouritesToggle: () => void;
-}
-export const Search = ({
-  isFavouritesToggled,
-  onFavouritesToggle,
-}: SearchProps) => {
+export const Search = () => {
   const { keyword, search } = useContext(LocationContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
   useEffect(() => {
@@ -33,7 +26,7 @@ export const Search = ({
     <SearchContainer>
       <CustomSearchbar
         iconColor={theme.colors.text.primary}
-        onIconPress={onFavouritesToggle}
+        // clearIcon={() => <Ionicons name="close-outline"></Ionicons>}
         placeholder="Search for a location"
         value={searchKeyword}
         inputStyle={{
