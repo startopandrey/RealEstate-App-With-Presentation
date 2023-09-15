@@ -5,15 +5,17 @@ import { ProfileStackNavigatorParamList } from "../../../types/profile";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
-import { Avatar } from "react-native-paper";
+
 import { Input } from "../../../components/input/input.component";
 import { Button } from "../../../components/button/button.component";
 import {
   Header,
   UserForm,
   LogoutWrapper,
+  TextLowercase,
 } from "../components/profile-edit.styles";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { Avatar } from "../../../components/avatar/avatar.component";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
 export const ProfileEditScreen = ({ navigation }: Props) => {
@@ -27,28 +29,19 @@ export const ProfileEditScreen = ({ navigation }: Props) => {
         <Spacer position="right" size="xl" />
       </Header>
       <UserForm>
-        <Avatar.Image
+        <Avatar
           size={100}
-          source={require("../../../../assets/avatar.jpg")}
+          url={
+            "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695301200&v=beta&t=xKzsk5UOvS_xZGyclP-ul08i8YOtdW7YuUhr7f1WGxM"
+          }
         />
         <Spacer position="top" size="xl" />
-        <Input
-          disabled={true}
-          defaultValue={user.username}
-          iconName="person-circle-outline"
-        />
+        <Text variant="title">{user.username}</Text>
         <Spacer position="top" size="large" />
-        <Input
-          disabled={true}
-          defaultValue="+38 077-77-777-77"
-          iconName="call-outline"
-        />
+        <Text variant="subtitle">{"+38 077-77-777-77"}</Text>
+
         <Spacer position="top" size="large" />
-        <Input
-          disabled={true}
-          defaultValue={user.email}
-          iconName="mail-outline"
-        />
+        <TextLowercase variant="body">{user.email}</TextLowercase>
       </UserForm>
       <LogoutWrapper>
         <Button onPress={() => onLogout()} title="Logout" />

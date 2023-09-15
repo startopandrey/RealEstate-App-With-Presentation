@@ -3,7 +3,7 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { Avatar } from "react-native-paper";
+
 import { useContext, useState } from "react";
 import React from "react";
 import { TabsBar } from "../../../components/tabs-bar/tabs-bar.component";
@@ -25,6 +25,7 @@ import {
   SectionCategories,
 } from "../components/profile.styles";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { Avatar } from "../../../components/avatar/avatar.component";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
 export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {
@@ -66,9 +67,11 @@ export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {
           />
         </Header>
         <UserInfo>
-          <Avatar.Image
-            size={90}
-            source={require("../../../../assets/avatar.jpg")}
+          <Avatar
+            size={100}
+            url={
+              "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695301200&v=beta&t=xKzsk5UOvS_xZGyclP-ul08i8YOtdW7YuUhr7f1WGxM"
+            }
           />
           <Spacer position="top" size="large" />
           <Text variant="title">{user.username}</Text>

@@ -1,3 +1,4 @@
+import { Text } from "../../../components/typography/text.component";
 import styled from "styled-components/native";
 
 export const Header = styled.View`
@@ -15,4 +16,7 @@ export const LogoutWrapper = styled.View`
 flex: 1;
   justify-content: flex-end;
   padding: ${(props) => props.theme.space[3]};
+`;
+export const TextLowercase = styled(Text)`
+  text-transform: lowercase;
 `;
