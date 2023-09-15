@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
 import { TextInput } from "react-native-paper";
-import { colors } from "../../../infrastructure/theme/colors";
-import { Text } from "../../../components/typography/text.component";
-import { Button } from "../../../components/button/button.component";
+import { colors } from "@src/infrastructure/theme/colors";
+import { Text } from "@src/components/typography/text.component";
+import { Button } from "@src/components/button/button.component";
 export const HeaderWrapper = styled.View`
   flex-direction: row;
   align-items: center;

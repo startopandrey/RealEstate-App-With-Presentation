@@ -13,22 +13,22 @@ import {
   AuthBannerWrapper,
   AuthBanner,
 } from "../components/account.styles";
-import { LATITUDE_DELTA, LONGITUDE_DELTA } from "../../../utils/constants";
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Title } from "../../../components/title/title.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
-import { Input } from "../../../components/input/input.component";
-import { isValidRegister } from "../../../utils/tests.test";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { initialRegion } from "../../../utils/constants";
+import { LATITUDE_DELTA, LONGITUDE_DELTA } from "@src/utils/constants";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Title } from "@src/components/title/title.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Text } from "@src/components/typography/text.component";
+import { Input } from "@src/components/input/input.component";
+import { isValidRegister } from "@src/utils/tests.test";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { initialRegion } from "@src/utils/constants";
 import {
   getCurrentUserLoction,
   isLocationPermission,
-} from "../../../services/helpers/location.helper";
-import { registerRequest } from "../../../services/authentication/authentication.service";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { Loading } from "../../../components/loading/loading.component";
+} from "@src/services/helpers/location.helper";
+import { registerRequest } from "@src/services/authentication/authentication.service";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { Loading } from "@src/components/loading/loading.component";
 type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Login">;
 
 export const RegisterScreen = ({ navigation }: Props) => {
@@ -80,7 +80,7 @@ export const RegisterScreen = ({ navigation }: Props) => {
         <AuthBannerWrapper>
           <AuthBanner
             resizeMode="contain"
-            source={require("../../../../assets/auth_bg.png")}
+            source={require("@src/../assets/auth_bg.png")}
           />
         </AuthBannerWrapper>
         <AuthForm>

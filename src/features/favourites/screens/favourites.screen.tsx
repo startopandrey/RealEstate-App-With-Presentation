@@ -1,16 +1,16 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { FavouritesContext } from "../../../services/favourites/favourites.context";
+import { FavouritesContext } from "@src/services/favourites/favourites.context";
 import { useContext } from "react";
-import { SafeArea } from "../../../components/utility/safe-area.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
 
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Text } from "@src/components/typography/text.component";
 import { ListRenderItemInfo, TouchableOpacity } from "react-native";
 import React from "react";
-import { ApartmentInfoCard } from "../../../features/apartments/components/apartment-info-card.component";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { theme } from "../../../infrastructure/theme";
+import { ApartmentInfoCard } from "@src/features/apartments/components/apartment-info-card.component";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { theme } from "@src/infrastructure/theme";
 import {
   Header,
   InfoRow,
@@ -23,7 +23,7 @@ import {
   RemoveItem,
   RemoveIcon,
 } from "../components/favourites.styles";
-import { Apartment } from "../../../types/apartments/apartment";
+import { Apartment } from "@src/types/apartments/apartment";
 
 export const FavouritesScreen = ({
   navigation,
@@ -54,7 +54,7 @@ export const FavouritesScreen = ({
           <NoFavourites>
             <TouchableOpacity onPress={() => navigation.navigate("Apartments")}>
               <NoFavouritesImage
-                source={require("../../../../assets/add-icon.png")}
+                source={require("@src/../assets/add-icon.png")}
               />
             </TouchableOpacity>
             <Spacer position="top" size={"large"} />

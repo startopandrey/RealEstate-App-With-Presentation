@@ -2,19 +2,19 @@ import React, { useContext } from "react";
 
 import MapView from "react-native-maps";
 
-import { LocationContext } from "../../../services/location/location.context";
+import { LocationContext } from "@src/services/location/location.context";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-// import { LocationContext } from "../../../services/location/location.context";
-// import { ApartmentsContext } from "../../../services/apartments/apartments.context";
+// import { LocationContext } from "@src/services/location/location.context";
+// import { ApartmentsContext } from "@src/services/apartments/apartments.context";
 
-import { AppStackNavigatorParamList } from "../../../types/app";
+import { AppStackNavigatorParamList } from "@src/types/app";
 
 import { ApartmentsMap } from "../components/apartments-map.component";
-import { ApartmentsContext } from "../../..//services/apartments/apartments.context";
-import { initialRegion } from "../../../utils/constants";
+import { ApartmentsContext } from "@src//services/apartments/apartments.context";
+import { initialRegion } from "@src/utils/constants";
 import { View } from "react-native";
 import styled from "styled-components/native";
-import { SafeArea } from "../../../components/utility/safe-area.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
 
 type Props = NativeStackNavigationProp<AppStackNavigatorParamList, "Map">;
 export const Map = styled(MapView)`

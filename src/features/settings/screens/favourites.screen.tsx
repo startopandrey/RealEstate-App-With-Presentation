@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 
-import { FavouritesContext } from "../../../services/favourites/favourites.context";
+import { FavouritesContext } from "@src/services/favourites/favourites.context";
 
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Text } from "../../../components/typography/text.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Text } from "@src/components/typography/text.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
 import { v4 as uuidv4 } from "uuid";
 import { ApartmentList } from "../../apartments/components/apartment-list.styles";
 import { ApartmentInfoCard } from "../../apartments/components/apartment-info-card.component";

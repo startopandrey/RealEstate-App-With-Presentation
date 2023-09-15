@@ -13,14 +13,14 @@ import {
   AuthSwitchText,
   AuthButton,
 } from "../components/account.styles";
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Title } from "../../../components/title/title.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
-import { Input } from "../../../components/input/input.component";
-import { isValidLogin, isValidRegister } from "../../../utils/tests.test";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { Button } from "../../../components/button/button.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Title } from "@src/components/title/title.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Text } from "@src/components/typography/text.component";
+import { Input } from "@src/components/input/input.component";
+import { isValidLogin, isValidRegister } from "@src/utils/tests.test";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { Button } from "@src/components/button/button.component";
 type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: Props) => {
@@ -37,7 +37,7 @@ export const LoginScreen = ({ navigation }: Props) => {
         <AuthBannerWrapper>
           <AuthBanner
             resizeMode="contain"
-            source={require("../../../../assets/auth_bg.png")}
+            source={require("@src/../assets/auth_bg.png")}
           />
         </AuthBannerWrapper>
         <AuthForm>

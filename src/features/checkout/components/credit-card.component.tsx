@@ -1,7 +1,7 @@
 import React from "react";
 // import { LiteCreditCardInput } from "react-native-credit-card-input";
 import { LiteCreditCardInput } from "react-native-credit-card-input-plus";
-import { cardTokenRequest } from "../../../services/checkout/checkout.service";
+import { cardTokenRequest } from "@src/services/checkout/checkout.service";
 
 export const CreditCardInput = ({ name = "Andrey", onSuccess, onError }) => {
   const onChange = async (formData) => {

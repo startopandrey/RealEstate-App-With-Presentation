@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { Favourite } from "../../../components/favourites/favourite.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
+import { Favourite } from "@src/components/favourites/favourite.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Text } from "@src/components/typography/text.component";
 import { AntDesign } from "@expo/vector-icons";
-import { NewApartment } from "../../../types/apartments/apartment";
+import { NewApartment } from "@src/types/apartments/apartment";
 import {
   ApartmentCard,
   ApartmentCardCover,
@@ -21,8 +21,8 @@ import {
   CategoryWrapper,
   Category,
 } from "./apartment-info-card.styles";
-import { theme } from "../../../infrastructure/theme/index";
-import { Skeleton } from "../../../components/skeleton/skeleton.component";
+import { theme } from "@src/infrastructure/theme/index";
+import { Skeleton } from "@src/components/skeleton/skeleton.component";
 
 interface Props {
   apartment: NewApartment;

@@ -1,6 +1,6 @@
 import { Avatar, Button, TextInput } from "react-native-paper";
 import styled from "styled-components/native";
-import { colors } from "../../../infrastructure/theme/colors";
+import { colors } from "@src/infrastructure/theme/colors";
 
 export const CartIconContainer = styled.View`
   align-items: center;

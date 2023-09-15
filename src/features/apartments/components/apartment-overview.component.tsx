@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { Apartment, NewApartment } from "../../../types/apartments/apartment";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { Favourite } from "../../../components/favourites/favourite.component";
-import { Text } from "../../../components/typography/text.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
+import { Apartment, NewApartment } from "@src/types/apartments/apartment";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { Favourite } from "@src/components/favourites/favourite.component";
+import { Text } from "@src/components/typography/text.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
 import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../../../infrastructure/theme";
+import { theme } from "@src/infrastructure/theme";
 import {
   ApartmentOverviewCard,
   Header,
@@ -25,7 +25,7 @@ import {
   GalleryText,
 } from "./apartment-overview.styles";
 import { Share } from "react-native";
-import { Skeleton } from "../../../components/skeleton/skeleton.component";
+import { Skeleton } from "@src/components/skeleton/skeleton.component";
 interface Props {
   navigation: any;
   apartment: NewApartment;

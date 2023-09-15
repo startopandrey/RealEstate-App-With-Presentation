@@ -1,4 +1,4 @@
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import styled from "styled-components/native";
 import Image from "react-native-image-progress";
 export const ApartmentOverviewCard = styled.View`

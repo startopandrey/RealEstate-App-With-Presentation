@@ -1,4 +1,4 @@
-import { OUTER_CARD_WIDTH } from "../../../utils/constants";
+import { OUTER_CARD_WIDTH } from "@src/utils/constants";
 import { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import { StyleSheet } from "react-native";
 import React, { ForwardedRef } from "react";
@@ -8,7 +8,7 @@ import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { theme } from "../../../infrastructure/theme";
+import { theme } from "@src/infrastructure/theme";
 import { BlurView } from "expo-blur";
 import { RefObject, useMemo } from "react";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";

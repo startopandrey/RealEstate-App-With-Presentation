@@ -7,18 +7,18 @@ import {
   Header,
   PriceWrapper,
 } from "./map-filter.styles";
-import { Text } from "../../../components/typography/text.component";
-import { Chip } from "../../../components/chip/chip.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Input } from "../../../components/input/input.component";
-import { Button } from "../../../components/button/button.component";
+import { Text } from "@src/components/typography/text.component";
+import { Chip } from "@src/components/chip/chip.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Input } from "@src/components/input/input.component";
+import { Button } from "@src/components/button/button.component";
 
-import { CustomBottomSheet } from "../../../components/bottom-sheet/bottom-sheet.component";
+import { CustomBottomSheet } from "@src/components/bottom-sheet/bottom-sheet.component";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
-import { ApartmentsContext } from "../../../services/apartments/apartments.context";
+import { ApartmentsContext } from "@src/services/apartments/apartments.context";
 
-import { CategoryRow } from "../../../components/category-row/category-row.component";
-import { FilterOptionsType } from "../../../types/apartments/apartment";
+import { CategoryRow } from "@src/components/category-row/category-row.component";
+import { FilterOptionsType } from "@src/types/apartments/apartment";
 
 export const MapFilter = ({ isOpen, setIsOpen }) => {
   const [priceFrom, setPriceFrom] = React.useState("");

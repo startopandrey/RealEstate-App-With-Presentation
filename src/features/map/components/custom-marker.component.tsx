@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { theme } from "../../../infrastructure/theme";
+import { theme } from "@src/infrastructure/theme";
 import styled from "styled-components/native";
 import { Avatar } from "react-native-paper";
 
-import { Skeleton } from "../../../components/skeleton/skeleton.component";
+import { Skeleton } from "@src/components/skeleton/skeleton.component";
 const Marker = styled.View`
   flex: 1;
 `;

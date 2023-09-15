@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Ionicons } from "@expo/vector-icons";
 

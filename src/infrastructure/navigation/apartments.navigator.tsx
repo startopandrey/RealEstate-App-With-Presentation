@@ -8,7 +8,7 @@ import {
 import { ApartmentsScreen } from "../../features/apartments/screens/apartment.screen";
 import { ApartmentDetailScreen } from "../../features/apartments/screens/apartment-detail.screen";
 
-import { ApartmentStackNavigatorParamList } from "../../../src/types/apartments/apartment";
+import { ApartmentStackNavigatorParamList } from "@src/types/apartments/apartment";
 import { ApartmentGalleryScreen } from "../../features/apartments/screens/apartment-gallery.screen";
 
 const ApartmentStack = createStackNavigator<ApartmentStackNavigatorParamList>();

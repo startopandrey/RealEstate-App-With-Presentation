@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Spacer } from "../../../components/spacer/spacer.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
   AccountStackNavigatorParamList,
   OnboardingBlockType,
-} from "../../../types/accout";
+} from "@src/types/accout";
 import styled from "styled-components/native";
 
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Button } from "../../../components/button/button.component";
-import { Title } from "../../../components/title/title.component";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Button } from "@src/components/button/button.component";
+import { Title } from "@src/components/title/title.component";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
 import { Animated } from "react-native";
-import { initialOnboardingBlocks } from "../../../../mockData";
+import { initialOnboardingBlocks } from "@src/../mockData";
 import {
   SmallButton,
   SmallButtonText,
@@ -29,7 +29,7 @@ import {
   OverlayButtons,
   ProgressBarWrapper,
 } from "../components/account.styles";
-import { theme } from "../../../infrastructure/theme";
+import { theme } from "@src/infrastructure/theme";
 type Props = NativeStackScreenProps<
   AccountStackNavigatorParamList,
   "Onboarding"

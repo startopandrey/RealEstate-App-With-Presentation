@@ -1,6 +1,6 @@
 import { FlatList } from "react-native";
 import { Chip } from "../chip/chip.component";
-import { apartmentCategories } from "../../../mockData";
+import { apartmentCategories } from "@src/../mockData";
 import { Spacer } from "../spacer/spacer.component";
 import React, { useContext } from "react";
 import { ApartmentsContext } from "../../services/apartments/apartments.context";

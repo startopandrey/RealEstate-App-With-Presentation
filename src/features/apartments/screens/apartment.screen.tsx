@@ -6,13 +6,13 @@ import {
 } from "react-native";
 import { Avatar as AvatarPaper } from "react-native-paper";
 
-import { FadeInView } from "../../../components/animations/fade.animation";
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { FavouritesBar } from "../../../components/favourites/favourites-bar.component";
+import { FadeInView } from "@src/components/animations/fade.animation";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { FavouritesBar } from "@src/components/favourites/favourites-bar.component";
 
-import { ApartmentsContext } from "../../../services/apartments/apartments.context";
-import { FavouritesContext } from "../../../services/favourites/favourites.context";
+import { ApartmentsContext } from "@src/services/apartments/apartments.context";
+import { FavouritesContext } from "@src/services/favourites/favourites.context";
 import { Search } from "../components/search.component";
 import { ApartmentInfoCard } from "../components/apartment-info-card.component";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,12 +20,12 @@ import {
   ApartmentHorizontalList,
   ApartmentHorizontalItem,
 } from "../components/apartment-list.styles";
-import { LocationContext } from "../../../services/location/location.context";
-import { Text } from "../../../components/typography/text.component";
+import { LocationContext } from "@src/services/location/location.context";
+import { Text } from "@src/components/typography/text.component";
 
 import { ApartmentStackNavigatorParamList } from "src/types/apartments";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { theme } from "../../../infrastructure/theme";
+import { theme } from "@src/infrastructure/theme";
 import { ScrollView } from "react-native-virtualized-view";
 
 import {
@@ -42,11 +42,11 @@ import {
   HeaderOverlay,
   ErrorWrapper,
 } from "../components/apartment.styles";
-import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
-import { Loading } from "../../../components/loading/loading.component";
-import { mockApartments, topAreasMock } from "../../../../mockData";
-import { CategoryRow } from "../../../components/category-row/category-row.component";
-import { Avatar } from "../../../components/avatar/avatar.component";
+import { CompactApartmentCard } from "@src/components/apartment/compact-apartment-card.component";
+import { Loading } from "@src/components/loading/loading.component";
+import { mockApartments, topAreasMock } from "@src/../mockData";
+import { CategoryRow } from "@src/components/category-row/category-row.component";
+import { Avatar } from "@src/components/avatar/avatar.component";
 import { Linking } from "react-native";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,

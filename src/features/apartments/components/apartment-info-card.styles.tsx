@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
 import { ActivityIndicator, Button, Card, Colors } from "react-native-paper";
-import { colors } from "../../../infrastructure/theme/colors";
+import { colors } from "@src/infrastructure/theme/colors";
 import { View } from "react-native";
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import Image from "react-native-image-progress";
 export const CategoryWrapper = styled.View`
   position: absolute;

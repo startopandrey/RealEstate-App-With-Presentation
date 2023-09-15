@@ -6,18 +6,18 @@ import React, {
   useRef,
   useContext,
 } from "react";
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { PostStackNavigatorParamList } from "../../../types/post";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { PostStackNavigatorParamList } from "@src/types/post";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { Text } from "../../../components/typography/text.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Input } from "../../../components/input/input.component";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { Text } from "@src/components/typography/text.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Input } from "@src/components/input/input.component";
 
-import { Chip } from "../../../components/chip/chip.component";
+import { Chip } from "@src/components/chip/chip.component";
 import { FlatList, ScrollView } from "react-native";
-import { theme } from "../../../infrastructure/theme";
-import { CustomMarker } from "../../../features/map/components/custom-marker.component";
+import { theme } from "@src/infrastructure/theme";
+import { CustomMarker } from "@src/features/map/components/custom-marker.component";
 import { Ionicons } from "@expo/vector-icons";
 import GridView from "react-native-draggable-gridview";
 import _ from "lodash";
@@ -25,7 +25,7 @@ import {
   LATITUDE_DELTA,
   LONGITUDE_DELTA,
   OUTER_CARD_WIDTH,
-} from "../../../utils/constants";
+} from "@src/utils/constants";
 import {
   Header,
   SectionTitle,
@@ -56,35 +56,35 @@ import {
 } from "../components/post.styles";
 import MapView from "react-native-maps";
 import { CounterRow } from "../components/counter-row.component";
-import { Button } from "../../../components/button/button.component";
+import { Button } from "@src/components/button/button.component";
 import {
   apartmentCategories,
   facilitiesList,
   initialNewApartment,
-} from "../../../../mockData";
+} from "@src/../mockData";
 import {
   getCurrentUserLoction,
   isLocationPermission,
-} from "../../../services/helpers/location.helper";
+} from "@src/services/helpers/location.helper";
 import {
   isGalleryPermission,
   pickGalleryImage,
-} from "../../../services/helpers/photo.helper";
-import { MapLocationType } from "../../../types/location";
+} from "@src/services/helpers/photo.helper";
+import { MapLocationType } from "@src/types/location";
 import {
   ApartmentCategory,
   ApartmentPhoto,
   Facility,
   NewApartment,
-} from "../../../types/apartments/apartment";
-import { postRequest } from "../../../services/post/post.service";
-import { isValidApartment } from "../../../services/post/post.utils";
-import { Alert } from "../../../components/alert/alert.component";
+} from "@src/types/apartments/apartment";
+import { postRequest } from "@src/services/post/post.service";
+import { isValidApartment } from "@src/services/post/post.utils";
+import { Alert } from "@src/components/alert/alert.component";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 import { useFocusEffect } from "@react-navigation/native";
-import { Loading } from "../../../components/loading/loading.component";
-import { useCheckNetworkConnection } from "../../../utils/network";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { Loading } from "@src/components/loading/loading.component";
+import { useCheckNetworkConnection } from "@src/utils/network";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
 
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 

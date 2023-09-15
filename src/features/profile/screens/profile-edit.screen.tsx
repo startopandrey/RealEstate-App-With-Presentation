@@ -1,21 +1,21 @@
-import { SafeArea } from "../../../components/utility/safe-area.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
 import React, { useContext } from "react";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { ProfileStackNavigatorParamList } from "../../../types/profile";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { ProfileStackNavigatorParamList } from "@src/types/profile";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Text } from "@src/components/typography/text.component";
 
-import { Input } from "../../../components/input/input.component";
-import { Button } from "../../../components/button/button.component";
+import { Input } from "@src/components/input/input.component";
+import { Button } from "@src/components/button/button.component";
 import {
   Header,
   UserForm,
   LogoutWrapper,
   TextLowercase,
 } from "../components/profile-edit.styles";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { Avatar } from "../../../components/avatar/avatar.component";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { Avatar } from "@src/components/avatar/avatar.component";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
 export const ProfileEditScreen = ({ navigation }: Props) => {

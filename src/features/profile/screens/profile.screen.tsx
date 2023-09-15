@@ -1,18 +1,18 @@
 import { ScrollView } from "react-native";
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Text } from "@src/components/typography/text.component";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
 
 import { useContext, useState } from "react";
 import React from "react";
-import { TabsBar } from "../../../components/tabs-bar/tabs-bar.component";
+import { TabsBar } from "@src/components/tabs-bar/tabs-bar.component";
 
-import { ApartmentsContext } from "../../../services/apartments/apartments.context";
+import { ApartmentsContext } from "@src/services/apartments/apartments.context";
 import { FlatList } from "react-native";
-import { CompactApartmentCard } from "../../../components/apartment/compact-apartment-card.component";
+import { CompactApartmentCard } from "@src/components/apartment/compact-apartment-card.component";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ProfileStackNavigatorParamList } from "../../../types/profile";
+import { ProfileStackNavigatorParamList } from "@src/types/profile";
 import {
   Header,
   ListingHeader,
@@ -24,8 +24,8 @@ import {
   TabsBarWrapper,
   SectionCategories,
 } from "../components/profile.styles";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { Avatar } from "../../../components/avatar/avatar.component";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { Avatar } from "@src/components/avatar/avatar.component";
 
 type Props = NativeStackScreenProps<ProfileStackNavigatorParamList, "Profile">;
 export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {

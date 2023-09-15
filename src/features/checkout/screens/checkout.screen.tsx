@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SafeArea } from "../../../components/utility/safe-area.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
 import { CreditCardInput } from "../components/credit-card.component";
-import { CartContext } from "../../../services/cart/cart.context";
-import { Text } from "../../../components/typography/text.component";
+import { CartContext } from "@src/services/cart/cart.context";
+import { Text } from "@src/components/typography/text.component";
 import {
   CartIcon,
   CartIconContainer,
@@ -15,17 +15,17 @@ import {
   ApartmentCard,
 } from "../../apartments/components/apartment-info-card.styles";
 import { ApartmentInfoCard } from "../../apartments/components/apartment-info-card.component";
-import { ApartmentsContext } from "../../../services/apartments/apartments.context";
+import { ApartmentsContext } from "@src/services/apartments/apartments.context";
 import { ScrollView } from "react-native";
-import { Spacer } from "../../../components/spacer/spacer.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
 import { Divider, List } from "react-native-paper";
-import { payRequest } from "../../../services/checkout/checkout.service";
+import { payRequest } from "@src/services/checkout/checkout.service";
 import { NavigationProp } from "@react-navigation/native";
 
 import {
   Card,
   CheckoutStackNavigatorParamList,
-} from "../../../types/checkout/index";
+} from "@src/types/checkout/index";
 
 // import { CreditCardInput } from "@big-toni/react-native-credit-card-input";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";

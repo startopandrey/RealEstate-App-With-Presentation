@@ -1,16 +1,16 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Dimensions, Text, View } from "react-native";
 import React from "react";
-import { ApartmentStackNavigatorParamList } from "../../../types/apartments";
+import { ApartmentStackNavigatorParamList } from "@src/types/apartments";
 import { FlatList, StyleSheet } from "react-native";
 import Image from "react-native-image-progress";
 import styled from "styled-components/native";
 // import Gallery from "react-native-awesome-gallery";
 import { ListRenderItem } from "react-native";
-import { theme } from "../../../infrastructure/theme";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Skeleton } from "../../../components/skeleton/skeleton.component";
+import { theme } from "@src/infrastructure/theme";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { Skeleton } from "@src/components/skeleton/skeleton.component";
 // import Gallery from 'react-native-gallery';
 const { width, height } = Dimensions.get("screen");
 type Props = NativeStackScreenProps<

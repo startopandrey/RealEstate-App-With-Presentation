@@ -1,4 +1,4 @@
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import styled from "styled-components/native";
 
 export const Header = styled.View`

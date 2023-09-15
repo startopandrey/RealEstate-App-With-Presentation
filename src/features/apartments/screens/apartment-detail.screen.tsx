@@ -1,27 +1,27 @@
 import React, { useContext } from "react";
 
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
 
-import { CartContext } from "../../../services/cart/cart.context";
+import { CartContext } from "@src/services/cart/cart.context";
 import { View, Linking } from "react-native";
 
 import {
   ApartmentFeature,
   ApartmentStackNavigatorParamList,
   NewApartment,
-} from "../../../types/apartments/apartment";
+} from "@src/types/apartments/apartment";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ApartmentOverview } from "../components/apartment-overview.component";
 
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../../../infrastructure/theme";
-import { Chip } from "../../../components/chip/chip.component";
+import { theme } from "@src/infrastructure/theme";
+import { Chip } from "@src/components/chip/chip.component";
 import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { LocationContext } from "../../../services/location/location.context";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { LocationContext } from "@src/services/location/location.context";
 import { Marker } from "react-native-maps";
 import {
   Header,
@@ -45,10 +45,10 @@ import {
   ApartmentFeatures,
   ChipsWrapper,
 } from "../components/apartment-detail.styles";
-import { CustomMarker } from "../../../features/map/components/custom-marker.component";
-import { LATITUDE_DELTA } from "../../../utils/constants";
-import { facilitiesList } from "../../../../mockData";
-import { Avatar } from "../../../components/avatar/avatar.component";
+import { CustomMarker } from "@src/features/map/components/custom-marker.component";
+import { LATITUDE_DELTA } from "@src/utils/constants";
+import { facilitiesList } from "@src/../mockData";
+import { Avatar } from "@src/components/avatar/avatar.component";
 
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,

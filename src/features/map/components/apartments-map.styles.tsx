@@ -2,8 +2,8 @@ import MapView from "react-native-maps";
 import styled from "styled-components/native";
 import { Animated } from "react-native";
 
-import { INNER_CARD_WIDTH, OUTER_CARD_WIDTH } from "../../../utils/constants";
-import { Text } from "../../../components/typography/text.component";
+import { INNER_CARD_WIDTH, OUTER_CARD_WIDTH } from "@src/utils/constants";
+import { Text } from "@src/components/typography/text.component";
 export const Map = styled(MapView)`
   height: 100%;
   width: 100%;

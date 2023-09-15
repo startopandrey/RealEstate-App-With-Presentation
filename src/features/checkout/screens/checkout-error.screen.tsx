@@ -1,8 +1,8 @@
 import React from "react";
-import { SafeArea } from "../../../components/utility/safe-area.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
 import { CartIcon, CartIconContainer } from "../components/checkout.styles";
-import { Text } from "../../../components/typography/text.component";
-import { colors } from "../../../infrastructure/theme/colors";
+import { Text } from "@src/components/typography/text.component";
+import { colors } from "@src/infrastructure/theme/colors";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { CheckoutStackNavigatorParamList } from "src/types/checkout";
 

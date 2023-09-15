@@ -3,11 +3,11 @@ import styled from "styled-components/native";
 
 import { List, Avatar } from "react-native-paper";
 import { ViewProps } from 'react-native';
-import { Text } from "../../../components/typography/text.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { SafeArea } from "../../../components/utility/safe-area.component";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { colors } from "../../../infrastructure/theme/colors";
+import { Text } from "@src/components/typography/text.component";
+import { Spacer } from "@src/components/spacer/spacer.component";
+import { SafeArea } from "@src/components/utility/safe-area.component";
+import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { colors } from "@src/infrastructure/theme/colors";
 import ListItemProps from "react-native-paper/lib/typescript/components/List/ListItem";
 
 const SettingsItem = styled(List.Item)`
@@ -18,7 +18,7 @@ const AvatarContainer = styled.View`
   align-items: center;
 `;
 const SettingsBackground = styled.ImageBackground.attrs({
-  source: require("../../../../assets/home_bg.jpg"),
+  source: require("@src/../assets/home_bg.jpg"),
 })`
   position: absolute;
   width: 100%;

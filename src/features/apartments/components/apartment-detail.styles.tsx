@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import MapView from "react-native-maps";
 export const Header = styled.View`
   padding: ${(props) => props.theme.space[2]};

@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Animated } from "react-native";
 
-import { LocationContext } from "../../../services/location/location.context";
-import { ApartmentsContext } from "../../../services/apartments/apartments.context";
+import { LocationContext } from "@src/services/location/location.context";
+import { ApartmentsContext } from "@src/services/apartments/apartments.context";
 
 import { CustomMarker } from "../components/custom-marker.component";
-import { ApartmentInfoCard } from "../../../features/apartments/components/apartment-info-card.component";
-import { LATITUDE_DELTA, OUTER_CARD_WIDTH } from "../../../utils/constants";
+import { ApartmentInfoCard } from "@src/features/apartments/components/apartment-info-card.component";
+import { LATITUDE_DELTA, OUTER_CARD_WIDTH } from "@src/utils/constants";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { IconButton } from "../../../components/icon-button/icon-button.component";
-import { theme } from "../../../infrastructure/theme";
+import { IconButton } from "@src/components/icon-button/icon-button.component";
+import { theme } from "@src/infrastructure/theme";
 import { Spacer } from "@src/components/spacer/spacer.component";
 import { Apartment, NewApartment } from "@src/types/apartments/apartment";
 import {
@@ -31,8 +31,8 @@ import { MapFilter } from "./map-filter.component";
 import {
   CENTER_OFFSET,
   MARKER_ANCHOR,
-} from "../../../services/helpers/location.helper";
-import { Search } from "../../../features/apartments/components/search.component";
+} from "@src/services/helpers/location.helper";
+import { Search } from "@src/features/apartments/components/search.component";
 
 interface InitialRegionType {
   latitude: number;

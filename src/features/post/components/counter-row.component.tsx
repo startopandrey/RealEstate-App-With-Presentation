@@ -1,10 +1,10 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "@src/components/typography/text.component";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../../../infrastructure/theme";
-import { Spacer } from "../../../components/spacer/spacer.component";
+import { theme } from "@src/infrastructure/theme";
+import { Spacer } from "@src/components/spacer/spacer.component";
 const CounterRowWrapper = styled.View`
   padding: ${(props) => props.theme.space[4]};
   background-color: ${(props) => props.theme.colors.bg.secondary};
