@@ -3,6 +3,7 @@ import { TextInput } from "react-native-paper";
 import { colors } from "@src/infrastructure/theme/colors";
 import { Text } from "@src/components/typography/text.component";
 import { Button } from "@src/components/button/button.component";
+import { Animated } from "react-native";
 export const HeaderWrapper = styled.View`
   flex-direction: row;
   align-items: center;
@@ -84,7 +85,6 @@ export const FormRow = styled.View`
 export const AuthSwitch = styled.TouchableOpacity`
   width: 100%;
   justify-content: space-between;
-
 `;
 export const AuthBanner = styled.Image`
   width: 100%;
@@ -102,6 +102,10 @@ export const AuthSwitchText = styled.Text`
   text-align: center;
 `;
 export const AuthButton = styled(Button)`
-
   /* flex: 1; */
+`;
+export const ProgressBarAnimated = styled(Animated.View)`
+  background-color: ${(props) => props.theme.colors.bg.primary};
+  height: 5px;
+  border-radius: ${(props) => props.theme.borderRadius.large};
 `;

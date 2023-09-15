@@ -3,16 +3,6 @@ import firebase from "firebase";
 import { loginRequest, registerRequest } from "./authentication.service";
 import { Location } from "src/types/apartments/apartment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  LATITUDE_DELTA,
-  LONGITUDE_DELTA,
-  initialRegion,
-} from "../../utils/constants";
-import {
-  getLocation,
-  getUserCurrentLoction,
-  isLocationPermission,
-} from "../helpers/location.helper";
 
 interface AuthenticationContextType {
   isAuthenticated?: boolean;
@@ -30,15 +20,12 @@ interface AuthenticationContextType {
   onLogout: () => void;
 }
 export const AuthenticationContext =
-  createContext<AuthenticationContextType | null>({});
+  createContext<AuthenticationContextType | null>(null);
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<firebase.User | null>();
   const [error, setError] = useState<string | null>(null);
-  const [isPermissionsAccepted, setIsPermissionsAccepted] =
-    useState<boolean>(false);
-  const [userLocation, setUserLocation] = useState(initialRegion);
 
   const saveUserToStorage = async (user) => {
     const userJson = JSON.stringify(user);
@@ -48,22 +35,12 @@ export const AuthenticationContextProvider = ({ children }) => {
   useEffect(() => {
     const getUserFromStorage = async () => {
       const userFromStorage = await AsyncStorage.getItem("@user");
-
       if (userFromStorage) {
         return setUser(JSON.parse(userFromStorage));
       }
     };
     getUserFromStorage();
   }, []);
-
-  firebase.auth().onAuthStateChanged((usr) => {
-    if (usr) {
-      setUser(usr);
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-    }
-  });
 
   const onLogin = (email, password) => {
     setIsLoading(true);

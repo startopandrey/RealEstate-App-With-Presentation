@@ -28,8 +28,8 @@ import {
   NavigationOverlay,
   OverlayButtons,
   ProgressBarWrapper,
+  ProgressBarAnimated,
 } from "../components/account.styles";
-import { theme } from "@src/infrastructure/theme";
 type Props = NativeStackScreenProps<
   AccountStackNavigatorParamList,
   "Onboarding"
@@ -39,7 +39,7 @@ const OnboardingBody = styled.View`
   padding: ${(props) => props.theme.space[2]};
 `;
 
-export const OnboardingScreen = ({ navigation }: Props) => {
+export const OnboardingScreen = ({ navigation }: Props): React.JSX.Element => {
   const progressBarWidth = 150;
   const [onboardingBlocks, setOnboardingBlocks] = useState<
     OnboardingBlockType[]
@@ -159,14 +159,7 @@ export const OnboardingScreen = ({ navigation }: Props) => {
         </Animated.View>
         <NavigationOverlay>
           <ProgressBarWrapper>
-            <Animated.View
-              style={{
-                width: progress,
-                backgroundColor: "#fff",
-                height: 5,
-                borderRadius: theme.borderRadius.large,
-              }}
-            />
+            <ProgressBarAnimated style={{ width: progress }} />
           </ProgressBarWrapper>
           <Spacer position="top" size="large" />
           <OverlayButtons>

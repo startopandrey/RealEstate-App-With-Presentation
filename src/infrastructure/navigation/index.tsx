@@ -6,12 +6,15 @@ import { AccountNavigator } from "./account.navigator";
 
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
-export const Navigation = () => {
-  const { isAuthenticated } = useContext(AuthenticationContext);
-  // refactor
+export const Navigation = (): React.JSX.Element | null => {
+  const AuthContext = useContext(AuthenticationContext);
+  if (!AuthContext) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppNavigator /> : <AccountNavigator />}
+      {AuthContext.isAuthenticated ? <AppNavigator /> : <AccountNavigator />}
     </NavigationContainer>
   );
 };
