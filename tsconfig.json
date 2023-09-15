@@ -1,22 +1,24 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "target": "es2016",
     "pretty": true,
     "module": "commonjs",
     "sourceMap": true,
     "jsx": "preserve",
-    "outDir": "./dist/",
+    "outDir": "./dist",
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node", "@types/styled-components-react-native" , "react-native"],
+    "types": ["node", "@types/styled-components-react-native", "react-native"],
     "paths": {
-      "*": ["node_modules/@types/*", "*"]
+      "*": ["node_modules/@types/*", "*"],
+      // "@components/*": ["components/*", "components"],
+      "@src/*": ["src/*"],
     }
   },
-  "include": ["src/**/*", "styled.d.ts"],
+  "include": ["src", "styled.d.ts"],
   "exclude": ["node_modules"]
 }

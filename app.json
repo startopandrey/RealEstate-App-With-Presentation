@@ -2,6 +2,9 @@
   "expo": {
     "name": "RealEstate",
     "slug": "realestate",
+    "experiments": {
+      "tsconfigPaths": true
+    },
     "plugins": [
       "expo-image-picker",
       [
