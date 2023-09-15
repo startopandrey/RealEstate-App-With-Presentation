@@ -5,11 +5,11 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 
-import { ApartmentsScreen } from "../../features/apartments/screens/apartment.screen";
-import { ApartmentDetailScreen } from "../../features/apartments/screens/apartment-detail.screen";
+import { ApartmentsScreen } from "@src/features/apartments/screens/apartment.screen";
+import { ApartmentDetailScreen } from "@src/features/apartments/screens/apartment-detail.screen";
 
 import { ApartmentStackNavigatorParamList } from "@src/types/apartments/apartment";
-import { ApartmentGalleryScreen } from "../../features/apartments/screens/apartment-gallery.screen";
+import { ApartmentGalleryScreen } from "@src/features/apartments/screens/apartment-gallery.screen";
 
 const ApartmentStack = createStackNavigator<ApartmentStackNavigatorParamList>();
 
