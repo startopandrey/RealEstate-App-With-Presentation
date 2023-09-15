@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 
 import { CartContext } from "../../../services/cart/cart.context";
-import { ListRenderItem, View, Linking, Share } from "react-native";
+import { View, Linking } from "react-native";
 
 import {
-  Apartment,
   ApartmentFeature,
   ApartmentStackNavigatorParamList,
   NewApartment,
@@ -23,7 +22,7 @@ import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { LocationContext } from "../../../services/location/location.context";
-import MapView, { Marker } from "react-native-maps";
+import { Marker } from "react-native-maps";
 import {
   Header,
   Title,
@@ -36,8 +35,6 @@ import {
   AgentCard,
   AgentInfo,
   AgentContact,
-  AgentPhoto,
-  FacilitiesList,
   ApartmentLocation,
   ApartmentAddressWrapper,
   MapApartmentWrapper,
@@ -50,7 +47,8 @@ import {
 } from "../components/apartment-detail.styles";
 import { CustomMarker } from "../../../features/map/components/custom-marker.component";
 import { LATITUDE_DELTA } from "../../../utils/constants";
-import { facilitiesList, featuresListMock } from "../../../../mockData";
+import { facilitiesList } from "../../../../mockData";
+import { Avatar } from "../../../components/avatar/avatar.component";
 
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
@@ -134,11 +132,12 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
         <AgentCard onPress={() => Linking.openURL("tel:+380673569597")}>
           <AgentInfo>
             <Spacer position="right" size="large">
-              <AgentPhoto
-                source={{
-                  uri: "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_100_100/0/1691073703367?e=1694610000&v=beta&t=rHsG_DXMo0y3rLwUtGWhlZRfj3wPhULlF-v98e10zgM",
-                }}
-              />
+            <Avatar
+          size={50}
+          url={
+            "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695301200&v=beta&t=xKzsk5UOvS_xZGyclP-ul08i8YOtdW7YuUhr7f1WGxM"
+          }
+        />
             </Spacer>
             <AgentContact>
               <Text variant="caption">Anderson</Text>

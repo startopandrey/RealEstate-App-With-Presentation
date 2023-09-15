@@ -1,14 +1,16 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Dimensions, Image, Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import React from "react";
 import { ApartmentStackNavigatorParamList } from "../../../types/apartments";
 import { FlatList, StyleSheet } from "react-native";
+import Image from "react-native-image-progress";
 import styled from "styled-components/native";
 // import Gallery from "react-native-awesome-gallery";
 import { ListRenderItem } from "react-native";
 import { theme } from "../../../infrastructure/theme";
 import { IconButton } from "../../../components/icon-button/icon-button.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
+import { Skeleton } from "../../../components/skeleton/skeleton.component";
 // import Gallery from 'react-native-gallery';
 const { width, height } = Dimensions.get("screen");
 type Props = NativeStackScreenProps<
@@ -22,11 +24,15 @@ const GalleryList = styled.FlatList`
   height: 100%;
   z-index: -1;
 `;
-const GalleryItem = styled.View``;
-const Photo = styled.Image`
-  height: 100%;
-
+const GalleryItem = styled.View`
+  padding-bottom: 80px;
+`;
+const Photo = styled(Image)`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
   object-fit: contain;
+  padding-bottom: ${(props) => props.theme.space[4]};
 `;
 const ApartmentGallery = styled.View`
   flex: 1;
@@ -40,10 +46,11 @@ export const ApartmentGalleryScreen = ({ navigation, route }: Props) => {
   const renderItem: ListRenderItem<string> = ({ item }: { item: string }) => (
     <GalleryItem style={{ width: width, height: height }}>
       <Photo
-        style={{ resizeMode: "contain" }}
-        source={{
-          uri: item,
-        }}
+        renderIndicator={() => (
+          <Skeleton isLoading={true} width={"100%"} height={"50%"} />
+        )}
+        source={{ uri: item.url }}
+        imageStyle={{ borderRadius: 0, width: "100%", resizeMode: "contain" }}
       />
     </GalleryItem>
   );
