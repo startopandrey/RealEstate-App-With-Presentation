@@ -7,8 +7,8 @@ import styled from "styled-components/native";
 import LottieView from "lottie-react-native";
 
 const LoadingWrapper = styled.View`
-  width: 160px;
-  height: 160px;
+  width: 100px;
+  height: 100px;
   z-index: 9999;
 `;
 export const Loading: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
