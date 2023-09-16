@@ -1,14 +1,9 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
 
-import {
-  apartmentFilterRequest,
-  apartmentsRequest,
-  apartmentsTransform,
-} from "./apartments.service";
+import { apartmentsRequest, apartmentsTransform } from "./apartments.service";
 
 import { LocationContext } from "../location/location.context";
 import {
-  Apartment,
   ApartmentsContextType,
   FilterOptionsType,
   Location,
@@ -49,6 +44,7 @@ export const ApartmentsContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("rerender 1");
     if (location) {
       retrieveApartments(location, filterOptions);
     }
