@@ -67,12 +67,7 @@ export const ProfileScreen = ({ navigation }: Props): React.JSX.Element => {
           />
         </Header>
         <UserInfo>
-          <Avatar
-            size={100}
-            url={
-              "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695301200&v=beta&t=xKzsk5UOvS_xZGyclP-ul08i8YOtdW7YuUhr7f1WGxM"
-            }
-          />
+          <Avatar size={100} isUsername={true} />
           <Spacer position="top" size="large" />
           <Text variant="title">{user.username}</Text>
           <Spacer position="top" size="small" />

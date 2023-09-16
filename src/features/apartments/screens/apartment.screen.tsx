@@ -44,10 +44,11 @@ import {
 } from "../components/apartment.styles";
 import { CompactApartmentCard } from "@src/components/apartment/compact-apartment-card.component";
 import { Loading } from "@src/components/loading/loading.component";
-import { mockApartments, topAreasMock } from "@src/../mockData";
+import { agentsMock, mockApartments, topAreasMock } from "@src/../mockData";
 import { CategoryRow } from "@src/components/category-row/category-row.component";
 import { Avatar } from "@src/components/avatar/avatar.component";
 import { Linking } from "react-native";
+import { generateKey } from "@src/services/helpers/index.helper";
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"
@@ -100,15 +101,8 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               />
             </NotificationsButton>
             <Spacer position="right" size={"medium"} />
-            <TouchableOpacity
-              onPress={() => Linking.openURL("tel:+380673569597")}
-            >
-              <Avatar
-                size={50}
-                url={
-                  "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695222000&v=beta&t=61RHxwYF4KAd91DD1EEjHfliBMoyWPcKfd2RLeV8_4A"
-                }
-              />
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Avatar size={50} isUsername={true} />
             </TouchableOpacity>
           </HeaderEnd>
         </Header>
@@ -121,10 +115,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
             <GreetingText>Let's start exploring </GreetingText>
           </NativeText>
         </Greeting>
-        <Search
-          isFavouritesToggled={isToggled}
-          onFavouritesToggle={() => setIsToggled(!isToggled)}
-        />
+        <Search />
         <Spacer position="left" size="large">
           <CategoryRow></CategoryRow>
         </Spacer>
@@ -166,7 +157,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     </Spacer>
                   </ApartmentHorizontalItem>
                 )}
-                keyExtractor={(item, i) => `Apartment-${i ?? 0}`}
+                keyExtractor={(item, i) => item._id}
               />
             </Spacer>
           </ScrollViewNative>
@@ -198,7 +189,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                   </Spacer>
                 );
               }}
-              keyExtractor={(_, i) => `Apartment-${i?.id ?? 0}`}
+              keyExtractor={(item, i) => item?.areaName}
             />
           </Spacer>
           <Spacer position="top" size="large">
@@ -209,41 +200,24 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
               </Text>
             </ListHeader>
             <ApartmentHorizontalList
-              data={[
-                {
-                  agentName: "Anderea",
-                  photoUrl:
-                    "https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1152002039RealEstateBroker.jpg",
-                },
-                {
-                  agentName: "Aaron",
-                  photoUrl:
-                    "https://www.themanual.com/wp-content/uploads/sites/9/2017/07/aaron-kirman.jpg?fit=800%2C800&p=1",
-                },
-                {
-                  agentName: "Michael",
-                  photoUrl:
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU",
-                },
-                {
-                  agentName: "Hairry",
-                  photoUrl:
-                    "https://getgoodhead.com/wp-content/uploads/2018/04/Jake-Roth-Best-Hair.jpg",
-                },
-              ]}
+              data={agentsMock}
               horizontal={true}
               renderItem={({ item }: { item: any }) => (
                 <Spacer position="right" size="large">
                   <AgentChipItem
                     onPress={() => Linking.openURL("tel:+380673569597")}
                   >
-                    <Avatar size={70} url={item.photoUrl} />
+                    <Avatar
+                      size={70}
+                      name={item?.agentName}
+                      url={item.photoUrl}
+                    />
                     <Spacer position="top" size="medium" />
                     <Text variant="body">{item.agentName}</Text>
                   </AgentChipItem>
                 </Spacer>
               )}
-              keyExtractor={(_, i) => `Apartment-${i}`}
+              keyExtractor={(item, i) => item?.agentName}
             />
           </Spacer>
           <Spacer position="top" size="large">
@@ -269,7 +243,7 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
                     apartment={item}
                   />
                 )}
-                keyExtractor={(_, i) => `Apartment-${i}`}
+                keyExtractor={(item, i) => item._id}
               />
             )}
           </Spacer>

@@ -132,15 +132,15 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
         <AgentCard onPress={() => Linking.openURL("tel:+380673569597")}>
           <AgentInfo>
             <Spacer position="right" size="large">
-            <Avatar
-          size={50}
-          url={
-            "https://media.licdn.com/dms/image/D4D35AQH-qG72qjC0hA/profile-framedphoto-shrink_400_400/0/1691073703367?e=1695301200&v=beta&t=xKzsk5UOvS_xZGyclP-ul08i8YOtdW7YuUhr7f1WGxM"
-          }
-        />
+              <Avatar
+                size={50}
+                url={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU"
+                }
+              />
             </Spacer>
             <AgentContact>
-              <Text variant="caption">Anderson</Text>
+              <Text variant="caption">Aaron</Text>
               <Text variant="body">Real Estate Agent</Text>
             </AgentContact>
           </AgentInfo>
