@@ -6,7 +6,11 @@ import { Navigation } from "./src/infrastructure/navigation";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 import { AppRegistry } from "react-native";
 import { useLoadFonts } from "./src/utils/loadFonts";
-
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "VirtualizedLists should never be nested inside plain ScrollViews",
+  "Error: Unable to resolve module ./Libraries/Components/DatePicker/DatePickerIOS",
+]);
 export default function App(): React.JSX.Element | null {
   const isFontsLoaded = useLoadFonts();
   if (!isFontsLoaded) {
