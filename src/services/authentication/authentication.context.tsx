@@ -81,6 +81,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   };
 
   const onLogout = async () => {
+    await AsyncStorage.removeItem("@user-location");
     await AsyncStorage.removeItem("@user");
     setUser(null);
     setError(null);
