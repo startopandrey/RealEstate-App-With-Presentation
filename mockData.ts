@@ -1,5 +1,6 @@
 import { initialRegion } from "./src/utils/constants";
 import {
+  AgentType,
   ApartmentFeature,
   NewApartment,
   TopArea,
@@ -146,5 +147,23 @@ export const topAreasMock: TopArea[] = [
     id: 3,
     areaName: "Florence",
     photoUrl: "https://media.timeout.com/images/105879414/750/422/image.jpg",
+  },
+];
+export const agentsMock: AgentType[] = [
+  {
+    agentName: "Anderea",
+  },
+  {
+    agentName: "Aaron",
+    photoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIsLl_2a68ulkk-voH_jG_wNMlf7HTqEIXGC4N4LWuWzmuKeVE8Osr9f-NiW7WzjTqrRk&usqp=CAU",
+  },
+  {
+    agentName: "Michael",
+  },
+  {
+    agentName: "Hairry",
+    photoUrl:
+      "https://getgoodhead.com/wp-content/uploads/2018/04/Jake-Roth-Best-Hair.jpg",
   },
 ];
