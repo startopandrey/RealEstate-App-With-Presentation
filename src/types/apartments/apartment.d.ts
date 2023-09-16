@@ -132,3 +132,7 @@ export interface ApartmentsContextType {
     filter: FilterOptionsType | undefined | null
   ) => void | undefined | null;
 }
+export interface AgentType {
+  agentName: string;
+  photoUrl?: string
+}
