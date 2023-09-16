@@ -64,7 +64,9 @@ export const LocationContextProvider = ({ children }) => {
   };
   useEffect(() => {
     const handleDefaultLocation = async () => {
-      getUserLocationFromStorage("user-location");
+      const locationFromStorage = await getUserLocationFromStorage(
+        "user-location"
+      );
       if (location) {
         console.log(location, "curr loc");
         locationFromGeoRequest(location.latitude, location.longitude)
@@ -95,8 +97,9 @@ export const LocationContextProvider = ({ children }) => {
         }
         setIsPermissionsAccepted(true);
         const currentLocation = await getLocation();
-        setUserLocationToStorage(currentLocation);
+
         if (currentLocation) {
+          setUserLocationToStorage(currentLocation);
           locationFromGeoRequest(
             currentLocation?.coords?.latitude,
             currentLocation?.coords?.longitude
@@ -106,22 +109,23 @@ export const LocationContextProvider = ({ children }) => {
               console.log(result);
               setError(null);
               setIsLoading(false);
-              setLocation(result);
+              setLocation({
+                latitude: currentLocation?.coords?.latitude,
+                longitude: currentLocation?.coords?.longitude,
+                longitudeDelta: LONGITUDE_DELTA,
+                latitudeDelta: LATITUDE_DELTA,
+              });
             })
             .catch((err) => {
               setIsLoading(false);
               setError(err);
             });
-          setLocation({
-            latitude: currentLocation?.coords?.latitude,
-            longitude: currentLocation?.coords?.longitude,
-            longitudeDelta: LONGITUDE_DELTA,
-            latitudeDelta: LATITUDE_DELTA,
-          });
         }
       };
-
-      getUserCurrentLocation();
+      if (!locationFromStorage) {
+        console.log("curr loc");
+        getUserCurrentLocation();
+      }
     };
     if (!keyword.length) {
       console.log("dfdre");
