@@ -10,7 +10,7 @@ export const isMock = true;
 export const host = liveHost;
 export const ipAddress = "172.20.10.8";
 export const GOOGLE_API_KEY = "AIzaSyAnkf1tS239tx9BRsSKppa2lVOYrz3_JW8";
-export const serverUrl = isDevelopment ? `http://${ipAddress}:7777` : liveHost;
+export const serverUrl = liveHost;
 export const firebaseConfig = {
   apiKey: "AIzaSyDCTLI8IHwqyjs5Pz1bZXdS9O0Hwqo-OF0",
   authDomain: "realestate-961c3.firebaseapp.com",
