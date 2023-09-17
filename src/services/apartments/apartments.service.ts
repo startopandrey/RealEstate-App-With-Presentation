@@ -1,25 +1,18 @@
-import camelize from "camelize";
-import { host, ipAddress, isMock, serverUrl } from "../../utils/env";
-import {
-  Apartment,
-  Location,
-  NewApartment,
-} from "../../types/apartments/apartment";
-import antwerp from "../../../functions/places/mock/antwerp";
-import { useContext } from "react";
-import { LocationContext } from "../location/location.context";
+import { serverUrl } from "../../utils/env";
+import { Location, NewApartment } from "../../types/apartments/apartment";
+import { mockApartments } from "@src/../mockData";
 
 export const apartmentsRequest = async (location, filterOptions) => {
   const mockApartment = new Promise((resolve, reject) => {
-    resolve(antwerp);
+    resolve(mockApartments);
   });
   const transformFilterOptions = (filter) => {
     if (filter.categoryId == 0) {
       delete filter.categoryId;
-      console.log(filter,"dfdf");
+      console.log(filter, "dfdf");
       return filter ?? {};
     }
-    return filter
+    return filter;
   };
   console.log(filterOptions.categoryId, "filter");
   const queryString = new URLSearchParams(
