@@ -12,10 +12,10 @@ LogBox.ignoreLogs([
   "Error: Unable to resolve module ./Libraries/Components/DatePicker/DatePickerIOS",
 ]);
 export default function App(): React.JSX.Element | null {
-  const isFontsLoaded = useLoadFonts();
-  if (!isFontsLoaded) {
-    return null;
-  }
+  // const isFontsLoaded = useLoadFonts();
+  // if (!isFontsLoaded) {
+  //   return null;
+  // }
   return (
     <>
       <ThemeProvider theme={theme}>
