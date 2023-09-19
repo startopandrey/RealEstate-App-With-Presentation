@@ -1,6 +1,6 @@
 import { serverUrl } from "../../utils/env";
 import { Location, NewApartment } from "../../types/apartments/apartment";
-import { mockApartments } from "@src/../mockData";
+import { mockApartments } from "../../../mockData";
 
 export const apartmentsRequest = async (location, filterOptions) => {
   const mockApartment = new Promise((resolve, reject) => {
@@ -19,12 +19,12 @@ export const apartmentsRequest = async (location, filterOptions) => {
     transformFilterOptions(filterOptions)
   ).toString();
   console.log(queryString);
-  return true
-    ? fetch(`${serverUrl}/api/apartment/filter?${queryString}`).then(
-        (res: Response) => {
-          return res.json();
-        }
-      )
+  return false
+    ? fetch(
+        `https://realestate-mobileapp-ca10e0a2d5fa.herokuapp.com/api/apartment/filter?price=20,90`
+      ).then((res: Response) => {
+        return res.json();
+      })
     : mockApartment;
 };
 export const isApartmentInRadius = (

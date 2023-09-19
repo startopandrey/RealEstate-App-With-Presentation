@@ -42,14 +42,16 @@ export const getUserCurrentLoction = async (location, setLocation) => {
   return location;
 };
 export const getLocationFromAddress = async (searchTerm) => {
-  return await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerm}&key=${GOOGLE_API_KEY}`
-  ).then((res) => res.json());
+  // return await fetch(
+  //   `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerm}&key=${GOOGLE_API_KEY}`
+  // ).then((res) => res.json());
+  return null;
 };
 export const getAddressFromLocation = async (lat, lng) => {
-  return await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
-  ).then((res) => res.json());
+  // return await fetch(
+  //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
+  // ).then((res) => res.json());
+  return null;
 };
 const getCenterOffsetForAnchor = (
   anchor: { x: number; y: number },

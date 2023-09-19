@@ -48,7 +48,7 @@ import { agentsMock, mockApartments, topAreasMock } from "@src/../mockData";
 import { CategoryRow } from "@src/components/category-row/category-row.component";
 import { Avatar } from "@src/components/avatar/avatar.component";
 import { Linking } from "react-native";
-import { generateKey } from "@src/services/helpers/index.helper";
+
 type Props = NativeStackScreenProps<
   ApartmentStackNavigatorParamList,
   "Apartments"

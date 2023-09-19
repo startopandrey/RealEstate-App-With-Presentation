@@ -187,7 +187,6 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
     }
   };
   const updatePhotos = (photoUri: string, name: string) => {
-
     const newPhoto: ApartmentPhoto = {
       key: `${
         createdApartment.photos?.length === 0

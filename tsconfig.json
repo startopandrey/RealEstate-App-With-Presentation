@@ -16,7 +16,7 @@
     "paths": {
       "*": ["node_modules/@types/*", "*"],
       // "@components/*": ["components/*", "components"],
-      "@src/*": ["src/*"],
+      "@src/*": ["./src/*"],
     }
   },
   "include": ["src", "styled.d.ts"],
