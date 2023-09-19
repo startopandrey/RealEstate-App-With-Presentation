@@ -1,10 +1,11 @@
 import { serverUrl } from "../../utils/env";
 import { Location, NewApartment } from "../../types/apartments/apartment";
 import { mockApartments } from "@src/../mockData";
+import axios from "axios";
 
 export const apartmentsRequest = async (location, filterOptions) => {
   const mockApartment = new Promise((resolve, reject) => {
-    resolve(mockApartments);
+    resolve({ data: mockApartments });
   });
   const transformFilterOptions = (filter) => {
     if (filter.categoryId == 0) {
@@ -14,18 +15,16 @@ export const apartmentsRequest = async (location, filterOptions) => {
     }
     return filter;
   };
-  console.log(filterOptions.categoryId, "filter");
   const queryString = new URLSearchParams(
     transformFilterOptions(filterOptions)
   ).toString();
-  console.log(queryString);
-  return true
-    ? fetch(`${serverUrl}/api/apartment/filter?${queryString}`).then(
-        (res: Response) => {
-          return res.json();
-        }
-      )
-    : mockApartment;
+  try {
+    return await await axios
+      .get(`${serverUrl}/api/apartment/filter?${queryString}`)
+      .then((res) => res);
+  } catch (error) {
+    return null;
+  }
 };
 export const isApartmentInRadius = (
   marker: Location,

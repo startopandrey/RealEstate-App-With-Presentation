@@ -6,22 +6,27 @@ import {
 } from "../helpers/location.helper";
 
 export const locationTransform = (result) => {
-  const formattedResponse = camelize(result);
+  const formattedResponse = camelize(result).data.data;
+  if (formattedResponse) {
+    const { geometry = {} } = formattedResponse.results[0];
+    const { lat, lng } = geometry.location;
 
-  const { geometry = {} } = formattedResponse.results[0];
-  const { lat, lng } = geometry.location;
-
-  return { latitude: lat, longitude: lng, viewport: geometry.viewport };
+    return { latitude: lat, longitude: lng, viewport: geometry.viewport };
+  }
 };
 
 export const locationFromAddressRequest = async (searchTerm) => {
-  return !searchTerm
-    ? fetch(`${host}/geocode?city=${searchTerm}&mock=${isMock}`).then((res) =>
-        res.json()
-      )
-    : getLocationFromAddress(searchTerm);
+  try {
+    return await getLocationFromAddress(searchTerm);
+  } catch (error) {
+    return null;
+  }
 };
 
 export const locationFromGeoRequest = async (lat, lng) => {
-  return getAddressFromLocation(lat, lng);
+  try {
+    return await getAddressFromLocation(lat, lng);
+  } catch (error) {
+    return null;
+  }
 };
