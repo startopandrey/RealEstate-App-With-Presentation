@@ -31,7 +31,7 @@ export const ApartmentsContextProvider = ({ children }) => {
     setIsLoading(true);
     setApartments([]);
     apartmentsRequest(loc, filterOptions)
-      .then((data) => apartmentsTransform({ data: data.data, location: loc }))
+      .then((data) => apartmentsTransform({ data: data.data.data, location: loc }))
       .then((results: NewApartment[]) => {
         setError("");
         setIsLoading(false);
@@ -44,8 +44,10 @@ export const ApartmentsContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("rerender 1");
+    console.log("rerender 1");  
+     console.log(location, "locaton")
     if (location) {
+   
       retrieveApartments(location, filterOptions);
     }
   }, [location, filterOptions]);
