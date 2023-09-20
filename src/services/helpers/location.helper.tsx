@@ -3,6 +3,7 @@ import * as Permissions from "expo-permissions";
 import { Alert } from "react-native";
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from "../../utils/constants";
 import { GOOGLE_API_KEY } from "../../utils/env";
+import axios from "axios";
 export const getLocationPermission = async () => {
   const result = await Permissions.askAsync(Permissions.LOCATION);
   return result;
@@ -42,14 +43,26 @@ export const getUserCurrentLoction = async (location, setLocation) => {
   return location;
 };
 export const getLocationFromAddress = async (searchTerm) => {
-  return await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerm}&key=${GOOGLE_API_KEY}`
-  ).then((res) => res.json());
+  try {
+    return await axios
+      .get(
+        `https://realestate-mobileapp-ca10e0a2d5fa.herokuapp.com/api/geocode?address=vinnitsa`
+      )
+      .then((res) => res);
+  } catch (error) {
+    return null;
+  }
 };
 export const getAddressFromLocation = async (lat, lng) => {
-  return await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`
-  ).then((res) => res.json());
+  try {
+    return await axios
+      .get(
+        `https://realestate-mobileapp-ca10e0a2d5fa.herokuapp.com/api/geocode?latlng=${lat},${lng}`
+      )
+      .then((res) => res);
+  } catch (error) {
+    return null;
+  }
 };
 const getCenterOffsetForAnchor = (
   anchor: { x: number; y: number },

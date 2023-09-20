@@ -28,15 +28,23 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyAnkf1tS239tx9BRsSKppa2lVOYrz3_JW8"
+      },
       "supportsTablet": true,
-      "bundleIdentifier": "y"
+      "bundleIdentifier": "com.app.realestate"
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAnkf1tS239tx9BRsSKppa2lVOYrz3_JW8"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/foys_logo.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.andrey_llyukhin.realestate"
+      "package": "com.app.realestate"
     },
     "extra": {
       "eas": {
