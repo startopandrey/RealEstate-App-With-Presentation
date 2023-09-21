@@ -85,6 +85,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Loading } from "@src/components/loading/loading.component";
 import { useCheckNetworkConnection } from "@src/utils/network";
 import { AuthenticationContext } from "@src/services/authentication/authentication.context";
+import { LocationContext } from "@src/services/location/location.context";
 
 type Props = NativeStackScreenProps<PostStackNavigatorParamList, "Post">;
 
@@ -93,6 +94,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
   const mainRef = useRef<ScrollView>(null);
   const { user } = useContext(AuthenticationContext);
   const [isUploaded, setIsUploaded] = useState(false);
+  const { location } = useContext(LocationContext);
   const [isDisableScrollView, setIsDisableScrollView] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [isAlert, setIsAlert] = useState(false);
@@ -583,7 +585,8 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
             <Map
               ref={mapRef}
               userInterfaceStyle={"light"}
-              region={createdApartment.location}
+              initialRegion={location}
+              region={createdApartment.location ?? location}
               zoomEnabled={true}
               onRegionChangeComplete={(data) => {
                 getAddressFromCoords(data);
@@ -607,13 +610,15 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <PhotosGridWrapper>
             <GridView
               width={OUTER_CARD_WIDTH * 0.9}
-              style={{ flex: 1, width: "100%" }}
+              style={{ flex: 1, height: "100%" }}
               data={
-                createdApartment.photos
+                createdApartment.photos.length
                   ? ["+", ...createdApartment.photos]
                   : ["+"]
               }
-              keyExtractor={(item) => (item === "+" ? item : item.key)}
+              keyExtractor={(item) =>
+                item === "+" ? item.toString() : item.key.toString()
+              }
               renderItem={renderItem}
               renderLockedItem={renderLockedItem}
               locked={locked}
@@ -734,6 +739,7 @@ export const PostScreen = ({ navigation }: Props): React.JSX.Element => {
           <Button
             disabled={!isValidApartment(createdApartment)}
             onPress={uploadApartment}
+            isFullWidth={true}
             title={"Upload"}
           />
         </ApplyButtonWrapper>

@@ -66,11 +66,11 @@ export const SectionPhotos = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
 export const PhotosGridWrapper = styled.View`
-  justify-content: center;
+  /* justify-content: center;
   align-items: center;
-  flex: 1;
+  flex: 1; */
   width: 100%;
-  height: 100%;
+  min-height: 150px;
 `;
 export const PhotoWrapper = styled.View`
   border-radius: ${(props) => props.theme.borderRadius.large};
