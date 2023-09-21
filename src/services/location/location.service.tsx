@@ -4,27 +4,21 @@ import {
   getAddressFromLocation,
   getLocationFromAddress,
 } from "../helpers/location.helper";
+import { LATITUDE_DELTA, LONGITUDE_DELTA } from "@src/utils/constants";
 
 export const locationTransform = (result) => {
-  const formattedResponse = camelize(result);
+  const formattedResponse = camelize(result).data.data;
+  if (formattedResponse) {
+    const { geometry = {} } = formattedResponse.results[0];
+    const { lat, lng } = geometry.location;
 
-  const { geometry = {} } = formattedResponse.results[0];
-  const { lat, lng } = geometry.location;
-
-  return {
-    latitude: 49.233083,
-    longitude: 28.468217,
-    viewport: {
-      northeast: {
-        lat: 49.27902,
-        lng: 28.5710879,
-      },
-      southwest: {
-        lat: 49.190448,
-        lng: 28.3681799,
-      },
-    },
-  };
+    return {
+      latitude: lat,
+      longitude: lng,
+      longitudeDelta: LONGITUDE_DELTA,
+      latitudeDelta: LATITUDE_DELTA,
+    };
+  }
 };
 
 export const locationFromAddressRequest = async (searchTerm) => {
@@ -32,5 +26,9 @@ export const locationFromAddressRequest = async (searchTerm) => {
 };
 
 export const locationFromGeoRequest = async (lat, lng) => {
-  return getAddressFromLocation(lat, lng);
+  try {
+    return await getAddressFromLocation(lat, lng);
+  } catch (error) {
+    return null;
+  }
 };

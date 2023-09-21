@@ -22,7 +22,8 @@ export const isValidApartment = (apartment: NewApartment) => {
     price &&
     address &&
     squareMeter &&
-    photos.length !== 0
+    photos.length !== 0 &&
+    address !== "Property Address"
     // authorId
   ) {
     return true;
