@@ -44,40 +44,44 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogin = (email, password) => {
     setIsLoading(true);
-    loginRequest(email, password)
-      .then((data) => {
-        const user = data.data.data;
+    setTimeout(() => {
+      loginRequest(email, password)
+        .then((data) => {
+          const user = data.data.data;
 
-        if (user && user._id) {
-          saveUserToStorage(user);
-          setUser(user);
-        }
+          if (user && user._id) {
+            saveUserToStorage(user);
+            setUser(user);
+          }
 
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoading(false);
-        setError(e.toString());
-      });
+          setIsLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setIsLoading(false);
+          setError(e.toString());
+        });
+    }, 1000);
   };
 
   const onRegister = (email, password, userLocation, username) => {
     setIsLoading(true);
-    registerRequest(email, password, userLocation, username)
-      .then((data) => {
-        const user = data.data.data;
-        if (user && user._id) {
-          saveUserToStorage(user);
-          setUser(user);
-        }
+    setTimeout(() => {
+      registerRequest(email, password, userLocation, username)
+        .then((data) => {
+          const user = data.data.data;
+          if (user && user._id) {
+            saveUserToStorage(user);
+            setUser(user);
+          }
 
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        setIsLoading(false);
-        setError(e.toString());
-      });
+          setIsLoading(false);
+        })
+        .catch((e) => {
+          setIsLoading(false);
+          setError(e.toString());
+        });
+    }, 1000);
   };
 
   const onLogout = async () => {
@@ -86,7 +90,6 @@ export const AuthenticationContextProvider = ({ children }) => {
     setUser(null);
     setError(null);
   };
-
 
   return (
     <AuthenticationContext.Provider
