@@ -24,7 +24,7 @@ import {
   SearchTextWrapper,
   SearchWrapper,
 } from "./apartments-map.styles";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { FlatList } from "react-native";
 import { onScroll } from "../helpers";
 import { MapFilter } from "./map-filter.component";
@@ -194,7 +194,12 @@ export const ApartmentsMap = ({
           <Search></Search>
         </SearchWrapper>
       </Header>
-      <Map ref={_map} userInterfaceStyle={"light"} region={initialRegion}>
+      <Map
+        provider={PROVIDER_GOOGLE}
+        ref={_map}
+        userInterfaceStyle={"light"}
+        region={initialRegion}
+      >
         {apartmentsDisplayed &&
           apartments.map((apartment: NewApartment) => {
             const apartmentPhoto =
