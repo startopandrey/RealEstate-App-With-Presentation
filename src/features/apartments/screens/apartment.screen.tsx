@@ -4,7 +4,6 @@ import {
   ScrollView as ScrollViewNative,
   TouchableOpacity,
 } from "react-native";
-import { Avatar as AvatarPaper } from "react-native-paper";
 
 import { FadeInView } from "@src/components/animations/fade.animation";
 import { SafeArea } from "@src/components/utility/safe-area.component";
@@ -60,12 +59,10 @@ export const ApartmentsScreen = ({ navigation }: Props) => {
     search,
   } = useContext(LocationContext);
   const { isLoading, apartments, error } = useContext(ApartmentsContext);
-  console.log(userLocation);
+
   const mainRef = useRef<ScrollViewNative>(null);
   const { favourites } = useContext(FavouritesContext);
   const [isToggled, setIsToggled] = useState<boolean>(false);
-  const [userAddress, setUserAddress] = useState("");
-  const hasError = !!error || !!locationError || !apartments.length;
   const scrollToTop = () => {
     mainRef.current?.scrollTo({
       y: 0,
