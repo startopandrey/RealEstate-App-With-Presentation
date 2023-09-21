@@ -24,27 +24,30 @@ export const ApartmentsContextProvider = ({ children }) => {
   const { location } = useContext(LocationContext);
   const { favourites } = useContext(FavouritesContext);
   const retrieveApartments = (
-    loc: Location,
+    location: Location,
     filterOptions: FilterOptionsType
   ): void => {
     console.log(filterOptions);
     setIsLoading(true);
     setApartments([]);
-    apartmentsRequest(loc, filterOptions)
-      .then((data) => apartmentsTransform({ data: data.data, location: loc }))
-      .then((results: NewApartment[]) => {
-        setError("");
-        setIsLoading(false);
-        setApartments(results);
-      })
-      .catch((err: string) => {
-        setIsLoading(false);
-        setError(err);
-      });
+    setTimeout(() => {
+      apartmentsRequest(filterOptions)
+        .then((data) =>
+          apartmentsTransform({ data: data.data.data, location: location })
+        )
+        .then((results: NewApartment[]) => {
+          setError("");
+          setIsLoading(false);
+          setApartments(results);
+        })
+        .catch((err: string) => {
+          setIsLoading(false);
+          setError(err);
+        });
+    }, 1000);
   };
 
   useEffect(() => {
-    console.log("rerender 1");
     if (location) {
       retrieveApartments(location, filterOptions);
     }

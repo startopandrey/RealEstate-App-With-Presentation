@@ -1,6 +1,5 @@
 import axios from "axios";
 import { NewApartment } from "../../types/apartments/apartment";
-import { useGetIpAddress } from "../../utils/network";
 import { serverUrl } from "../../utils/env";
 export const postTransform = (apartment: NewApartment) => {
   const {

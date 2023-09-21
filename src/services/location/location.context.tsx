@@ -16,7 +16,7 @@ import {
   getLocationPermission,
   isLocationPermission,
 } from "../helpers/location.helper";
-import * as Permissions from "expo-permissions";
+// import * as Permissions from "expo-permissions";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 interface LocationContextType {
@@ -41,14 +41,14 @@ export const LocationContextProvider = ({ children }) => {
     useState<boolean>(false);
   const onSearch = (searchKeyword) => {
     setIsLoading(true);
-    console.log(searchKeyword);
+
     setKeyword(searchKeyword);
   };
   const getUserLocationFromStorage = async (name) => {
     const value = await AsyncStorage.getItem(`@${name}`);
     if (value !== null) {
       const json = JSON.parse(value);
-      console.log(json, "dfde");
+
       setLocation(json);
       return json;
     }
@@ -68,11 +68,9 @@ export const LocationContextProvider = ({ children }) => {
         "user-location"
       );
       if (location) {
-        console.log(location, "curr loc");
         locationFromGeoRequest(location.latitude, location.longitude)
           .then(locationTransform)
           .then((result) => {
-            console.log(result, "resl");
             setError(null);
             setIsLoading(false);
             setLocation(result);
@@ -106,7 +104,6 @@ export const LocationContextProvider = ({ children }) => {
           )
             .then(locationTransform)
             .then((result) => {
-              console.log(result);
               setError(null);
               setIsLoading(false);
               setLocation({
@@ -123,16 +120,14 @@ export const LocationContextProvider = ({ children }) => {
         }
       };
       if (!locationFromStorage) {
-        console.log("curr loc");
         getUserCurrentLocation();
       }
     };
     if (!keyword.length) {
-      console.log("dfdre");
       handleDefaultLocation();
       return;
     }
-
+    setIsLoading(true);
     locationFromAddressRequest(keyword.toLowerCase())
       .then(locationTransform)
       .then((result) => {

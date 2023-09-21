@@ -24,7 +24,7 @@ export const Map = styled(MapView)`
 export const MapScreen = ({ navigation, route }: Props) => {
   const { location } = useContext(LocationContext);
   const { apartments } = useContext(ApartmentsContext);
-  console.log(apartments);
+
 
   return <ApartmentsMap route={route} navigation={navigation} />;
 };
