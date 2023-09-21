@@ -62,6 +62,7 @@ export const Input = ({
   return (
     <CustomInputWrapper>
       <CustomInput
+        contextMenuHidden={false}
         placeholder={placeholder}
         textTransform={textTransform}
         editable={!disabled}
@@ -76,7 +77,6 @@ export const Input = ({
         multiline={multiline}
         // defaultValue={defaultValue
         value=""
-        contextMenuHidden={true}
         keyboardType={keyboardType}
         textSize={textSize}
       >
