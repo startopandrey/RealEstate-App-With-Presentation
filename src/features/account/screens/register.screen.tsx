@@ -20,13 +20,11 @@ import { Spacer } from "@src/components/spacer/spacer.component";
 import { Text } from "@src/components/typography/text.component";
 import { Input } from "@src/components/input/input.component";
 import { isValidRegister } from "@src/utils/tests.test";
-import { IconButton } from "@src/components/icon-button/icon-button.component";
 import { initialRegion } from "@src/utils/constants";
 import {
-  getCurrentUserLoction,
+  getUserCurrentLoction,
   isLocationPermission,
 } from "@src/services/helpers/location.helper";
-import { registerRequest } from "@src/services/authentication/authentication.service";
 import { AuthenticationContext } from "@src/services/authentication/authentication.context";
 import { Loading } from "@src/components/loading/loading.component";
 type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Login">;
@@ -46,7 +44,7 @@ export const RegisterScreen = ({ navigation }: Props) => {
     if (userLocation.latitude !== 0) {
       return;
     }
-    const currentLocation = await getCurrentUserLoction();
+    const currentLocation = await getUserCurrentLoction();
 
     if (currentLocation) {
       setUserLocation({
@@ -57,7 +55,7 @@ export const RegisterScreen = ({ navigation }: Props) => {
       });
     }
   };
-  const getPermission = async () => { 
+  const getPermission = async () => {
     const isLocationPermissionAccepted = await isLocationPermission();
 
     if (isLocationPermissionAccepted) {
@@ -135,6 +133,7 @@ export const RegisterScreen = ({ navigation }: Props) => {
           </FormRow>
           <Spacer position="top" size="xl" />
           <AuthButton
+            isFullWidth={true}
             title="Register"
             disabled={!isValidRegister(email, password, username)}
             onPress={() => onRegister(email, password, userLocation, username)}

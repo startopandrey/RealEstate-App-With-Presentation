@@ -12,6 +12,7 @@ import {
   AuthBanner,
   AuthSwitchText,
   AuthButton,
+  ButtonWrapper,
 } from "../components/account.styles";
 import { SafeArea } from "@src/components/utility/safe-area.component";
 import { Title } from "@src/components/title/title.component";
@@ -21,6 +22,7 @@ import { Input } from "@src/components/input/input.component";
 import { isValidLogin, isValidRegister } from "@src/utils/tests.test";
 import { AuthenticationContext } from "@src/services/authentication/authentication.context";
 import { Button } from "@src/components/button/button.component";
+import { Loading } from "@src/components/loading/loading.component";
 type Props = NativeStackScreenProps<AccountStackNavigatorParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: Props) => {
@@ -82,11 +84,14 @@ export const LoginScreen = ({ navigation }: Props) => {
             </TouchableOpacity>
           </FormRow>
           <Spacer position="top" size="xl" />
-          <Button
-            disabled={!isValidLogin(email, password)}
-            title="Login"
-            onPress={() => onLogin(email, password)}
-          ></Button>
+          <ButtonWrapper>
+            <Button
+              isFullWidth={true}
+              disabled={!isValidLogin(email, password)}
+              title="Login"
+              onPress={() => onLogin(email, password)}
+            ></Button>
+          </ButtonWrapper>
         </AuthForm>
         <AuthSwitch onPress={() => navigation.navigate("Register")}>
           <AuthSwitchText>
@@ -95,6 +100,7 @@ export const LoginScreen = ({ navigation }: Props) => {
           </AuthSwitchText>
         </AuthSwitch>
       </AuthContainer>
+      <Loading isOpen={isLoading}></Loading>
     </SafeArea>
   );
 };
