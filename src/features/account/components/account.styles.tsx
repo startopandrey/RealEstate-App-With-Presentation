@@ -109,3 +109,7 @@ export const ProgressBarAnimated = styled(Animated.View)`
   height: 5px;
   border-radius: ${(props) => props.theme.borderRadius.large};
 `;
+export const ButtonWrapper = styled.View`
+  width: 100%;
+  height: 50px;
+`;

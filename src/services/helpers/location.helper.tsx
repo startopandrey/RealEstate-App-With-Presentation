@@ -19,7 +19,7 @@ export const getLocation = async () => {
 };
 export const getUserCurrentLoction = async (location, setLocation) => {
   const currentLocation = await getLocation();
-  console.log(currentLocation, "dfdfdw");
+ 
   if (location.latitude !== 0) {
     return;
   }
@@ -44,9 +44,10 @@ export const getUserCurrentLoction = async (location, setLocation) => {
 };
 export const getLocationFromAddress = async (searchTerm) => {
   try {
+
     return await axios
       .get(
-        `https://realestate-mobileapp-ca10e0a2d5fa.herokuapp.com/api/geocode?address=vinnitsa`
+        `https://realestate-mobileapp-ca10e0a2d5fa.herokuapp.com/api/geocode?address=${searchTerm}`
       )
       .then((res) => res);
   } catch (error) {
@@ -55,6 +56,7 @@ export const getLocationFromAddress = async (searchTerm) => {
 };
 export const getAddressFromLocation = async (lat, lng) => {
   try {
+  
     return await axios
       .get(
         `https://realestate-mobileapp-ca10e0a2d5fa.herokuapp.com/api/geocode?latlng=${lat},${lng}`

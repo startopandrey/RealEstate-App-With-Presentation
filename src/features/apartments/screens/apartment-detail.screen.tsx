@@ -62,8 +62,16 @@ interface FeatureVariantsType {
 
 export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
   const { apartment }: { apartment: NewApartment } = route.params!;
-  const { title, address, price, authorId, photos, facilities, features } =
-    apartment;
+  const {
+    title,
+    address,
+    price,
+    authorId,
+    photos,
+    facilities,
+    features,
+    description,
+  } = apartment;
   const apartmentPhoto =
     photos[0]?.url ??
     "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg";
@@ -120,10 +128,7 @@ export const ApartmentDetailScreen = ({ navigation, route }: Props) => {
         <DescriptionWrapper>
           <Text variant="title">Description</Text>
           <Spacer position="top" size="large" />
-          <Description variant="body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Description>
+          <Description variant="body">{description}</Description>
         </DescriptionWrapper>
         <Spacer position="top" size="large">
           <Divider />

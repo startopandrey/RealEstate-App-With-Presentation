@@ -41,14 +41,14 @@ export const LocationContextProvider = ({ children }) => {
     useState<boolean>(false);
   const onSearch = (searchKeyword) => {
     setIsLoading(true);
-    console.log(searchKeyword);
+
     setKeyword(searchKeyword);
   };
   const getUserLocationFromStorage = async (name) => {
     const value = await AsyncStorage.getItem(`@${name}`);
     if (value !== null) {
       const json = JSON.parse(value);
-      console.log(json, "dfde");
+
       setLocation(json);
       return json;
     }
@@ -63,80 +63,74 @@ export const LocationContextProvider = ({ children }) => {
     await AsyncStorage.setItem("@user-location", userLocationJson);
   };
   useEffect(() => {
-    // const handleDefaultLocation = async () => {
-    //   const locationFromStorage = await getUserLocationFromStorage(
-    //     "user-location"
-    //   );
-    //   if (location) {
-    //     console.log(location, "curr loc");
-    //     locationFromGeoRequest(location.latitude, location.longitude)
-    //       .then(locationTransform)
-    //       .then((result) => {
-    //         console.log(result, "resl");
-    //         setError(null);
-    //         setIsLoading(false);
-    //         setLocation(result);
-    //       })
-    //       .catch((err) => {
-    //         setIsLoading(false);
-    //         setError(err);
-    //       });
-    //     return;
-    //   }
-    //   const getUserCurrentLocation = async () => {
-    //     const { status } = await getLocationPermission();
-    //     if (status !== "granted") {
-    //       /* If user hasn't granted permission to geolocate himself herself */
-    //       setIsPermissionsAccepted(false);
-    //       Alert.alert(
-    //         "User location not detected",
-    //         "You haven't granted permission to detect your location.",
-    //         [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-    //       );
-    //       return;
-    //     }
-    //     setIsPermissionsAccepted(true);
-    //     const currentLocation = await getLocation();
+    const handleDefaultLocation = async () => {
+      const locationFromStorage = await getUserLocationFromStorage(
+        "user-location"
+      );
+      if (location) {
+        locationFromGeoRequest(location.latitude, location.longitude)
+          .then(locationTransform)
+          .then((result) => {
+            setError(null);
+            setIsLoading(false);
+            setLocation(result);
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            setError(err);
+          });
+        return;
+      }
+      const getUserCurrentLocation = async () => {
+        const { status } = await getLocationPermission();
+        if (status !== "granted") {
+          /* If user hasn't granted permission to geolocate himself herself */
+          setIsPermissionsAccepted(false);
+          Alert.alert(
+            "User location not detected",
+            "You haven't granted permission to detect your location.",
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+          );
+          return;
+        }
+        setIsPermissionsAccepted(true);
+        const currentLocation = await getLocation();
 
-    //     if (currentLocation) {
-    //       setUserLocationToStorage(currentLocation);
-    //       locationFromGeoRequest(
-    //         currentLocation?.coords?.latitude,
-    //         currentLocation?.coords?.longitude
-    //       )
-    //         .then(locationTransform)
-    //         .then((result) => {
-    //           console.log(result);
-    //           setError(null);
-    //           setIsLoading(false);
-    //           setLocation({
-    //             latitude: currentLocation?.coords?.latitude,
-    //             longitude: currentLocation?.coords?.longitude,
-    //             longitudeDelta: LONGITUDE_DELTA,
-    //             latitudeDelta: LATITUDE_DELTA,
-    //           });
-    //         })
-    //         .catch((err) => {
-    //           setIsLoading(false);
-    //           setError(err);
-    //         });
-    //     }
-    //   };
-    //   if (!locationFromStorage) {
-    //     console.log("curr loc");
-    //     getUserCurrentLocation();
-    //   }
-    // };
-    // if (!keyword.length) {
-    //   console.log("dfdre");
-    //   handleDefaultLocation();
-    //   return;
-    // }
+        if (currentLocation) {
+          setUserLocationToStorage(currentLocation);
+          locationFromGeoRequest(
+            currentLocation?.coords?.latitude,
+            currentLocation?.coords?.longitude
+          )
+            .then(locationTransform)
+            .then((result) => {
+              setError(null);
+              setIsLoading(false);
+              setLocation({
+                latitude: currentLocation?.coords?.latitude,
+                longitude: currentLocation?.coords?.longitude,
+                longitudeDelta: LONGITUDE_DELTA,
+                latitudeDelta: LATITUDE_DELTA,
+              });
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              setError(err);
+            });
+        }
+      };
+      if (!locationFromStorage) {
+        getUserCurrentLocation();
+      }
+    };
+    if (!keyword.length) {
+      handleDefaultLocation();
+      return;
+    }
     setIsLoading(true);
     locationFromAddressRequest(keyword.toLowerCase())
       .then(locationTransform)
       .then((result) => {
-        console.log(result)
         setError(null);
         setIsLoading(false);
         setLocation(result);

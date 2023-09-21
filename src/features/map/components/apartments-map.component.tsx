@@ -116,7 +116,7 @@ export const ApartmentsMap = ({
     }
 
     const resetInitialRegion = (apartment: NewApartment) => {
-      console.log(apartment?.location, "locf");
+   
       if (apartment?.location) {
         setInitialRegion({
           latitude: apartment.location.latitude,
@@ -167,7 +167,7 @@ export const ApartmentsMap = ({
       </MapApartmentItem>
     );
   };
-  console.log(apartmentsDisplayed, "hol");
+
   return (
     <>
       <Header>

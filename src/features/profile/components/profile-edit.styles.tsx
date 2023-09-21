@@ -13,9 +13,10 @@ export const UserForm = styled.View`
   align-items: center;
 `;
 export const LogoutWrapper = styled.View`
-flex: 1;
-  justify-content: flex-end;
-  padding: ${(props) => props.theme.space[3]};
+
+  height: 50px;
+  padding-left: ${(props) => props.theme.space[3]};
+  padding-right: ${(props) => props.theme.space[3]};
 `;
 export const TextLowercase = styled(Text)`
   text-transform: lowercase;

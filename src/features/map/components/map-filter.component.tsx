@@ -27,16 +27,7 @@ export const MapFilter = ({ isOpen, setIsOpen }) => {
   const allCategory = { id: 0, name: "All" };
   const [selectedCategory, setSelectedCategory] = useState(allCategory);
   const { setFilterOptions, filterOptions } = useContext(ApartmentsContext);
-  // console.log(filterOptions);
-  // useEffect(() => {
-  //   const selectedCat = apartmentCategories.find(
-  //     (el) => el.id == selectedCategory.id
-  //   );
-  //   if (filterOptions?.categoryId >= 1 && selectedCat) {
-  //     setFilterOptions(selectedCat);
-  //     setSelectedCategory(selectedCat);
-  //   }
-  // }, [filterOptions]);
+
   useEffect(() => {
     const { price } = filterOptions;
 
@@ -99,6 +90,7 @@ export const MapFilter = ({ isOpen, setIsOpen }) => {
           <ApplyButtonWrapper>
             <Button
               title="Apply Filter"
+              isFullWidth={true}
               onPress={() => {
                 bottomSheetRef.current?.close();
                 console.log(selectedCategory.id);
