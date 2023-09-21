@@ -39,7 +39,7 @@ export const ProfileEditScreen = ({ navigation }: Props) => {
         <TextLowercase variant="body">{user.email}</TextLowercase>
       </UserForm>
       <LogoutWrapper>
-        <Button onPress={() => onLogout()} title="Logout" />
+        <Button isFullWidth={true} onPress={() => onLogout()} title="Logout" />
       </LogoutWrapper>
     </SafeArea>
   );
