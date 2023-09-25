@@ -8,10 +8,10 @@ People from all 195 countries are able to easily interact with properties by pos
 
 ## Lessons Learned
 
-- Creating project infractrature
+- Creating application infractrature
 
 - [API integration](https://github.com/startopandrey/RealEstate-Backend)
-- Map calculation, custom animation and filter 
+- Map calculation, custom animations and filter 
 - Upgrading of Typescript knowledge.
 - Skeleton block and image await 
 - Expo SDK upgrading
@@ -22,7 +22,7 @@ People from all 195 countries are able to easily interact with properties by pos
 
 ## Custom Map
 
-[Map](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/7d6e177b-7d1c-4527-97ef-4beac111b519)
+[Map](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/773ff8e6-3467-4435-8eac-2ecb0b1aaae4)
 
 
 ## Property Details
@@ -31,7 +31,8 @@ People from all 195 countries are able to easily interact with properties by pos
 
 ## Post Property
 
-[Post](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/f01bc338-676f-422d-828d-f3c05e88c583)
+[Post](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/5f149cb7-3064-4754-9c5f-bb450b474bec)
+
 
 
 ## Related
