@@ -18,22 +18,20 @@ People from all 195 countries are able to easily interact with properties by pos
 
 ## Onboarding & Login
 
-https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/4e04c69b-1e3b-4682-a2be-b75c23314109
-
-
-## Post Property
-
-https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/f01bc338-676f-422d-828d-f3c05e88c583
-
+[Onboarding](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/4e04c69b-1e3b-4682-a2be-b75c23314109)
 
 ## Custom Map
 
-https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/7d6e177b-7d1c-4527-97ef-4beac111b519
+[Map](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/7d6e177b-7d1c-4527-97ef-4beac111b519)
+
 
 ## Property Details
 
-https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/4996069a-8a79-485b-beee-0dce985982c0
+[Property Details](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/4996069a-8a79-485b-beee-0dce985982c0)
 
+## Post Property
+
+[Post](https://github.com/startopandrey/RealEstate-App-With-Presentation/assets/57915312/f01bc338-676f-422d-828d-f3c05e88c583)
 
 
 ## Related
